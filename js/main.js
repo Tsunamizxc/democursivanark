@@ -288,6 +288,49 @@
     });
   };
 
+  const marquee = () => {
+    const root = doc.querySelector(".marquee");
+    const track = root && root.querySelector(".marquee__track");
+    const source = track && track.querySelector(".marquee__group");
+    if (!root || !track || !source) return;
+    const original = source.innerHTML;
+
+    const build = () => {
+      source.innerHTML = original;
+      const minW = Math.max(root.clientWidth, 1);
+      let guard = 0;
+      while (source.scrollWidth < minW && guard < 12) {
+        source.insertAdjacentHTML("beforeend", original);
+        guard += 1;
+        if (!source.scrollWidth) break;
+      }
+      const live = doc.querySelector(".footer [data-city-license]");
+      if (live) {
+        source.querySelectorAll("[data-city-license]").forEach((n) => {
+          n.textContent = live.textContent;
+        });
+      }
+      track.querySelectorAll(".marquee__group").forEach((g, i) => {
+        if (i) g.remove();
+      });
+      track.appendChild(source.cloneNode(true));
+      const dist = source.offsetWidth || minW;
+      track.style.setProperty("--marquee-duration", Math.max(18, dist / 42).toFixed(1) + "s");
+      track.style.animation = "none";
+      void track.offsetWidth;
+      track.style.animation = "";
+    };
+
+    const start = () => build();
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(start);
+    else start();
+    let timer = 0;
+    window.addEventListener("resize", () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(build, 160);
+    });
+  };
+
   const cookies = () => {
     try { if (localStorage.getItem("alba-cookie")) return; } catch (e) {}
     const bar = doc.createElement("div");
@@ -313,4 +356,5 @@
   forms();
   year();
   cookies();
+  marquee();
 })();
