@@ -29,7 +29,7 @@
     doc.querySelectorAll("[data-city-license]").forEach((n) => { n.textContent = city.license; });
     doc.querySelectorAll("[data-city-tel]").forEach((a) => { a.setAttribute("href", "tel:" + city.tel); });
     const digits = city.tel.replace(/\D/g, "");
-    doc.querySelectorAll("[data-city-wa]").forEach((a) => { a.setAttribute("href", "https://wa.me/" + digits); });
+    doc.querySelectorAll("[data-city-max]").forEach((a) => { a.setAttribute("href", "https://max.ru/"); });
     doc.querySelectorAll("[data-city-tg]").forEach((a) => { a.setAttribute("href", "https://t.me/+" + digits); });
     const map = doc.querySelector("[data-city-map]");
     if (map && city.map) map.src = city.map;
