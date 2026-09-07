@@ -1579,7 +1579,7 @@ ul {
 }
 
 .article-body {
-  max-width: 760px;
+  /* max-width: 760px; */
   margin: 0 auto 80px;
   padding-top: 28px;
 }
@@ -1651,6 +1651,11 @@ ul {
   border: 1px solid var(--line);
   border-radius: 28px;
   padding: 32px;
+}
+
+.contacts .form {
+  align-self: start;
+  height: auto;
 }
 
 .form h2 {
@@ -2944,7 +2949,7 @@ body.is-lock {
   display: grid;
   grid-template-columns: 36px 1fr;
   gap: 12px;
-  align-items: start;
+  align-items: center;
   font-size: 15px;
 }
 
