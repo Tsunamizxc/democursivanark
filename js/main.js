@@ -198,15 +198,30 @@
     const burger = doc.querySelector("[data-burger]");
     const nav = doc.querySelector("[data-mnav]");
     if (!burger || !nav) return;
+    let lockY = 0;
+    const html = doc.documentElement;
+    const lock = () => {
+      lockY = window.scrollY;
+      html.classList.add("is-lock");
+      body.classList.add("is-lock");
+      body.style.top = "-" + lockY + "px";
+    };
+    const unlock = () => {
+      html.classList.remove("is-lock");
+      body.classList.remove("is-lock");
+      body.style.top = "";
+      window.scrollTo(0, lockY);
+    };
     const close = () => {
       burger.classList.remove("is-open");
       nav.classList.remove("is-open");
-      body.classList.remove("is-lock");
+      unlock();
     };
     burger.addEventListener("click", () => {
       const open = burger.classList.toggle("is-open");
       nav.classList.toggle("is-open", open);
-      body.classList.toggle("is-lock", open);
+      if (open) lock();
+      else unlock();
     });
     nav.querySelectorAll("a").forEach((a) => a.addEventListener("click", close));
   };
