@@ -19,6 +19,26 @@
 
   const byId = Object.fromEntries(CITIES.map((c) => [c.id, c]));
 
+  let scrollLockY = 0;
+  let scrollLockDepth = 0;
+  const lockScroll = () => {
+    if (scrollLockDepth === 0) {
+      scrollLockY = window.scrollY || doc.documentElement.scrollTop || 0;
+      doc.documentElement.classList.add("is-lock");
+      body.classList.add("is-lock");
+      body.style.top = "-" + scrollLockY + "px";
+    }
+    scrollLockDepth += 1;
+  };
+  const unlockScroll = () => {
+    scrollLockDepth = Math.max(0, scrollLockDepth - 1);
+    if (scrollLockDepth > 0) return;
+    doc.documentElement.classList.remove("is-lock");
+    body.classList.remove("is-lock");
+    body.style.top = "";
+    window.scrollTo(0, scrollLockY);
+  };
+
   const applyCity = (city) => {
     try { localStorage.setItem(KEY, city.id); } catch (e) {}
     doc.querySelectorAll("[data-city-name]").forEach((n) => { n.textContent = city.name; });
@@ -92,8 +112,8 @@
     renderGrid("");
 
     const openGeo = (mode) => {
+      if (!wrap.classList.contains("is-open")) lockScroll();
       wrap.classList.add("is-open");
-      body.classList.add("is-lock");
       if (mode === "pick") {
         ask.hidden = true;
         pick.hidden = false;
@@ -103,8 +123,9 @@
       }
     };
     const closeGeo = () => {
+      if (!wrap.classList.contains("is-open")) return;
       wrap.classList.remove("is-open");
-      body.classList.remove("is-lock");
+      unlockScroll();
     };
     const choose = (city) => {
       applyCity(city);
@@ -198,30 +219,17 @@
     const burger = doc.querySelector("[data-burger]");
     const nav = doc.querySelector("[data-mnav]");
     if (!burger || !nav) return;
-    let lockY = 0;
-    const html = doc.documentElement;
-    const lock = () => {
-      lockY = window.scrollY;
-      html.classList.add("is-lock");
-      body.classList.add("is-lock");
-      body.style.top = "-" + lockY + "px";
-    };
-    const unlock = () => {
-      html.classList.remove("is-lock");
-      body.classList.remove("is-lock");
-      body.style.top = "";
-      window.scrollTo(0, lockY);
-    };
     const close = () => {
       burger.classList.remove("is-open");
       nav.classList.remove("is-open");
-      unlock();
+      unlockScroll();
     };
     burger.addEventListener("click", () => {
-      const open = burger.classList.toggle("is-open");
-      nav.classList.toggle("is-open", open);
-      if (open) lock();
-      else unlock();
+      const willOpen = !burger.classList.contains("is-open");
+      burger.classList.toggle("is-open", willOpen);
+      nav.classList.toggle("is-open", willOpen);
+      if (willOpen) lockScroll();
+      else unlockScroll();
     });
     nav.querySelectorAll("a").forEach((a) => a.addEventListener("click", close));
   };
@@ -275,8 +283,16 @@
     const el = doc.querySelector("[data-modal]");
     if (!el) return;
     const box = el.querySelector(".modal__box");
-    const open = () => { el.classList.add("is-open"); body.classList.add("is-lock"); };
-    const close = () => { el.classList.remove("is-open"); body.classList.remove("is-lock"); };
+    const open = () => {
+      if (el.classList.contains("is-open")) return;
+      el.classList.add("is-open");
+      lockScroll();
+    };
+    const close = () => {
+      if (!el.classList.contains("is-open")) return;
+      el.classList.remove("is-open");
+      unlockScroll();
+    };
     doc.querySelectorAll("[data-open-modal]").forEach((b) => b.addEventListener("click", (e) => {
       e.preventDefault();
       open();
