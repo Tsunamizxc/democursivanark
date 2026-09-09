@@ -274,6 +274,7 @@
 
   const forms = () => {
     doc.querySelectorAll("form[data-form]").forEach((form) => {
+      if (form.closest("[data-calc-form]")) return;
       form.addEventListener("submit", (e) => {
         e.preventDefault();
         const wrap = form.closest(".form") || form;
@@ -585,49 +586,160 @@
     const root = doc.querySelector("[data-calc]");
     if (!root) return;
     const steps = [
-      { q: "Что сейчас важнее?", opts: ["Алкоголизм", "Наркомания", "Игровая зависимость", "Токсикомания", "Срочный запой"] },
-      { q: "Какой горизонт нужен?", opts: ["Снять острое состояние", "Закрепить результат кодированием", "Полная реабилитация"] },
-      { q: "Кому нужна помощь?", opts: ["Мне", "Мужу или жене", "Сыну или дочери 18+", "Близкому"] },
-      { q: "Человек готов разговаривать с врачом?", opts: ["Да, сам просит помощи", "Сомневается", "Пока отказывается"] }
+      { q: "Что сейчас важнее?", short: "Запрос", opts: ["Алкоголизм", "Наркомания", "Игровая зависимость", "Токсикомания", "Срочный запой"] },
+      { q: "Какой горизонт нужен?", short: "Цель", opts: ["Снять острое состояние", "Закрепить результат кодированием", "Полная реабилитация"] },
+      { q: "Кому нужна помощь?", short: "Кому", opts: ["Мне", "Мужу или жене", "Сыну или дочери 18+", "Близкому"] },
+      { q: "Человек готов разговаривать с врачом?", short: "Готовность", opts: ["Да, сам просит помощи", "Сомневается", "Пока отказывается"] }
     ];
     let i = 0;
+    let busy = false;
     const picks = [];
+    const panel = root.querySelector("[data-calc-panel]");
     const q = root.querySelector("[data-calc-q]");
     const opts = root.querySelector("[data-calc-opts]");
+    const summary = root.querySelector("[data-calc-summary]");
     const dots = root.querySelector("[data-calc-dots]");
     const back = root.querySelector("[data-calc-back]");
     const form = root.querySelector("[data-calc-form]");
 
-    const paint = () => {
-      dots.innerHTML = steps.map((_, n) => "<i class=\"" + (n <= i ? "is-on" : "") + "\"></i>").join("");
+    const renderSummary = () => {
+      if (!summary) return;
+      summary.innerHTML =
+        "<p class=\"calc-summary__title\">Краткое резюме</p><ul>" +
+        steps.map((step, n) =>
+          "<li><span>" + step.short + "</span><b>" + (picks[n] || "—") + "</b></li>"
+        ).join("") +
+        "</ul><p class=\"calc-summary__note\">Оставьте телефон — врач подтвердит программу и ориентир по стоимости.</p>";
+    };
+
+    const fill = () => {
+      dots.innerHTML = steps.map((_, n) => {
+        const on = i >= steps.length || n <= i;
+        return "<i class=\"" + (on ? "is-on" : "") + "\"></i>";
+      }).join("");
+
       if (i >= steps.length) {
         q.textContent = "Расчёт почти готов";
         opts.hidden = true;
+        opts.innerHTML = "";
+        renderSummary();
+        if (summary) summary.hidden = false;
         form.hidden = false;
         back.hidden = false;
         return;
       }
+
       form.hidden = true;
+      if (summary) {
+        summary.hidden = true;
+        summary.innerHTML = "";
+      }
       opts.hidden = false;
       q.textContent = steps[i].q;
       opts.innerHTML = steps[i].opts.map((t) => "<button type=\"button\">" + t + "</button>").join("");
       back.hidden = i === 0;
     };
 
+    const paint = (dir = 0) => {
+      if (!panel || !dir) {
+        fill();
+        if (panel) panel.classList.add("is-ready");
+        return;
+      }
+      if (busy) return;
+      busy = true;
+      panel.classList.remove("is-ready");
+      panel.classList.add(dir > 0 ? "is-leave-next" : "is-leave-back");
+      window.setTimeout(() => {
+        fill();
+        panel.classList.remove("is-leave-next", "is-leave-back");
+        panel.classList.add(dir > 0 ? "is-enter-next" : "is-enter-back");
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => {
+            panel.classList.remove("is-enter-next", "is-enter-back");
+            panel.classList.add("is-ready");
+            busy = false;
+          });
+        });
+      }, 240);
+    };
+
     opts.addEventListener("click", (e) => {
       const b = e.target.closest("button");
-      if (!b) return;
-      picks[i] = b.textContent;
+      if (!b || opts.hidden || busy) return;
+      picks[i] = b.textContent.trim();
+      b.classList.add("is-on");
       i += 1;
-      paint();
+      paint(1);
     });
-    back.addEventListener("click", () => {
-      if (i) i -= 1;
-      paint();
+    back.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (i <= 0 || busy) return;
+      i -= 1;
+      paint(-1);
     });
-    paint();
+
+    const formEl = form && form.querySelector("form[data-form]");
+    if (formEl) {
+      formEl.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (busy) return;
+        form.classList.add("is-sent");
+        if (summary) summary.hidden = true;
+        q.textContent = "Заявка отправлена";
+        back.hidden = true;
+        busy = true;
+        window.setTimeout(() => {
+          form.classList.remove("is-sent");
+          formEl.reset();
+          picks.length = 0;
+          i = 0;
+          busy = false;
+          paint(1);
+        }, 3400);
+      });
+    }
+
+    fill();
+    if (panel) panel.classList.add("is-ready");
   };
 
+  const stickyLead = () => {
+    doc.querySelectorAll(".float-call").forEach((n) => n.remove());
+    if (doc.querySelector("[data-sticky-lead]")) {
+      body.classList.add("has-sticky-lead");
+      return;
+    }
+
+    const bar = doc.createElement("div");
+    bar.className = "sticky-lead";
+    bar.setAttribute("data-sticky-lead", "");
+    bar.innerHTML =
+      '<div class="sticky-lead__inner">' +
+        '<a class="sticky-lead__call" href="tel:+73812901212" data-city-tel>' +
+          '<span class="sticky-lead__label">Вызов врача</span>' +
+          '<strong class="sticky-lead__phone" data-city-phone>+7 (3812) 90-12-12</strong>' +
+        "</a>" +
+        '<div class="sticky-lead__actions">' +
+          '<a class="sticky-lead__btn sticky-lead__btn--max" href="https://max.ru/" data-city-max target="_blank" rel="noopener" aria-label="Max">' +
+            '<span class="sticky-lead__ico"><img class="icon-max" src="images/Max_logo.svg" alt="" width="15" height="15" decoding="async"></span>' +
+            "<span>Max</span>" +
+          "</a>" +
+          '<a class="sticky-lead__btn sticky-lead__btn--tg" href="https://t.me/+73812901212" data-city-tg target="_blank" rel="noopener" aria-label="Telegram">' +
+            '<span class="sticky-lead__ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.43 4.53 3.87 11.32c-1.2.47-1.19 1.13-.22 1.43l4.5 1.4 10.45-6.59c.5-.3.95-.13.58.18l-8.46 7.63-.33 4.72c.48 0 .69-.22.96-.48l2.3-2.24 4.78 3.53c.88.48 1.51.23 1.73-.81l3.13-14.74c.32-1.28-.49-1.86-1.36-1.42Z"/></svg></span>' +
+            "<span>Telegram</span>" +
+          "</a>" +
+          '<a class="sticky-lead__btn sticky-lead__btn--phone" href="tel:+73812901212" data-city-tel aria-label="Позвонить">' +
+            '<span class="sticky-lead__ico"><span class="icon-phone" aria-hidden="true"></span></span>' +
+            "<span>Звонок</span>" +
+          "</a>" +
+        "</div>" +
+      "</div>";
+    body.appendChild(bar);
+    body.classList.add("has-sticky-lead");
+  };
+
+  stickyLead();
   splitHeadings();
   geo();
   catalogNav();

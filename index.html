@@ -61,7 +61,7 @@
         <a class="icon-btn" href="tel:+73812901212" data-city-tel aria-label="Позвонить">
           <span class="icon-phone" aria-hidden="true"></span>
         </a>
-        <a class="btn btn--dark" href="#" data-open-modal>Записаться <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <a class="btn btn--blue" href="#" data-open-modal>Оставить заявку <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
         <button class="burger" type="button" data-burger aria-label="Открыть меню"><span></span><span></span><span></span></button>
       </div>
     </div>
@@ -86,10 +86,10 @@
       <section class="hero">
         <div class="hero__content">
           <h1 class="split">Современная наркология<br>с полной анонимностью</h1>
-          <p class="hero__lead" data-reveal>Лечение зависимостей без огласки и без потери достоинства. Сертифицированные протоколы, врачи с опытом от 12 лет, круглосуточное сопровождение.</p>
+          <p class="hero__lead" data-reveal>Врач на связи за минуты. Без огласки, без потери достоинства — сертифицированные протоколы и круглосуточное сопровождение.</p>
           <div class="hero__cta" data-reveal data-delay="80">
-            <a class="btn btn--light" href="programs.html">Выбрать программу <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
-            <a class="btn btn--ghost" href="prices.html">Смотреть цены</a>
+            <a class="btn btn--light" href="tel:+73812901212" data-city-tel>Вызвать врача сейчас <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+            <a class="btn btn--ghost" href="#" data-open-modal>Получить консультацию</a>
           </div>
           <div class="hero-chips" data-reveal data-delay="120">
             <a href="service-zapoy.html">Срочный вывод из запоя</a>
@@ -113,42 +113,91 @@
           </div>
         </div>
         <div class="hero__visual">
+          <div class="hero__orbit" aria-hidden="true">
+            <svg viewBox="0 0 100 100">
+              <defs>
+                <path id="heroOrbitPath" d="M50,50 m-45.5,0 a45.5,45.5 0 1,1 91,0 a45.5,45.5 0 1,1 -91,0"></path>
+              </defs>
+              <text>
+                <textPath href="#heroOrbitPath">Анонимно 24/7 · Нарколог на связи · Лицензия · Без огласки · Детокс · Кодирование · Реабилитация · Анонимно 24/7 · Нарколог на связи · Лицензия · Без огласки · Детокс · Кодирование · Реабилитация · </textPath>
+              </text>
+            </svg>
+          </div>
           <img class="hero__photo" src="images/hero-doctor.webp" alt="Врач клиники Альба" fetchpriority="high" decoding="async">
         </div>
       </section>
     </div>
 
+    <section class="calc wrap" data-calc>
+      <div class="calc__box" data-reveal>
+        <div>
+          <h2 class="section-title">Не угадывайте программу<br>в два часа ночи</h2>
+          <p>Четыре коротких вопроса. Врач назовёт сумму и маршрут — дом или палата — до выезда.</p>
+        </div>
+        <div>
+          <div class="calc__steps" data-calc-dots></div>
+          <div class="calc__panel" data-calc-panel>
+            <h3 data-calc-q>Что сейчас важнее?</h3>
+            <div class="calc-opts" data-calc-opts></div>
+            <div class="calc-summary" data-calc-summary hidden></div>
+            <div class="form" data-calc-form hidden>
+              <form data-form>
+                <div class="form__fields">
+                  <label for="calc-phone">Телефон</label>
+                  <input id="calc-phone" name="phone" type="tel" placeholder="+7 (" required autocomplete="tel">
+                  <button class="btn btn--blue" type="submit">Получить расчёт и звонок</button>
+                </div>
+                <div class="form__ok calc-thanks">
+                  <span class="calc-thanks__mark" aria-hidden="true">✓</span>
+                  <strong>Спасибо!</strong>
+                  <p>Заявка принята. Дежурный врач перезвонит с программой и ориентиром по стоимости.</p>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="calc__nav">
+            <button class="btn btn--line" type="button" data-calc-back hidden>Назад</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="promos wrap">
-      <h2 class="section-title split">Программы и условия —<br>заботимся о вашем возвращении</h2>
+      <h2 class="section-title split">Программы и условия —<br>заботьтесь о возвращении уже сегодня</h2>
       <div class="promo-grid">
         <article class="promo" data-tilt data-reveal>
+          <div class="promo__meta"><span>−30%</span><span>Стационар</span></div>
           <h3>Скидка 30%<br>на программу детокса</h3>
-          <p>Инфузионная терапия, круглосуточный пост и снятие абстиненции в стационаре.</p>
-          <a class="more" href="service-detox.html">Подробнее</a>
+          <p>Инфузия, круглосуточный пост и снятие абстиненции. Место в палате — в день обращения.</p>
+          <a class="more more--lead" href="#" data-open-modal>Получить скидку</a>
           <img src="images/icon-detox.webp" alt="">
         </article>
         <article class="promo promo--accent" data-tilt data-reveal data-delay="80">
+          <div class="promo__meta"><span>0 ₽</span><span>Сегодня</span></div>
           <h3>Бесплатная<br>первичная консультация</h3>
-          <p>Разговор с наркологом, осмотр и план лечения без оплаты при дальнейшем курсе.</p>
-          <a class="more" href="service-consult.html">Подробнее</a>
+          <p>Разговор с наркологом, осмотр и план лечения — без оплаты при дальнейшем курсе.</p>
+          <a class="more more--lead" href="#" data-open-modal>Записаться бесплатно</a>
           <img src="images/icon-consult.webp" alt="">
         </article>
         <article class="promo" data-tilt data-reveal data-delay="160">
+          <div class="promo__meta"><span>4 900 ₽</span><span>План лечения</span></div>
           <h3>Диагностика<br>со скидкой</h3>
-          <p>Полный осмотр, анализы и план лечения и сопровождения — за 4 900 ₽.</p>
-          <a class="more" href="service-check.html">Подробнее</a>
+          <p>Полный осмотр, анализы и персональный план сопровождения — без лишних процедур.</p>
+          <a class="more more--lead" href="#" data-open-modal>Узнать стоимость</a>
           <img src="images/icon-check.webp" alt="">
         </article>
         <article class="promo" data-tilt data-reveal>
+          <div class="promo__meta"><span>−10%</span><span>Семья</span></div>
           <h3>Семейная программа<br>сопровождения</h3>
-          <p>Скидка 10% каждому члену семьи при совместном обращении в клинику.</p>
-          <a class="more" href="service-family.html">Подробнее</a>
+          <p>Скидка каждому члену семьи при совместном обращении. Отдельные консультации для родственников.</p>
+          <a class="more more--lead" href="#" data-open-modal>Оставить заявку</a>
           <img src="images/icon-people.webp" alt="">
         </article>
         <article class="promo" data-tilt data-reveal data-delay="80">
+          <div class="promo__meta"><span>−40%</span><span>После детокса</span></div>
           <h3>Скидка 40%<br>на курс реабилитации</h3>
           <p>При продлении программы после детокса — выгодные условия каждого следующего этапа.</p>
-          <a class="more" href="service-rehab.html">Подробнее</a>
+          <a class="more more--lead" href="#" data-open-modal>Забронировать место</a>
           <img src="images/icon-shield.webp" alt="">
         </article>
       </div>
@@ -160,51 +209,119 @@
         <a class="offer" href="service-visit.html" data-reveal data-tilt>
           <span>На дом</span>
           <h3>Вызов нарколога</h3>
-          <p>Осмотр, стабилизация, решение — остаться дома или ехать в палату.</p>
-          <b>15 000 ₽</b>
+          <p>Врач приезжает с набором для стабилизации. Решаем на месте: остаётесь дома или едете в палату.</p>
+          <ul class="offer__feats">
+            <li>Выезд от 40 минут</li>
+            <li>Анонимно, без уведомлений</li>
+            <li>Капельница и осмотр на месте</li>
+          </ul>
+          <div class="offer__foot">
+            <b>от 15 000 ₽</b>
+            <span class="offer__cta">Оставить заявку</span>
+          </div>
         </a>
         <a class="offer" href="service-alcohol.html" data-reveal data-tilt data-delay="60">
           <span>Алкоголь</span>
           <h3>Лечение зависимости</h3>
-          <p>Не «капельница и всё». Детокс, психиатр и план, который человек принимает.</p>
-          <b>от 18 900 ₽</b>
+          <p>Не «капельница и всё». Детокс, психиатр и план, который человек принимает осознанно.</p>
+          <ul class="offer__feats">
+            <li>Индивидуальный протокол</li>
+            <li>Стационар или дом</li>
+            <li>Сопровождение семьи</li>
+          </ul>
+          <div class="offer__foot">
+            <b>от 18 900 ₽</b>
+            <span class="offer__cta">Узнать стоимость</span>
+          </div>
         </a>
         <a class="offer" href="service-zapoy.html" data-reveal data-tilt data-delay="80">
           <span>Срочно</span>
           <h3>Купирование запоя</h3>
-          <p>Инфузия дома или вывод под контролем давления и сна.</p>
-          <b>от 9 900 ₽</b>
+          <p>Инфузия дома или вывод под контролем давления, сна и сердечного ритма.</p>
+          <ul class="offer__feats">
+            <li>Круглосуточный выезд</li>
+            <li>Контроль давления и ЭКГ-рисков</li>
+            <li>Сон и восстановление за сутки</li>
+          </ul>
+          <div class="offer__foot">
+            <b>от 9 900 ₽</b>
+            <span class="offer__cta">Вызвать врача</span>
+          </div>
         </a>
         <a class="offer" href="service-code.html" data-reveal data-tilt data-delay="100">
           <span>После стабилизации</span>
           <h3>Кодирование</h3>
-          <p>Методы называем вслух. Наблюдение 30 дней, без кодирования «с порога».</p>
-          <b>от 9 800 ₽</b>
+          <p>Методы называем вслух. Наблюдение 30 дней — без кодирования «с порога».</p>
+          <ul class="offer__feats">
+            <li>Подбор метода после осмотра</li>
+            <li>Письменный протокол</li>
+            <li>Контроль в течение месяца</li>
+          </ul>
+          <div class="offer__foot">
+            <b>от 9 800 ₽</b>
+            <span class="offer__cta">Записаться</span>
+          </div>
         </a>
         <a class="offer" href="service-drugs.html" data-reveal data-tilt>
           <span>Наркотики</span>
           <h3>Помощь при зависимости</h3>
-          <p>Ломка, УБОД, вещества по отдельности — без общих палат.</p>
-          <b>от 18 900 ₽</b>
+          <p>Ломка, УБОД, вещества по отдельности — без общих палат и случайных соседей.</p>
+          <ul class="offer__feats">
+            <li>Отдельная палата</li>
+            <li>Купирование абстиненции</li>
+            <li>Психиатр в команде</li>
+          </ul>
+          <div class="offer__foot">
+            <b>от 18 900 ₽</b>
+            <span class="offer__cta">Оставить заявку</span>
+          </div>
         </a>
         <a class="offer" href="service-gambling.html" data-reveal data-tilt data-delay="60">
           <span>Поведение</span>
           <h3>Игровая зависимость</h3>
-          <p>Ставки, казино, «ещё одна линия». Работаем с семьёй, не с запретами.</p>
-          <b>от 12 000 ₽</b>
+          <p>Ставки, казино, «ещё одна линия». Работаем с семьёй и триггерами, не с запретами.</p>
+          <ul class="offer__feats">
+            <li>Психотерапевт и психиатр</li>
+            <li>Семейные сессии</li>
+            <li>План контроля импульса</li>
+          </ul>
+          <div class="offer__foot">
+            <b>от 12 000 ₽</b>
+            <span class="offer__cta">Получить план</span>
+          </div>
         </a>
         <a class="offer" href="service-rehab.html" data-reveal data-tilt data-delay="80">
           <span>21 день</span>
           <h3>Реабилитация</h3>
-          <p>Алкоголь и наркотики. 12 шагов и Day Top — по показаниям, не как секта.</p>
-          <b>210 000 ₽</b>
+          <p>Алкоголь и наркотики. 12 шагов и Day Top — по показаниям, без давления «секты».</p>
+          <ul class="offer__feats">
+            <li>Жилой модуль 24/7</li>
+            <li>Индивидуальный куратор</li>
+            <li>Поддержка после выписки</li>
+          </ul>
+          <div class="offer__foot">
+            <b>от 210 000 ₽</b>
+            <span class="offer__cta">Забронировать</span>
+          </div>
         </a>
         <a class="offer" href="service-help.html" data-reveal data-tilt data-delay="100">
           <span>24/7</span>
           <h3>Наркологическая помощь</h3>
-          <p>Скорая, тест, токсиколог, ломка. Один номер — врач, не колл-центр.</p>
-          <b>по состоянию</b>
+          <p>Скорая, тест, токсиколог, ломка. Один номер — отвечает врач, не колл-центр.</p>
+          <ul class="offer__feats">
+            <li>Ответ за минуты</li>
+            <li>Маршрутизация по состоянию</li>
+            <li>Анонимный приём</li>
+          </ul>
+          <div class="offer__foot">
+            <b>по состоянию</b>
+            <span class="offer__cta">Позвонить сейчас</span>
+          </div>
         </a>
+      </div>
+      <div class="offers__lead" data-reveal>
+        <p>Не уверены, какая программа нужна? Опишите ситуацию — дежурный нарколог подскажет за 5 минут, без обязательств.</p>
+        <a class="btn btn--blue" href="#" data-open-modal>Получить консультацию <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
       </div>
     </section>
 
@@ -303,34 +420,38 @@
         <a class="btn btn--line" href="doctors.html">Вся команда</a>
       </div>
       <div class="people__grid">
-        <article class="person" data-reveal>
+        <a class="person" href="doctor-volkov.html" data-reveal>
           <div class="person__photo"><img src="images/doctor-1.jpg" alt="Андрей Волков" loading="lazy" decoding="async"></div>
           <div class="person__meta">
             <h3>Андрей Волков</h3>
             <p>Главный врач, нарколог, 18 лет</p>
+            <span class="person__more">Подробнее</span>
           </div>
-        </article>
-        <article class="person" data-reveal data-delay="80">
+        </a>
+        <a class="person" href="doctor-safonova.html" data-reveal data-delay="80">
           <div class="person__photo"><img src="images/doctor-2.jpg" alt="Елена Сафонова" loading="lazy" decoding="async"></div>
           <div class="person__meta">
             <h3>Елена Сафонова</h3>
             <p>Психиатр-нарколог, к.м.н.</p>
+            <span class="person__more">Подробнее</span>
           </div>
-        </article>
-        <article class="person" data-reveal data-delay="160">
+        </a>
+        <a class="person" href="doctor-lebedev.html" data-reveal data-delay="160">
           <div class="person__photo"><img src="images/doctor-3.jpg" alt="Игорь Лебедев" loading="lazy" decoding="async"></div>
           <div class="person__meta">
             <h3>Игорь Лебедев</h3>
             <p>Анестезиолог, детокс 24/7</p>
+            <span class="person__more">Подробнее</span>
           </div>
-        </article>
-        <article class="person" data-reveal data-delay="240">
+        </a>
+        <a class="person" href="doctor-orlova.html" data-reveal data-delay="240">
           <div class="person__photo"><img src="images/doctor-4.jpg" alt="Мария Орлова" loading="lazy" decoding="async"></div>
           <div class="person__meta">
             <h3>Мария Орлова</h3>
             <p>Психотерапевт, семейный приём</p>
+            <span class="person__more">Подробнее</span>
           </div>
-        </article>
+        </a>
       </div>
     </section>
 
@@ -424,32 +545,8 @@
           </table>
         </div>
       </div>
-    </section>
-
-    <section class="calc wrap" data-calc>
-      <div class="calc__box" data-reveal>
-        <div>
-          <h2 class="section-title">Не угадывайте программу<br>в два часа ночи</h2>
-          <p>Четыре коротких вопроса. Врач назовёт сумму и маршрут — дом или палата — до выезда.</p>
-        </div>
-        <div>
-          <div class="calc__steps" data-calc-dots></div>
-          <h3 data-calc-q>Что сейчас важнее?</h3>
-          <div class="calc-opts" data-calc-opts></div>
-          <div class="form" data-calc-form hidden>
-            <form data-form>
-              <div class="form__fields">
-                <label for="calc-phone">Телефон</label>
-                <input id="calc-phone" name="phone" type="tel" placeholder="+7 (" required autocomplete="tel">
-                <button class="btn btn--blue" type="submit">Получить расчёт</button>
-              </div>
-              <div class="form__ok">Заявка принята. Дежурный врач перезвонит с номером и суммой.</div>
-            </form>
-          </div>
-          <div class="calc__nav">
-            <button class="btn btn--line" type="button" data-calc-back hidden>Назад</button>
-          </div>
-        </div>
+      <div class="home-price__more" data-reveal>
+        <a class="btn btn--blue" href="prices.html">Смотреть все цены <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
       </div>
     </section>
 
@@ -502,10 +599,10 @@
     <section class="cta wrap">
       <div class="cta__box" data-reveal="scale">
         <div>
-          <h2>Первый разговор —<br>бесплатно и по сути</h2>
-          <p>Дежурный нарколог на связи 24/7. Можно не называть имя.</p>
+          <h2>Нужна помощь сегодня —<br>ответьте за 5 минут</h2>
+          <p>Дежурный нарколог на связи 24/7. Можно не называть имя. Перезвоним сами.</p>
         </div>
-        <a class="btn btn--light" href="#" data-open-modal>Записаться <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <a class="btn btn--light" href="#" data-open-modal>Оставить заявку <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
       </div>
     </section>
   </main>
@@ -563,14 +660,11 @@
       </div>
     </div>
   </footer>
-
-  <a class="float-call" href="tel:+73812901212" data-city-tel>Позвонить 24/7</a>
-
-  <div class="modal" data-modal>
+<div class="modal" data-modal>
     <div class="modal__box form">
       <button class="modal__close" type="button" data-close-modal aria-label="Закрыть">×</button>
       <h2>Запись на консультацию</h2>
-      <p>Оставьте номер — врач перезвонит в течение 10 минут. Имя можно не указывать.</p>
+      <p>Оставьте номер — перезвоним за 5 минут. Имя можно не указывать.</p>
       <form data-form>
         <div class="form__fields">
           <label for="m-name">Как к вам обращаться</label>
@@ -588,7 +682,7 @@
             <option>Семейная консультация</option>
             <option>Выезд нарколога</option>
           </select>
-          <button class="btn btn--blue" type="submit">Отправить <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+          <button class="btn btn--blue" type="submit">Жду звонка <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
         </div>
         <div class="form__ok">Заявка принята. Дежурный врач перезвонит с номера клиники.</div>
       </form>
