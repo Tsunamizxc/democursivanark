@@ -1,0 +1,31 @@
+# Preview lock for client: only home + 404 are reachable.
+# HTML files stay in the repo; Netlify just won't serve them.
+# Remove this file (and previewLock in js/main.js) to open all pages.
+
+[[redirects]]
+  from = "/"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/index.html"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/404.html"
+  to = "/404.html"
+  status = 200
+
+# Force every other HTML page to the custom 404 (files stay published but unreachable)
+[[redirects]]
+  from = "/*.html"
+  to = "/404.html"
+  status = 404
+  force = true
+
+# Unknown non-file paths → custom 404 (no force: css/js/images still load normally)
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404

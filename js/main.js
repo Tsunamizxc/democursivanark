@@ -771,4 +771,34 @@
   cookies();
   marquee();
   calc();
+
+  // On Netlify: menu/internal page links → 404.html (pages themselves are not deleted)
+  const previewLock = () => {
+    const host = location.hostname || "";
+    const onNetlify = /\.netlify\.app$/i.test(host) || /\.netlify\.com$/i.test(host);
+    if (!onNetlify) return;
+
+    const allowed = (href) => {
+      if (!href) return true;
+      const h = href.trim();
+      if (!h || h === "#" || h.startsWith("#")) return true;
+      if (/^(tel:|mailto:|sms:|javascript:)/i.test(h)) return true;
+      if (/^https?:\/\//i.test(h)) return true;
+      if (/^(data:|blob:)/i.test(h)) return true;
+      const path = h.split("#")[0].split("?")[0].replace(/^\.\//, "").replace(/^\//, "");
+      if (!path || path === "index.html") return true;
+      if (path === "404.html" || path === "error.html") return true;
+      if (/\.(css|js|png|jpe?g|webp|svg|gif|ico|woff2?|map)$/i.test(path)) return true;
+      return false;
+    };
+
+    doc.querySelectorAll("a[href]").forEach((a) => {
+      const href = a.getAttribute("href");
+      if (allowed(href)) return;
+      a.setAttribute("href", "404.html");
+      a.setAttribute("data-preview-locked", "");
+    });
+  };
+
+  previewLock();
 })();
