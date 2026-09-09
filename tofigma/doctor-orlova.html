@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Мария Орлова — Клинический психолог, семейный терапевт | Альба</title>
-  <meta name="description" content="Мария Орлова, клинический психолог, семейный терапевт клиники Альба. Приём совершеннолетних, добровольно, анонимно.">
+  <meta name="description" content="Мария Орлова, Клинический психолог, семейный терапевт в клинике Альба. Помогает пациенту и семье выстроить контакт после острого этапа — без морализаторства и без «запретов ради запретов».">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -30,6 +30,7 @@
   --shadow: 0 18px 50px rgba(55, 90, 180, 0.08);
   --shadow-h: 0 28px 60px rgba(55, 90, 180, 0.16);
   --header-h: 84px;
+  --sticky-lead-h: 92px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --font: "Manrope", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }
@@ -65,6 +66,11 @@ body {
   overflow-x: hidden;
   max-width: 100%;
   position: relative;
+  padding-top: var(--header-h);
+}
+
+body.has-sticky-lead {
+  padding-bottom: calc(var(--sticky-lead-h) + env(safe-area-inset-bottom, 0px));
 }
 
 img {
@@ -211,11 +217,14 @@ ul {
 
 /* Header */
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   background: rgba(255, 255, 255, 0.86);
   backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   transition: box-shadow 0.4s var(--ease), background 0.4s;
 }
 
@@ -380,7 +389,8 @@ ul {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  border: 1.5px solid var(--line);
+  border: 1.5px solid rgba(79, 132, 255, 0.28);
+  background: rgba(79, 132, 255, 0.04);
   color: var(--blue);
   transition: 0.35s var(--ease);
 }
@@ -469,8 +479,9 @@ ul {
   font-size: 15px;
   font-weight: 700;
   letter-spacing: -0.01em;
-  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), background 0.35s, color 0.35s, border-color 0.35s;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), background 0.35s, color 0.35s, border-color 0.35s, filter 0.35s;
   white-space: nowrap;
+  animation: btn-breathe 3.6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
 }
 
 .btn .arr {
@@ -490,15 +501,47 @@ ul {
 
 .btn:hover {
   transform: translateY(-2px);
+  animation-play-state: paused;
 }
 
 .btn:hover .arr {
   transform: translateX(3px);
 }
 
+@keyframes btn-breathe {
+  0%, 100% {
+    box-shadow:
+      0 6px 18px rgba(55, 90, 180, 0.06),
+      0 0 0 0 rgba(79, 132, 255, 0);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow:
+      0 12px 32px rgba(79, 132, 255, 0.16),
+      0 0 28px 1px rgba(79, 132, 255, 0.1);
+    filter: brightness(1.02);
+  }
+}
+
 .btn--light {
   background: var(--white);
   color: var(--ink);
+  animation-name: btn-breathe-light;
+}
+
+@keyframes btn-breathe-light {
+  0%, 100% {
+    box-shadow:
+      0 8px 22px rgba(20, 40, 100, 0.08),
+      0 0 0 0 rgba(255, 255, 255, 0);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow:
+      0 14px 34px rgba(20, 40, 100, 0.14),
+      0 0 32px 2px rgba(255, 255, 255, 0.28);
+    filter: brightness(1.04);
+  }
 }
 
 .btn--light:hover {
@@ -510,6 +553,20 @@ ul {
   color: var(--white);
   border: 1.5px solid rgba(255, 255, 255, 0.45);
   padding: 0 22px;
+  animation-name: btn-breathe-ghost;
+}
+
+@keyframes btn-breathe-ghost {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    border-color: rgba(255, 255, 255, 0.42);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow: 0 0 24px 2px rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.78);
+    filter: brightness(1.06);
+  }
 }
 
 .btn--ghost:hover {
@@ -519,11 +576,27 @@ ul {
 .btn--dark {
   background: var(--ink);
   color: var(--white);
+  animation-name: btn-breathe-dark;
 }
 
 .btn--dark .arr {
   background: var(--blue);
   color: var(--white);
+}
+
+@keyframes btn-breathe-dark {
+  0%, 100% {
+    box-shadow:
+      0 8px 22px rgba(22, 25, 36, 0.18),
+      0 0 0 0 rgba(79, 132, 255, 0);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow:
+      0 14px 34px rgba(22, 25, 36, 0.28),
+      0 0 26px 1px rgba(79, 132, 255, 0.22);
+    filter: brightness(1.05);
+  }
 }
 
 .btn--dark:hover {
@@ -534,6 +607,22 @@ ul {
 .btn--blue {
   background: var(--blue);
   color: var(--white);
+  animation-name: btn-breathe-blue;
+}
+
+@keyframes btn-breathe-blue {
+  0%, 100% {
+    box-shadow:
+      0 10px 24px rgba(63, 112, 245, 0.22),
+      0 0 0 0 rgba(79, 132, 255, 0);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow:
+      0 16px 36px rgba(63, 112, 245, 0.36),
+      0 0 30px 2px rgba(122, 163, 255, 0.28);
+    filter: brightness(1.06);
+  }
 }
 
 .btn--blue .arr {
@@ -550,6 +639,18 @@ ul {
   color: var(--ink);
   border: 1.5px solid var(--line);
   padding: 0 22px;
+  animation-name: btn-breathe-line;
+}
+
+@keyframes btn-breathe-line {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(79, 132, 255, 0);
+    border-color: var(--line);
+  }
+  50% {
+    box-shadow: 0 0 20px 1px rgba(79, 132, 255, 0.1);
+    border-color: rgba(79, 132, 255, 0.45);
+  }
 }
 
 .btn--line:hover {
@@ -687,6 +788,9 @@ ul {
 }
 
 .hero__visual {
+  --hero-disk: 132%;
+  --hero-disk-right: -14%;
+  --hero-disk-bottom: -30%;
   position: relative;
   z-index: 1;
   min-height: 100%;
@@ -697,18 +801,52 @@ ul {
   content: "";
   position: absolute;
   z-index: 1;
-  width: 132%;
+  width: var(--hero-disk);
   aspect-ratio: 1;
   height: auto;
-  right: -14%;
-  bottom: -30%;
+  right: var(--hero-disk-right);
+  bottom: var(--hero-disk-bottom);
   border-radius: 50%;
   background: #fff;
 }
 
-.hero__photo {
+.hero__orbit {
   position: absolute;
   z-index: 2;
+  width: var(--hero-disk);
+  aspect-ratio: 1;
+  right: var(--hero-disk-right);
+  bottom: var(--hero-disk-bottom);
+  border-radius: 50%;
+  overflow: hidden;
+  pointer-events: none;
+  animation: hero-orbit-spin 48s linear infinite;
+  will-change: transform;
+}
+
+.hero__orbit svg {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.hero__orbit text {
+  fill: #4f84ff;
+  font-family: var(--font);
+  font-size: 2.85px;
+  font-weight: 700;
+  letter-spacing: 0.28px;
+  text-transform: uppercase;
+}
+
+@keyframes hero-orbit-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.hero__photo {
+  position: absolute;
+  z-index: 3;
   right: 0;
   bottom: 0;
   width: 86%;
@@ -812,23 +950,43 @@ ul {
   color: var(--blue-deep);
 }
 
-.promo--accent .more {
+.promo--accent .more,
+.more.more--lead {
   height: 40px;
   padding: 0 16px;
+  border-radius: 99px;
+  animation: btn-breathe 3.6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.more.more--lead {
+  background: var(--blue-pale);
+  color: var(--blue-deep);
+  border: 1px solid rgba(79, 132, 255, 0.18);
+}
+
+.more.more--lead:hover {
+  background: var(--blue);
+  color: var(--white);
+  border-color: var(--blue);
+  animation-play-state: paused;
+}
+
+.promo--accent .more {
   background: var(--ink);
   color: var(--white);
-  border-radius: 99px;
+  border: none;
 }
 
 .promo--accent .more:hover {
   color: var(--white);
   background: var(--blue-deep);
+  animation-play-state: paused;
 }
 
 .promo img {
   position: absolute;
   right: -8px;
-  bottom: -18px;
+  bottom: -2px;
   width: 210px;
   height: 210px;
   object-fit: contain;
@@ -862,6 +1020,10 @@ ul {
 
 .promo-grid .promo:nth-child(5) h3,
 .promo-grid .promo:nth-child(5) p {
+  max-width: 48%;
+}
+
+.promo-grid .promo:nth-child(5) .promo__meta {
   max-width: 48%;
 }
 
@@ -1071,6 +1233,8 @@ ul {
   border-radius: 28px;
   overflow: hidden;
   background: var(--bg);
+  display: block;
+  color: inherit;
   transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
   color: inherit;
   text-decoration: none;
@@ -1115,12 +1279,28 @@ ul {
   color: var(--muted);
 }
 
-.person .more {
-  display: inline-block;
-  margin-top: 10px;
+.person__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
   font-size: 13px;
-  font-weight: 700;
-  color: var(--blue);
+  font-weight: 800;
+  color: var(--blue-deep);
+}
+
+.person__more::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-right: 1.8px solid currentColor;
+  border-top: 1.8px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.3s var(--ease);
+}
+
+.person:hover .person__more::after {
+  transform: rotate(45deg) translate(1px, -1px);
 }
 
 .people--roster {
@@ -1129,6 +1309,94 @@ ul {
   margin-top: 12px;
   padding-left: 18px !important;
   padding-right: 18px !important;
+}
+
+/* Doctor detail */
+.doctor {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 36px;
+  align-items: start;
+  padding: 12px 0 40px;
+}
+
+.doctor__photo {
+  border-radius: 32px;
+  overflow: hidden;
+  background: var(--bg);
+  box-shadow: var(--shadow);
+}
+
+.doctor__photo img {
+  width: 100%;
+  aspect-ratio: 3 / 3.6;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.doctor__lead {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.45;
+  margin-bottom: 16px;
+  color: var(--ink);
+}
+
+.doctor__body > p {
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.doctor__body h2 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 28px 0 14px;
+}
+
+.doctor__tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.doctor__tags li {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 99px;
+  display: inline-flex;
+  align-items: center;
+  background: var(--blue-pale);
+  color: var(--blue-deep);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.doctor__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.doctor__note {
+  margin-top: 18px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .doctor {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .doctor__photo img {
+    aspect-ratio: 4 / 3.2;
+  }
 }
 
 /* Reviews */
@@ -1230,21 +1498,51 @@ ul {
 }
 
 .acc__btn i {
+  position: relative;
   flex-shrink: 0;
   width: 32px;
   height: 32px;
   border-radius: 50%;
   background: var(--blue-pale);
-  color: var(--blue-deep);
+  color: transparent;
+  font-size: 0;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 0;
   display: grid;
   place-items: center;
   transition: transform 0.4s var(--ease), background 0.3s;
 }
 
+.acc__btn i::before,
+.acc__btn i::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: var(--blue-deep);
+  border-radius: 99px;
+  transform: translate(-50%, -50%);
+}
+
+.acc__btn i::before {
+  width: 12px;
+  height: 2px;
+}
+
+.acc__btn i::after {
+  width: 2px;
+  height: 12px;
+}
+
 .acc__item.is-open .acc__btn i {
   transform: rotate(45deg);
   background: var(--blue);
-  color: var(--white);
+}
+
+.acc__item.is-open .acc__btn i::before,
+.acc__item.is-open .acc__btn i::after {
+  background: var(--white);
 }
 
 .acc__panel {
@@ -2211,22 +2509,247 @@ body.is-lock .header {
   -webkit-backdrop-filter: none;
 }
 
-/* Float call */
+/* Legacy float call (replaced by sticky-lead) */
 .float-call {
-  display: none;
+  display: none !important;
+}
+
+/* Sticky lead bar */
+.sticky-lead {
+  --sticky-shadow: 0 18px 50px rgba(22, 25, 36, 0.12), 0 4px 14px rgba(55, 90, 180, 0.08);
+  --sticky-shadow-hot: 0 22px 56px rgba(79, 132, 255, 0.32), 0 8px 22px rgba(63, 112, 245, 0.18);
   position: fixed;
-  right: 16px;
-  bottom: 16px;
-  z-index: 80;
-  height: 52px;
-  padding: 0 18px;
-  background: var(--ink);
-  color: var(--white);
-  border-radius: 99px;
-  font-weight: 700;
-  align-items: center;
+  left: 50%;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  z-index: 150;
+  width: min(600px, calc(100% - 24px));
+  transform: translateX(-50%);
+  padding: 10px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(247, 248, 252, 0.96) 100%);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  border: 1px solid rgba(231, 235, 244, 0.95);
+  box-shadow: var(--sticky-shadow);
+  transition:
+    box-shadow 0.45s var(--ease),
+    transform 0.45s var(--ease),
+    border-color 0.45s var(--ease),
+    opacity 0.35s var(--ease),
+    visibility 0.35s;
+}
+
+.sticky-lead:hover {
+  transform: translateX(-50%) translateY(-3px);
+  border-color: rgba(79, 132, 255, 0.28);
+  box-shadow: var(--sticky-shadow-hot);
+}
+
+body:has(.mnav.is-open) .sticky-lead {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(calc(100% + 36px));
+}
+
+.sticky-lead__inner {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  align-items: stretch;
   gap: 8px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.sticky-lead__call {
+  flex: 1 1 auto;
+  min-width: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 3px;
+  padding: 11px 16px 11px 14px;
+  border-radius: 20px;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 140% at 0% 0%, rgba(255, 255, 255, 0.28) 0%, transparent 55%),
+    linear-gradient(135deg, #6a96ff 0%, var(--blue) 48%, #3563e8 100%);
+  color: var(--white) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 10px 24px rgba(63, 112, 245, 0.28);
+  transition: 0.35s var(--ease);
+  animation: sticky-call-pulse 3.6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.sticky-lead__call::after {
+  content: "";
+  position: absolute;
+  right: -18px;
+  top: -24px;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.28) 0%, transparent 68%);
+  pointer-events: none;
+}
+
+.sticky-lead__call:hover {
+  filter: brightness(1.05);
+  animation-play-state: paused;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 14px 28px rgba(63, 112, 245, 0.4);
+}
+
+@keyframes sticky-call-pulse {
+  0%, 100% {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      0 10px 24px rgba(63, 112, 245, 0.26),
+      0 0 0 0 rgba(122, 163, 255, 0);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.42),
+      0 16px 36px rgba(63, 112, 245, 0.4),
+      0 0 28px 2px rgba(122, 163, 255, 0.26);
+    filter: brightness(1.05);
+  }
+}
+
+.sticky-lead__label {
+  position: relative;
+  z-index: 1;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.88;
+  white-space: nowrap;
+}
+
+.sticky-lead__phone {
+  position: relative;
+  z-index: 1;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  white-space: nowrap;
+}
+
+.sticky-lead__hint { display: none; }
+
+.sticky-lead__actions {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  flex: 0 0 auto;
+}
+
+.sticky-lead__btn {
+  min-width: 68px;
+  height: auto !important;
+  width: auto !important;
+  padding: 7px 8px;
+  border-radius: 18px;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px !important;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--ink-2) !important;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  transition: 0.35s var(--ease);
+}
+
+.sticky-lead__btn:hover {
+  background: rgba(79, 132, 255, 0.06);
+  border-color: rgba(79, 132, 255, 0.12);
+  color: var(--blue-deep) !important;
+  transform: translateY(-1px);
+}
+
+.sticky-lead__btn:hover .sticky-lead__ico {
+  animation-play-state: paused;
+  transform: translateY(-1px) scale(1.04);
+  border-color: rgba(79, 132, 255, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 10px 20px rgba(79, 132, 255, 0.22);
+}
+
+.sticky-lead__ico {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, #ffffff 0%, #eef3ff 100%);
+  border: 1px solid rgba(79, 132, 255, 0.14);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 6px 14px rgba(55, 90, 180, 0.1);
+  color: var(--blue);
+  transition: 0.35s var(--ease);
+  animation: sticky-action-glow 6.6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.sticky-lead__btn:nth-child(1) .sticky-lead__ico { animation-delay: 0s; }
+.sticky-lead__btn:nth-child(2) .sticky-lead__ico { animation-delay: 2.2s; }
+.sticky-lead__btn:nth-child(3) .sticky-lead__ico { animation-delay: 4.4s; }
+
+@keyframes sticky-action-glow {
+  0%, 18%, 100% {
+    transform: none;
+    border-color: rgba(79, 132, 255, 0.14);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.95),
+      0 6px 14px rgba(55, 90, 180, 0.1),
+      0 0 0 0 rgba(79, 132, 255, 0);
+    filter: brightness(1);
+  }
+  6%, 12% {
+    transform: translateY(-1px) scale(1.05);
+    border-color: rgba(79, 132, 255, 0.3);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 1),
+      0 10px 22px rgba(79, 132, 255, 0.2),
+      0 0 18px 1px rgba(122, 163, 255, 0.18);
+    filter: brightness(1.04);
+  }
+}
+
+.sticky-lead__btn span:not(.icon-phone):not(.icon-max):not(.sticky-lead__ico) {
+  line-height: 1;
+}
+
+.sticky-lead__btn svg,
+.sticky-lead__btn .icon-phone,
+.sticky-lead__btn .icon-max {
+  width: 15px;
+  height: 15px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.sticky-lead .icon-max {
+  filter: invert(48%) sepia(78%) saturate(2148%) hue-rotate(204deg) brightness(101%) contrast(101%);
+}
+
+.sticky-lead a[data-city-max] {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
 }
 
 /* Responsive */
@@ -2234,7 +2757,8 @@ body.is-lock .header {
   .nav { display: none; }
   .burger { display: flex; }
   .header__bar { gap: 10px; }
-  .header__actions .btn--dark { display: none; }
+  .header__actions .btn--dark,
+  .header__actions .btn--blue { display: none; }
   .icon-btn--msg { display: none; }
   .city-btn { margin-right: 0; height: 38px; padding: 0 10px; font-size: 13px; }
   [data-reveal],
@@ -2253,15 +2777,13 @@ body.is-lock .header {
     padding: 0 24px 24px;
   }
   .hero__visual {
+    --hero-disk: 145%;
+    --hero-disk-right: -16%;
+    --hero-disk-bottom: -40%;
     min-height: 320px;
     margin: 0;
     overflow: hidden;
     min-width: 0;
-  }
-  .hero__visual::before {
-    width: 145%;
-    right: -16%;
-    bottom: -40%;
   }
   .hero__photo {
     width: 58%;
@@ -2339,7 +2861,8 @@ body.is-lock .header {
 
 @media (max-width: 720px) {
   .wrap { width: min(100% - 24px, 1240px); }
-  .header__bar { height: 64px; gap: 8px; }
+  :root { --header-h: 64px; }
+  .header__bar { height: var(--header-h); gap: 8px; }
   .logo__text { font-size: 18px; }
   .logo__mark { width: 28px; height: 28px; }
   .city-btn { height: 36px; padding: 0 8px 0 8px; }
@@ -2375,14 +2898,12 @@ body.is-lock .header {
     border-top: 1px solid rgba(255, 255, 255, 0.2);
   }
   .hero__visual {
+    --hero-disk: 150%;
+    --hero-disk-right: -18%;
+    --hero-disk-bottom: -42%;
     min-height: 280px;
     margin: 0;
     overflow: hidden;
-  }
-  .hero__visual::before {
-    width: 150%;
-    right: -18%;
-    bottom: -42%;
   }
   .hero__photo {
     width: 56%;
@@ -2489,12 +3010,24 @@ body.is-lock .header {
   .about img { height: 220px; }
   .form { padding: 22px; }
   .contacts { padding: 24px 0 48px; }
-  .float-call {
-    display: inline-flex;
-    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
-  }
-  .footer { padding: 48px 0 96px; }
+  .footer { padding: 48px 0 28px; }
   .footer__copy { flex-direction: column; }
+  .sticky-lead {
+    width: min(600px, calc(100% - 16px));
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    border-radius: 24px;
+    padding: 8px;
+  }
+  .sticky-lead__call { padding: 10px 12px; }
+  .sticky-lead__phone { font-size: 14px; }
+  .sticky-lead__btn { min-width: 58px; padding: 6px 4px; font-size: 10px; height: auto !important; }
+  .sticky-lead__ico { width: 30px; height: 30px; border-radius: 10px; }
+  .sticky-lead__btn svg,
+  .sticky-lead__btn .icon-phone,
+  .sticky-lead__btn .icon-max {
+    width: 13px;
+    height: 13px;
+  }
   .geo,
   .modal { padding: 12px; }
   .geo__box,
@@ -2511,11 +3044,13 @@ body.is-lock .header {
   .wrap { width: min(100% - 20px, 1240px); }
   .hero { padding: 22px 0 0; border-radius: 20px; }
   .hero__content { padding: 0 16px 16px; }
-  .hero__visual { min-height: 250px; margin: 0; overflow: hidden; }
-  .hero__visual::before {
-    width: 100%;
-    right: -7%;
-    bottom: -70%;
+  .hero__visual {
+    --hero-disk: 103%;
+    --hero-disk-right: -8%;
+    --hero-disk-bottom: -66%;
+    min-height: 250px;
+    margin: 0;
+    overflow: hidden;
   }
   .hero__photo {
     width: 100%;
@@ -2554,7 +3089,8 @@ body.is-lock .header {
   .promos { padding: 40px 0 4px; }
   .cta__box { padding: 22px 16px; }
   .page-hero__box { padding: 20px 16px; }
-  .header__bar { height: 58px; }
+  :root { --header-h: 58px; }
+  .header__bar { height: var(--header-h); }
 }
 
 .gallery {
@@ -2906,22 +3442,58 @@ body.is-lock .header {
 }
 
 .hero-chips a {
-  height: 36px;
-  padding: 0 14px;
+  height: 38px;
+  padding: 0 12px 0 14px;
   border-radius: 99px;
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.2);
   color: var(--white);
   font-size: 13px;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  gap: 8px;
+  border: 1.5px solid rgba(255, 255, 255, 0.42);
+  box-shadow: 0 6px 16px rgba(20, 40, 100, 0.1);
+  cursor: pointer;
   transition: 0.3s var(--ease);
+  animation: hero-chip-breathe 4.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.hero-chips a::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-right: 1.8px solid currentColor;
+  border-top: 1.8px solid currentColor;
+  transform: rotate(45deg);
+  opacity: 0.85;
+  flex-shrink: 0;
+  transition: transform 0.3s var(--ease), opacity 0.3s;
 }
 
 .hero-chips a:hover {
   background: var(--white);
   color: var(--blue-deep);
+  border-color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(20, 40, 100, 0.2);
+  animation-play-state: paused;
+}
+
+.hero-chips a:hover::after {
+  transform: rotate(45deg) translate(1px, -1px);
+  opacity: 1;
+}
+
+@keyframes hero-chip-breathe {
+  0%, 100% {
+    box-shadow: 0 6px 16px rgba(20, 40, 100, 0.1);
+    border-color: rgba(255, 255, 255, 0.38);
+  }
+  50% {
+    box-shadow: 0 8px 20px rgba(20, 40, 100, 0.14);
+    border-color: rgba(255, 255, 255, 0.58);
+  }
 }
 
 /* Offer mosaic */
@@ -2937,8 +3509,8 @@ body.is-lock .header {
 
 .offer {
   position: relative;
-  min-height: 210px;
-  padding: 26px 22px;
+  min-height: 280px;
+  padding: 26px 22px 22px;
   border-radius: 28px;
   background: var(--white);
   box-shadow: var(--shadow);
@@ -2992,14 +3564,177 @@ body.is-lock .header {
 .offer p {
   color: var(--muted);
   font-size: 14px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
+}
+
+.offer__feats {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.offer__feats li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ink-2);
+}
+
+.offer__feats li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+.offer:nth-child(4) .offer__feats li {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.offer:nth-child(4) .offer__feats li::before {
+  background: #fff;
+}
+
+.offer__foot {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .offer b {
-  margin-top: auto;
   font-size: 20px;
   font-weight: 800;
   letter-spacing: -0.03em;
+}
+
+.offer__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: var(--white);
+  border: 1px solid rgba(79, 132, 255, 0.22);
+  color: var(--blue-deep);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  transition: 0.3s var(--ease);
+  box-shadow: 0 4px 12px rgba(55, 90, 180, 0.06);
+}
+
+.offer:hover .offer__cta {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--white);
+}
+
+.offer:nth-child(1) .offer__cta,
+.offer:nth-child(6) .offer__cta {
+  background: var(--white);
+  border-color: transparent;
+  color: var(--blue-deep);
+  box-shadow: 0 6px 16px rgba(55, 90, 180, 0.1);
+}
+
+.offer:nth-child(1):hover .offer__cta,
+.offer:nth-child(6):hover .offer__cta {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--white);
+  box-shadow: 0 8px 20px rgba(22, 25, 36, 0.16);
+}
+
+.offer:nth-child(4) .offer__cta {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: var(--white);
+  box-shadow: none;
+}
+
+.offer:nth-child(4):hover .offer__cta {
+  background: var(--white);
+  border-color: var(--white);
+  color: var(--blue-deep);
+}
+
+.offers__lead {
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 22px;
+  border-radius: 22px;
+  background: var(--blue-pale);
+}
+
+.offers__lead p {
+  margin: 0;
+  color: var(--ink-2);
+  font-weight: 600;
+  max-width: 52ch;
+}
+
+@media (max-width: 720px) {
+  .offers__lead {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .offers__lead .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  :root {
+    --sticky-lead-h: 100px;
+  }
+}
+
+.promo .more--lead {
+  font-weight: 800;
+}
+
+.promo__meta {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.promo__meta span {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--white);
+  border: 1px solid rgba(79, 132, 255, 0.18);
+  color: var(--blue-deep);
+  font-size: 12px;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(55, 90, 180, 0.06);
+}
+
+.promo--accent .promo__meta span {
+  background: var(--white);
+  border-color: rgba(79, 132, 255, 0.22);
+  color: var(--blue-deep);
+  box-shadow: 0 4px 14px rgba(55, 90, 180, 0.1);
 }
 
 /* Station */
@@ -3207,7 +3942,7 @@ body.is-lock .header {
 
 /* Calc */
 .calc {
-  padding: 56px 0 20px;
+  padding: 28px 0 8px;
 }
 
 .calc__box {
@@ -3220,7 +3955,7 @@ body.is-lock .header {
 }
 
 .calc__box.is-in .form {
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 .calc__steps {
@@ -3235,9 +3970,52 @@ body.is-lock .header {
   border-radius: 50%;
   background: var(--line);
   font-style: normal;
+  transition: background 0.35s var(--ease), transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
 }
 
-.calc__steps i.is-on { background: var(--blue); }
+.calc__steps i.is-on {
+  background: var(--blue);
+  transform: scale(1.15);
+  box-shadow: 0 0 0 4px rgba(79, 132, 255, 0.14);
+}
+
+.calc__panel {
+  position: relative;
+  min-height: 168px;
+  transition: opacity 0.28s var(--ease), transform 0.28s var(--ease), filter 0.28s var(--ease);
+}
+
+.calc__panel.is-ready {
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+}
+
+.calc__panel.is-leave-next {
+  opacity: 0;
+  transform: translateY(-12px);
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.calc__panel.is-leave-back {
+  opacity: 0;
+  transform: translateY(12px);
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.calc__panel.is-enter-next {
+  opacity: 0;
+  transform: translateY(14px);
+  filter: blur(2px);
+}
+
+.calc__panel.is-enter-back {
+  opacity: 0;
+  transform: translateY(-14px);
+  filter: blur(2px);
+}
 
 .calc h3 {
   font-size: 26px;
@@ -3252,14 +4030,162 @@ body.is-lock .header {
   gap: 10px;
 }
 
+.calc-opts[hidden],
+.calc [data-calc-form][hidden],
+.calc [data-calc-summary][hidden],
+.calc [data-calc-back][hidden] {
+  display: none !important;
+}
+
+.calc-summary {
+  margin: 0 0 16px;
+  padding: 16px 18px;
+  border-radius: 20px;
+  background: var(--white);
+  border: 1px solid rgba(79, 132, 255, 0.14);
+  box-shadow: 0 10px 28px rgba(55, 90, 180, 0.06);
+}
+
+.calc-summary__title {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+.calc-summary ul {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.calc-summary li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.calc-summary li:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.calc-summary span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.calc-summary b {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-align: right;
+}
+
+.calc-summary__note {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.calc .form.is-sent {
+  margin-top: 0;
+}
+
+.calc-thanks {
+  display: none;
+  text-align: center;
+  padding: 36px 28px !important;
+  animation: calc-thanks-in 0.45s var(--ease) both;
+}
+
+.form.is-sent .calc-thanks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.calc-thanks__mark {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin-bottom: 6px;
+  background: var(--blue);
+  color: var(--white);
+  font-size: 22px;
+  font-weight: 800;
+  box-shadow: 0 12px 28px rgba(63, 112, 245, 0.28);
+}
+
+.calc-thanks strong {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.calc-thanks p {
+  margin: 0;
+  max-width: 32ch;
+  color: var(--muted);
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+@keyframes calc-thanks-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .calc-opts button {
-  height: 46px;
-  padding: 0 16px;
-  border-radius: 16px;
+  position: relative;
+  height: auto;
+  min-height: 52px;
+  padding: 12px 18px 12px 16px;
+  border-radius: 18px;
   background: var(--white);
   font-weight: 700;
-  border: 1.5px solid transparent;
-  transition: 0.25s;
+  font-size: 14.5px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  border: 1.5px solid rgba(79, 132, 255, 0.18);
+  box-shadow: 0 8px 22px rgba(55, 90, 180, 0.08);
+  cursor: pointer;
+  transition: 0.3s var(--ease);
+  animation: calc-opt-pulse 3.4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.calc-opts button::after {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-left: 10px;
+  border-right: 2px solid var(--blue);
+  border-top: 2px solid var(--blue);
+  transform: rotate(45deg) translateY(-1px);
+  opacity: 0.7;
+  vertical-align: middle;
 }
 
 .calc-opts button.is-on,
@@ -3267,12 +4193,32 @@ body.is-lock .header {
   border-color: var(--blue);
   color: var(--blue-deep);
   background: var(--blue-pale);
+  box-shadow: 0 12px 28px rgba(79, 132, 255, 0.2);
+  transform: translateY(-2px);
+  animation-play-state: paused;
+}
+
+@keyframes calc-opt-pulse {
+  0%, 100% {
+    box-shadow:
+      0 8px 22px rgba(55, 90, 180, 0.08),
+      0 0 0 0 rgba(79, 132, 255, 0);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow:
+      0 14px 30px rgba(79, 132, 255, 0.14),
+      0 0 22px 1px rgba(79, 132, 255, 0.1);
+    filter: brightness(1.02);
+  }
 }
 
 .calc__nav {
   display: flex;
   gap: 10px;
   margin-top: 22px;
+  position: relative;
+  z-index: 2;
 }
 
 /* Home prices */
@@ -3284,6 +4230,12 @@ body.is-lock .header {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 18px;
+}
+
+.home-price__more {
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
 }
 
 /* Atlas / methods */
@@ -3592,7 +4544,7 @@ a[data-city-max]:not(.icon-btn) {
   .review-list .review--lead {
     grid-column: auto;
   }
-  .offer { min-height: 180px; }
+  .offer { min-height: 220px; }
   .calc__box,
   .station__card,
   .guarantee__box { padding: 24px 18px; }
@@ -4097,7 +5049,9 @@ a[data-city-max]:not(.icon-btn) {
 
 .preloader,
 .mnav,
-.geo:not(.is-open) {
+.geo,
+.modal,
+.float-call {
   display: none !important;
 }
 
@@ -4114,7 +5068,7 @@ a[data-city-max]:not(.icon-btn) {
   visibility: visible !important;
 }
 
-/* Sticky/fixed → document flow (capture is at scrollY=0; sticky mid-page is wrong) */
+/* Fixed header → document flow (no double offset) */
 .header {
   position: relative !important;
   top: auto !important;
@@ -4123,31 +5077,71 @@ a[data-city-max]:not(.icon-btn) {
   background: #ffffff !important;
   box-shadow: 0 1px 0 rgba(30, 50, 120, 0.06) !important;
 }
+body,
+body.has-sticky-lead {
+  padding-top: 0 !important;
+  padding-bottom: 140px !important;
+}
 .svc-side,
 .doc-panel {
   position: relative !important;
   top: auto !important;
 }
 
-/* Fixed chrome → absolute in page end zone so they still paint without covering content wrongly */
-.float-call,
-.cookie {
+/* Sticky lead — absolute in page bottom, no blur / translateX */
+.sticky-lead {
   position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 24px !important;
+  width: min(600px, calc(100% - 24px)) !important;
+  margin: 0 auto !important;
+  transform: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  background: #ffffff !important;
+  border: 1px solid #e7ebf4 !important;
+  box-shadow: 0 18px 50px rgba(22, 25, 36, 0.12), 0 4px 14px rgba(55, 90, 180, 0.08) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: none !important;
 }
+.sticky-lead:hover {
+  transform: none !important;
+}
+.sticky-lead__call {
+  animation: none !important;
+  filter: none !important;
+}
+.sticky-lead__call::after {
+  display: none !important;
+}
+.sticky-lead__ico,
+.sticky-lead__btn .sticky-lead__ico {
+  animation: none !important;
+  transform: none !important;
+  filter: none !important;
+}
+.sticky-lead .icon-phone-svg,
+.sticky-lead .icon-max-svg {
+  display: block !important;
+  width: 15px !important;
+  height: 15px !important;
+  color: #4f84ff;
+}
+
+/* Cookie bar */
 .cookie {
+  position: absolute !important;
   left: 16px !important;
   right: 16px !important;
   bottom: 16px !important;
   width: auto !important;
   max-width: 720px !important;
   margin: 0 auto !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   background: #161924 !important;
-}
-.float-call {
-  right: 16px !important;
-  bottom: 88px !important;
 }
 
 body.is-lock {
@@ -4176,13 +5170,22 @@ body.is-lock {
 .icon-btn .icon-max,
 .footer__msg .icon-max,
 .footer .icon-max,
-.mnav .icon-max {
+.mnav .icon-max,
+.sticky-lead .icon-max {
   filter: none !important;
 }
 .gallery img,
 .cat-card img,
-.promo img {
+.promo img,
+.person__photo img,
+.doctor__photo img {
   filter: none !important;
+}
+
+/* Header icon buttons — readable stroke on white */
+.icon-btn {
+  border-color: rgba(79, 132, 255, 0.28) !important;
+  background: rgba(79, 132, 255, 0.04) !important;
 }
 
 /* Marquee: static strip, no fade-mask / motion */
@@ -4202,12 +5205,24 @@ body.is-lock {
   transform: none !important;
 }
 
-/* Pseudo circles: explicit px size (aspect-ratio alone is fragile) */
-.hero__visual::before {
+/* Pseudo circles + hero orbit: explicit px size */
+.hero__visual::before,
+.hero__orbit {
   width: 640px !important;
   height: 640px !important;
   aspect-ratio: auto !important;
+  animation: none !important;
+  transform: none !important;
+  will-change: auto !important;
+  filter: none !important;
+}
+.hero__visual::before {
   background: #ffffff !important;
+  border-radius: 50% !important;
+}
+.hero__orbit {
+  overflow: hidden !important;
+  pointer-events: none !important;
 }
 .cta__box::after {
   width: 280px !important;
@@ -4222,6 +5237,16 @@ body.is-lock {
   height: 8px !important;
   border-radius: 50% !important;
   background: #4f84ff !important;
+}
+
+/* Kill fragile paint modes */
+* {
+  clip-path: none !important;
+  -webkit-clip-path: none !important;
+  mix-blend-mode: normal !important;
+  text-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 /* Accordion: expand all answers for capture */
@@ -4239,6 +5264,15 @@ body.is-lock {
 }
 .acc__panel > div {
   overflow: visible !important;
+}
+
+/* Calc: show first step options */
+.calc-opts[hidden],
+.calc__back[hidden] {
+  display: none !important;
+}
+.calc-opts:not([hidden]) {
+  display: flex !important;
 }
 
 /* Modal/geo overlays in hard panels — never fixed */
@@ -4277,7 +5311,9 @@ body.is-lock {
 .person:hover,
 .promo:hover,
 .cat-card:hover,
-.offer:hover {
+.offer:hover,
+.sticky-lead__btn:hover,
+.sticky-lead__btn:hover .sticky-lead__ico {
   transform: none !important;
 }
 
@@ -4291,13 +5327,14 @@ html, body {
 
 </style>
 </head>
-<body>
+<body class="has-sticky-lead">
+  
   <div class="preloader" aria-hidden="true"><div class="preloader__inner"><svg class="logo__mark" viewBox="0 0 32 32"><path fill="currentColor" d="M16 1.8c1.7 5.6 5.8 9.7 11.4 11.4C21.8 15 17.7 19.1 16 24.7 14.3 19.1 10.2 15 4.6 13.2 10.2 11.5 14.3 7.4 16 1.8Z"/></svg><div class="preloader__bar"><span></span></div></div></div>
   <header class="header" data-header>
     <div class="header__bar wrap">
       <a class="logo" href="index.html"><svg class="logo__mark" viewBox="0 0 32 32"><path fill="currentColor" d="M16 1.8c1.7 5.6 5.8 9.7 11.4 11.4C21.8 15 17.7 19.1 16 24.7 14.3 19.1 10.2 15 4.6 13.2 10.2 11.5 14.3 7.4 16 1.8Z"/></svg><span class="logo__text">Альба</span></a>
       <button type="button" class="city-btn" data-open-city><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 18s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10Z" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="8" r="2.1" stroke="currentColor" stroke-width="1.6"/></svg><span data-city-name>Омск</span></button>
-      <nav class="nav" aria-label="Основное меню">
+            <nav class="nav" aria-label="Основное меню">
         <div class="nav__drop">
           <button class="nav__btn" type="button">Клиника <svg viewBox="0 0 12 12" fill="none"><path d="M2 4.5 6 8.5 10 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
           <div class="nav__menu">
@@ -4305,7 +5342,6 @@ html, body {
             <a href="gallery.html">Галерея</a>
             <a href="licenses.html">Лицензии</a>
             <a href="prices.html">Цены</a>
-            <a href="links.html">Полезные ссылки</a>
             <a href="about.html#anon">Анонимность</a>
           <a data-extra-clinic href="reviews.html">Отзывы</a><a data-extra-clinic href="methods.html">Методы помощи</a><a data-extra-clinic href="sitemap.html">Карта сайта</a>
           </div>
@@ -4344,7 +5380,7 @@ html, body {
         <a href="contacts.html">Контакты</a>
       </nav>
       <div class="header__actions">
-        <a class="icon-btn icon-btn--msg" href="https://max.ru/" data-city-max target="_blank" rel="noopener" aria-label="Max"><svg class="icon-max-svg" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4f84ff" d="M12 2.1C5.7 2.5 1.5 7.8 1.8 14.2c.1 2.7 1.2 5.1 1.5 7.7.1.7-.1 1.5.6 1.8.9.4 2.4-.2 3.2-.8.3-.2.5-.4.7-.7.8.5 1.6 1.1 2.6 1.3 4.3 1 9-1.3 11.1-5.1C25.3 10.6 20 1.8 12 2.1Zm-2.4 14.9c-.3.3-.7.6-1 .8-.6.3-.7 0-.9-.5-.6-1.5-.7-4.1-.3-5.7.5-2.2 2.2-4.1 4.5-4.3 2.3-.2 4.5 1 5.5 3.1 2.2 4.8-3.4 9.5-7.8 6.6Z"/></svg></a>
+                <a class="icon-btn icon-btn--msg" href="https://max.ru/" data-city-max target="_blank" rel="noopener" aria-label="Max"><svg class="icon-max-svg" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4f84ff" d="M12 2.1C5.7 2.5 1.5 7.8 1.8 14.2c.1 2.7 1.2 5.1 1.5 7.7.1.7-.1 1.5.6 1.8.9.4 2.4-.2 3.2-.8.3-.2.5-.4.7-.7.8.5 1.6 1.1 2.6 1.3 4.3 1 9-1.3 11.1-5.1C25.3 10.6 20 1.8 12 2.1Zm-2.4 14.9c-.3.3-.7.6-1 .8-.6.3-.7 0-.9-.5-.6-1.5-.7-4.1-.3-5.7.5-2.2 2.2-4.1 4.5-4.3 2.3-.2 4.5 1 5.5 3.1 2.2 4.8-3.4 9.5-7.8 6.6Z"/></svg></a>
         <a class="icon-btn icon-btn--msg" href="https://t.me/+73812901212" data-city-tg target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.43 4.53 3.87 11.32c-1.2.47-1.19 1.13-.22 1.43l4.5 1.4 10.45-6.59c.5-.3.95-.13.58.18l-8.46 7.63-.33 4.72c.48 0 .69-.22.96-.48l2.3-2.24 4.78 3.53c.88.48 1.51.23 1.73-.81l3.13-14.74c.32-1.28-.49-1.86-1.36-1.42Z"/></svg></a>
         <a class="icon-btn" href="tel:+73812901212" data-city-tel aria-label="Позвонить"><svg class="icon-phone-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path fill="currentColor" d="M7.2 3.6c.5-.5 1.3-.6 1.9-.3l2.1 1.2c.6.3.9 1 .7 1.7l-.6 2.1c-.1.4 0 .8.3 1.1l1.7 1.7c.3.3.7.4 1.1.3l2.1-.6c.7-.2 1.4.1 1.7.7l1.2 2.1c.3.6.2 1.4-.3 1.9l-1.1 1.1c-.5.5-1.2.7-1.9.6-1.9-.3-4.5-1.6-7-4.1s-3.8-5.1-4.1-7c-.1-.7.1-1.4.6-1.9l1.1-1.1Z"/></svg></a>
         <a class="btn btn--dark" href="#" data-open-modal>Записаться <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
@@ -4352,13 +5388,12 @@ html, body {
       </div>
     </div>
   </header>
-  <nav class="mnav" data-mnav>
+    <nav class="mnav" data-mnav>
     <a href="about.html">О нас</a>
     <a href="gallery.html">Галерея</a>
     <a href="licenses.html">Лицензии</a>
     <a href="prices.html">Цены</a>
     <a data-extra-mnav href="service-alcohol.html">Алкоголизм</a><a data-extra-mnav href="service-drugs.html">Наркомания</a><a data-extra-mnav href="service-code.html">Кодирование</a><a data-extra-mnav href="service-help.html">Наркологическая помощь</a><a data-extra-mnav href="service-gambling.html">Игровая зависимость</a><a data-extra-mnav href="reviews.html">Отзывы</a><a data-extra-mnav href="methods.html">Методы</a><a data-extra-mnav href="sitemap.html">Карта сайта</a>
-    <a href="links.html">Полезные ссылки</a>
     <a href="programs.html">Программы</a>
     <a href="about.html#anon">Анонимность</a>
     <a href="doctors.html">Врачи</a>
@@ -4369,49 +5404,44 @@ html, body {
   
     <button type="button" class="city-btn" data-open-city><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 18s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10Z" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="8" r="2.1" stroke="currentColor" stroke-width="1.6"/></svg><span data-city-name>Омск</span></button>
   </nav>
-    <main>
-    <section class="doc-hero wrap">
-      <div class="doc-hero__grid">
-        <figure class="doc-hero__photo is-in" data-reveal>
-          <img src="../images/doctor-4.jpg" alt="Мария Орлова, семейный терапевт" loading="eager">
-        </figure>
-        <div class="doc-hero__text is-in" data-reveal>
+
+  <main>
+    <section class="page-hero wrap">
+      <div class="page-hero__box">
+        <div>
           <div class="crumb"><a href="index.html">Главная</a> / <a href="doctors.html">Врачи</a> / Мария Орлова</div>
-          <p class="doc-hero__role">Клинический психолог, семейный терапевт</p>
           <h1 class="split is-in">Мария<br>Орлова</h1>
-          <p class="doc-hero__lead">Реабилитация и работа с созависимостью. Без ультиматумов «лечись или уходи» с порога.</p>
-          <div class="doc-hero__cta">
-            <a class="btn btn--dark" href="#" data-open-modal>Записаться к врачу <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
-            <a class="btn btn--line" href="tel:+73812901212" data-city-tel>Позвонить</a>
-          </div>
-          <p class="doc-hero__note">18+. Только добровольно</p>
         </div>
+        <p>Клинический психолог, семейный терапевт. Реабилитация и созависимость.</p>
       </div>
     </section>
-    <section class="doc-body wrap">
-      <div class="doc-body__main is-in" data-reveal>
-        <p>Мария подключается, когда абстиненция отпускает и появляется злость на себя и на близких. Разговор — про факты и границы, не про характер.</p>
-        <p>Семейная программа рассчитана на взрослых. Несовершеннолетних через сайт не записываем.</p>
-        <h2>Как ведёт приём</h2>
-        <ul><li>Индивидуальные встречи в курсе реабилитации</li><li>Четыре встречи семейной программы</li><li>Сопровождение после выписки — по запросу</li></ul>
+
+    <section class="doctor wrap is-in" data-reveal>
+      <div class="doctor__photo">
+        <img src="../images/doctor-4.jpg" alt="Мария Орлова" loading="eager" decoding="sync">
       </div>
-      <aside class="doc-panel is-in" data-reveal>
-        <span>Приём</span>
-        <b>Клинический психолог, семейный терапевт</b>
-        <em>18+. Только добровольно</em>
-        <a class="btn btn--dark" href="#" data-open-modal>Записаться <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
-        <a class="btn btn--line" href="tel:+73812901212" data-city-tel>Позвонить</a>
-        <p>Имеются противопоказания. Нужна консультация специалиста.</p>
-      </aside>
+      <div class="doctor__body">
+        <p class="doctor__lead">Помогает пациенту и семье выстроить контакт после острого этапа — без морализаторства и без «запретов ради запретов».</p>
+        <p>Мария ведёт индивидуальные и семейные сессии в рамках реабилитации. Разбирает триггеры срывов, роли в семье и то, как поддерживать трезвость после выписки.</p><p>Работает только с совершеннолетними пациентами и добровольным согласием. Если человек пока не готов к терапии — честно обозначает границы и следующий шаг.</p>
+        <h2>Специализация</h2>
+        <ul class="doctor__tags"><li>Семейная терапия</li><li>Реабилитация</li><li>Созависимость</li><li>Поддержка после выписки</li></ul>
+        <h2>Образование и опыт</h2>
+        <p>Клинический психолог, семейный терапевт. Фокус — восстановление после зависимости и работа с близкими.</p>
+        <div class="doctor__actions">
+          <a class="btn btn--blue" href="#" data-open-modal>Записаться к врачу <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+          <a class="btn btn--line" href="doctors.html">Все врачи</a>
+        </div>
+        <p class="doctor__note">Приём совершеннолетних пациентов. Добровольное лечение. Имеются противопоказания. Необходима консультация специалиста.</p>
+      </div>
     </section>
-    <section class="doc-peers wrap">
-      <h2 class="section-title is-in" data-reveal>Другие врачи</h2>
-      <div class="doc-peers__grid"><a class="doc-peer is-in" href="doctor-volkov.html" data-reveal><h3>Андрей Волков</h3><p>Главный врач</p><span class="more">Открыть</span></a><a class="doc-peer is-in" href="doctor-safonova.html" data-reveal><h3>Елена Сафонова</h3><p>Психиатр-нарколог</p><span class="more">Открыть</span></a><a class="doc-peer is-in" href="doctor-lebedev.html" data-reveal><h3>Игорь Лебедев</h3><p>Анестезиолог</p><span class="more">Открыть</span></a></div>
-    </section>
+
     <section class="cta wrap">
       <div class="cta__box is-in" data-reveal="scale">
-        <div><h2>Можно выбрать врача до заезда</h2><p>Назовите специализацию. Администратор скажет, кто дежурит сегодня.</p></div>
-        <a class="btn btn--light" href="#" data-open-modal>Записаться <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <div>
+          <h2>Нужна консультация<br>именно этого специалиста?</h2>
+          <p>Оставьте номер — администратор подскажет ближайшее окно и подготовит визит анонимно.</p>
+        </div>
+        <a class="btn btn--light" href="#" data-open-modal>Оставить заявку <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
       </div>
     </section>
   </main>
@@ -4423,7 +5453,7 @@ html, body {
           <a class="logo" href="index.html"><svg class="logo__mark" viewBox="0 0 32 32"><path fill="currentColor" d="M16 1.8c1.7 5.6 5.8 9.7 11.4 11.4C21.8 15 17.7 19.1 16 24.7 14.3 19.1 10.2 15 4.6 13.2 10.2 11.5 14.3 7.4 16 1.8Z"/></svg><span class="logo__text">Альба</span></a>
           <p>Премиальная наркологическая клиника. Анонимное лечение зависимостей <span data-city-prep>в Омске</span>.</p>
         </div>
-        <div>
+                <div>
           <h4>Клиника</h4>
           <ul>
             <li><a href="about.html">О нас</a></li>
@@ -4431,10 +5461,10 @@ html, body {
             <li><a href="licenses.html">Лицензии</a></li>
             <li><a href="prices.html">Цены</a></li>
             <li><a href="doctors.html">Врачи</a></li>
-            <li><a href="links.html">Полезные ссылки</a></li>
+            <li><a href="articles.html">Статьи</a></li>
           </ul>
         </div>
-        <div>
+                <div>
           <h4>Программы</h4>
           <ul>
             <li><a href="programs.html">Каталог</a></li>
@@ -4456,17 +5486,14 @@ html, body {
           </ul>
         </div>
 
-        <div>
-          <h4>Связь 24/7</h4>
-          <a class="footer__phone" href="tel:+73812901212" data-city-tel><span data-city-phone>+7 (3812) 90-12-12</span></a>
+        <div><h4>Связь 24/7</h4><a class="footer__phone" href="tel:+73812901212" data-city-tel><span data-city-phone>+7 (3812) 90-12-12</span></a>
           <div class="footer__msg">
             <a href="https://max.ru/" data-city-max target="_blank" rel="noopener" aria-label="Max"><svg class="icon-max-svg" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#ffffff" d="M12 2.1C5.7 2.5 1.5 7.8 1.8 14.2c.1 2.7 1.2 5.1 1.5 7.7.1.7-.1 1.5.6 1.8.9.4 2.4-.2 3.2-.8.3-.2.5-.4.7-.7.8.5 1.6 1.1 2.6 1.3 4.3 1 9-1.3 11.1-5.1C25.3 10.6 20 1.8 12 2.1Zm-2.4 14.9c-.3.3-.7.6-1 .8-.6.3-.7 0-.9-.5-.6-1.5-.7-4.1-.3-5.7.5-2.2 2.2-4.1 4.5-4.3 2.3-.2 4.5 1 5.5 3.1 2.2 4.8-3.4 9.5-7.8 6.6Z"/></svg></a>
             <a href="https://t.me/+73812901212" data-city-tg target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.43 4.53 3.87 11.32c-1.2.47-1.19 1.13-.22 1.43l4.5 1.4 10.45-6.59c.5-.3.95-.13.58.18l-8.46 7.63-.33 4.72c.48 0 .69-.22.96-.48l2.3-2.24 4.78 3.53c.88.48 1.51.23 1.73-.81l3.13-14.74c.32-1.28-.49-1.86-1.36-1.42Z"/></svg></a>
           </div>
-          <p><span data-city-address>Омск, ул. Ленина, 12</span><br>Лицензия <span data-city-license>ЛО-55-01-002891</span></p>
-        </div>
+<p><span data-city-address>Омск, ул. Красный Путь, 22</span><br>Лицензия <span data-city-license>ЛО-55-01-002891</span></p></div>
       </div>
-      
+            
       <div class="footer__services" data-footer-services data-tofigma-hard>
         <h4>Все услуги</h4>
         <div class="footer__services-grid">
@@ -4586,21 +5613,17 @@ html, body {
 
       <p class="footer__disc" data-tofigma-hard>Медицинские услуги оказываются совершеннолетним пациентам добровольно, по адресу клиники или на дому по месту вызова. Телефонная консультация носит информационный характер и не заменяет осмотр. Сайт не является публичной офертой. 18+. Имеются противопоказания.</p>
       <div class="footer__copy">
-        <a class="footer__made" href="https://cursiva.ru/" target="_blank" rel="noopener" aria-label="Создание сайта — веб-студия Cursiva">Создание сайта - <img src="../images/cursiva-logo-white.png" alt="Cursiva" width="92" height="28" decoding="sync" loading="eager"></a>
         <span>© <span data-year>2026</span> ООО «Альба Медикал». 18+. Имеются противопоказания. Необходима консультация специалиста.</span>
         <span class="footer__legal">
           <a href="privacy.html">Политика ПДн</a>
           <a href="consent.html">Согласие</a>
           <a href="terms.html">Условия</a>
           <a href="legal.html">Реквизиты</a>
-          <a href="links.html">Полезные ссылки</a>
-          <a href="sitemap.html">Карта сайта</a>
         </span>
       </div>
     </div>
   </footer>
-  <a class="float-call" href="tel:+73812901212" data-city-tel>Позвонить 24/7</a>
-  <div class="modal" data-modal>
+<div class="modal" data-modal>
     <div class="modal__box form">
       <button class="modal__close" type="button" data-close-modal aria-label="Закрыть">×</button>
       <h2>Запись на консультацию</h2>
@@ -4612,7 +5635,7 @@ html, body {
           <label for="m-phone">Телефон</label>
           <input id="m-phone" name="phone" type="tel" placeholder="+7 (" required>
           <label for="m-prog">Программа</label>
-          <select id="m-prog" name="program">
+                    <select id="m-prog" name="program">
             <option>Пока не знаю — подскажет врач</option>
             <option>Детокс</option>
             <option>Запой и капельница</option>
@@ -4652,6 +5675,30 @@ html, body {
         <input class="geo__search" type="search" placeholder="Найти город" data-geo-search value="">
         <div class="geo__grid" data-geo-grid><button type="button" class="geo__city" data-city-id="omsk">Омск</button><button type="button" class="geo__city" data-city-id="nsk">Новосибирск</button><button type="button" class="geo__city" data-city-id="tomsk">Томск</button><button type="button" class="geo__city" data-city-id="tyumen">Тюмень</button><button type="button" class="geo__city" data-city-id="barnaul">Барнаул</button><button type="button" class="geo__city" data-city-id="kemerovo">Кемерово</button><button type="button" class="geo__city" data-city-id="nkz">Новокузнецк</button><button type="button" class="geo__city" data-city-id="krsk">Красноярск</button><button type="button" class="geo__city" data-city-id="surgut">Сургут</button><button type="button" class="geo__city" data-city-id="moscow">Москва</button><button type="button" class="geo__city" data-city-id="spb">Санкт-Петербург</button></div>
         <button type="button" class="geo__back" data-geo-back>Назад</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="sticky-lead" data-sticky-lead data-tofigma-hard>
+    <div class="sticky-lead__inner">
+      <a class="sticky-lead__call" href="tel:+73812901212" data-city-tel>
+        <span class="sticky-lead__label">Вызов врача</span>
+        <strong class="sticky-lead__phone" data-city-phone>+7 (3812) 90-12-12</strong>
+      </a>
+      <div class="sticky-lead__actions">
+        <a class="sticky-lead__btn sticky-lead__btn--max" href="https://max.ru/" data-city-max target="_blank" rel="noopener" aria-label="Max">
+          <span class="sticky-lead__ico"><svg class="icon-max-svg" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4f84ff" d="M12 2.1C5.7 2.5 1.5 7.8 1.8 14.2c.1 2.7 1.2 5.1 1.5 7.7.1.7-.1 1.5.6 1.8.9.4 2.4-.2 3.2-.8.3-.2.5-.4.7-.7.8.5 1.6 1.1 2.6 1.3 4.3 1 9-1.3 11.1-5.1C25.3 10.6 20 1.8 12 2.1Zm-2.4 14.9c-.3.3-.7.6-1 .8-.6.3-.7 0-.9-.5-.6-1.5-.7-4.1-.3-5.7.5-2.2 2.2-4.1 4.5-4.3 2.3-.2 4.5 1 5.5 3.1 2.2 4.8-3.4 9.5-7.8 6.6Z"/></svg></span>
+          <span>Max</span>
+        </a>
+        <a class="sticky-lead__btn sticky-lead__btn--tg" href="https://t.me/+73812901212" data-city-tg target="_blank" rel="noopener" aria-label="Telegram">
+          <span class="sticky-lead__ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.43 4.53 3.87 11.32c-1.2.47-1.19 1.13-.22 1.43l4.5 1.4 10.45-6.59c.5-.3.95-.13.58.18l-8.46 7.63-.33 4.72c.48 0 .69-.22.96-.48l2.3-2.24 4.78 3.53c.88.48 1.51.23 1.73-.81l3.13-14.74c.32-1.28-.49-1.86-1.36-1.42Z"/></svg></span>
+          <span>Telegram</span>
+        </a>
+        <a class="sticky-lead__btn sticky-lead__btn--phone" href="tel:+73812901212" data-city-tel aria-label="Позвонить">
+          <span class="sticky-lead__ico"><svg class="icon-phone-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path fill="currentColor" d="M7.2 3.6c.5-.5 1.3-.6 1.9-.3l2.1 1.2c.6.3.9 1 .7 1.7l-.6 2.1c-.1.4 0 .8.3 1.1l1.7 1.7c.3.3.7.4 1.1.3l2.1-.6c.7-.2 1.4.1 1.7.7l1.2 2.1c.3.6.2 1.4-.3 1.9l-1.1 1.1c-.5.5-1.2.7-1.9.6-1.9-.3-4.5-1.6-7-4.1s-3.8-5.1-4.1-7c-.1-.7.1-1.4.6-1.9l1.1-1.1Z"/></svg></span>
+          <span>Звонок</span>
+        </a>
       </div>
     </div>
   </div>

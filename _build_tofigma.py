@@ -306,8 +306,20 @@ PHONE_SVG = (
     "</svg>"
 )
 
+PHONE_SVG_SM = (
+    '<svg class="icon-phone-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">'
+    '<path fill="currentColor" d="M7.2 3.6c.5-.5 1.3-.6 1.9-.3l2.1 1.2c.6.3.9 1 .7 1.7l-.6 2.1c-.1.4 0 .8.3 1.1l1.7 1.7c.3.3.7.4 1.1.3l2.1-.6c.7-.2 1.4.1 1.7.7l1.2 2.1c.3.6.2 1.4-.3 1.9l-1.1 1.1c-.5.5-1.2.7-1.9.6-1.9-.3-4.5-1.6-7-4.1s-3.8-5.1-4.1-7c-.1-.7.1-1.4.6-1.9l1.1-1.1Z"/>'
+    "</svg>"
+)
+
 MAX_SVG_BLUE = (
     '<svg class="icon-max-svg" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">'
+    '<path fill="#4f84ff" d="M12 2.1C5.7 2.5 1.5 7.8 1.8 14.2c.1 2.7 1.2 5.1 1.5 7.7.1.7-.1 1.5.6 1.8.9.4 2.4-.2 3.2-.8.3-.2.5-.4.7-.7.8.5 1.6 1.1 2.6 1.3 4.3 1 9-1.3 11.1-5.1C25.3 10.6 20 1.8 12 2.1Zm-2.4 14.9c-.3.3-.7.6-1 .8-.6.3-.7 0-.9-.5-.6-1.5-.7-4.1-.3-5.7.5-2.2 2.2-4.1 4.5-4.3 2.3-.2 4.5 1 5.5 3.1 2.2 4.8-3.4 9.5-7.8 6.6Z"/>'
+    "</svg>"
+)
+
+MAX_SVG_BLUE_SM = (
+    '<svg class="icon-max-svg" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true">'
     '<path fill="#4f84ff" d="M12 2.1C5.7 2.5 1.5 7.8 1.8 14.2c.1 2.7 1.2 5.1 1.5 7.7.1.7-.1 1.5.6 1.8.9.4 2.4-.2 3.2-.8.3-.2.5-.4.7-.7.8.5 1.6 1.1 2.6 1.3 4.3 1 9-1.3 11.1-5.1C25.3 10.6 20 1.8 12 2.1Zm-2.4 14.9c-.3.3-.7.6-1 .8-.6.3-.7 0-.9-.5-.6-1.5-.7-4.1-.3-5.7.5-2.2 2.2-4.1 4.5-4.3 2.3-.2 4.5 1 5.5 3.1 2.2 4.8-3.4 9.5-7.8 6.6Z"/>'
     "</svg>"
 )
@@ -317,6 +329,38 @@ MAX_SVG_WHITE = (
     '<path fill="#ffffff" d="M12 2.1C5.7 2.5 1.5 7.8 1.8 14.2c.1 2.7 1.2 5.1 1.5 7.7.1.7-.1 1.5.6 1.8.9.4 2.4-.2 3.2-.8.3-.2.5-.4.7-.7.8.5 1.6 1.1 2.6 1.3 4.3 1 9-1.3 11.1-5.1C25.3 10.6 20 1.8 12 2.1Zm-2.4 14.9c-.3.3-.7.6-1 .8-.6.3-.7 0-.9-.5-.6-1.5-.7-4.1-.3-5.7.5-2.2 2.2-4.1 4.5-4.3 2.3-.2 4.5 1 5.5 3.1 2.2 4.8-3.4 9.5-7.8 6.6Z"/>'
     "</svg>"
 )
+
+TG_SVG_SM = (
+    '<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">'
+    '<path d="M21.43 4.53 3.87 11.32c-1.2.47-1.19 1.13-.22 1.43l4.5 1.4 10.45-6.59c.5-.3.95-.13.58.18l-8.46 7.63-.33 4.72c.48 0 .69-.22.96-.48l2.3-2.24 4.78 3.53c.88.48 1.51.23 1.73-.81l3.13-14.74c.32-1.28-.49-1.86-1.36-1.42Z"/>'
+    "</svg>"
+)
+
+# Static lead bar — main.js injects this live; tofigma must bake it in for capture
+STICKY_LEAD_HTML = f'''
+  <div class="sticky-lead" data-sticky-lead data-tofigma-hard>
+    <div class="sticky-lead__inner">
+      <a class="sticky-lead__call" href="tel:+73812901212" data-city-tel>
+        <span class="sticky-lead__label">Вызов врача</span>
+        <strong class="sticky-lead__phone" data-city-phone>+7 (3812) 90-12-12</strong>
+      </a>
+      <div class="sticky-lead__actions">
+        <a class="sticky-lead__btn sticky-lead__btn--max" href="https://max.ru/" data-city-max target="_blank" rel="noopener" aria-label="Max">
+          <span class="sticky-lead__ico">{MAX_SVG_BLUE_SM}</span>
+          <span>Max</span>
+        </a>
+        <a class="sticky-lead__btn sticky-lead__btn--tg" href="https://t.me/+73812901212" data-city-tg target="_blank" rel="noopener" aria-label="Telegram">
+          <span class="sticky-lead__ico">{TG_SVG_SM}</span>
+          <span>Telegram</span>
+        </a>
+        <a class="sticky-lead__btn sticky-lead__btn--phone" href="tel:+73812901212" data-city-tel aria-label="Позвонить">
+          <span class="sticky-lead__ico">{PHONE_SVG_SM}</span>
+          <span>Звонок</span>
+        </a>
+      </div>
+    </div>
+  </div>
+'''
 
 FIGMA_OVERRIDES = """
 /* === html-to-figma capture profile ===
@@ -331,7 +375,9 @@ FIGMA_OVERRIDES = """
 
 .preloader,
 .mnav,
-.geo:not(.is-open) {
+.geo,
+.modal,
+.float-call {
   display: none !important;
 }
 
@@ -348,7 +394,7 @@ FIGMA_OVERRIDES = """
   visibility: visible !important;
 }
 
-/* Sticky/fixed → document flow (capture is at scrollY=0; sticky mid-page is wrong) */
+/* Fixed header → document flow (no double offset) */
 .header {
   position: relative !important;
   top: auto !important;
@@ -357,31 +403,71 @@ FIGMA_OVERRIDES = """
   background: #ffffff !important;
   box-shadow: 0 1px 0 rgba(30, 50, 120, 0.06) !important;
 }
+body,
+body.has-sticky-lead {
+  padding-top: 0 !important;
+  padding-bottom: 140px !important;
+}
 .svc-side,
 .doc-panel {
   position: relative !important;
   top: auto !important;
 }
 
-/* Fixed chrome → absolute in page end zone so they still paint without covering content wrongly */
-.float-call,
-.cookie {
+/* Sticky lead — absolute in page bottom, no blur / translateX */
+.sticky-lead {
   position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 24px !important;
+  width: min(600px, calc(100% - 24px)) !important;
+  margin: 0 auto !important;
+  transform: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  background: #ffffff !important;
+  border: 1px solid #e7ebf4 !important;
+  box-shadow: 0 18px 50px rgba(22, 25, 36, 0.12), 0 4px 14px rgba(55, 90, 180, 0.08) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: none !important;
 }
+.sticky-lead:hover {
+  transform: none !important;
+}
+.sticky-lead__call {
+  animation: none !important;
+  filter: none !important;
+}
+.sticky-lead__call::after {
+  display: none !important;
+}
+.sticky-lead__ico,
+.sticky-lead__btn .sticky-lead__ico {
+  animation: none !important;
+  transform: none !important;
+  filter: none !important;
+}
+.sticky-lead .icon-phone-svg,
+.sticky-lead .icon-max-svg {
+  display: block !important;
+  width: 15px !important;
+  height: 15px !important;
+  color: #4f84ff;
+}
+
+/* Cookie bar */
 .cookie {
+  position: absolute !important;
   left: 16px !important;
   right: 16px !important;
   bottom: 16px !important;
   width: auto !important;
   max-width: 720px !important;
   margin: 0 auto !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   background: #161924 !important;
-}
-.float-call {
-  right: 16px !important;
-  bottom: 88px !important;
 }
 
 body.is-lock {
@@ -410,13 +496,22 @@ body.is-lock {
 .icon-btn .icon-max,
 .footer__msg .icon-max,
 .footer .icon-max,
-.mnav .icon-max {
+.mnav .icon-max,
+.sticky-lead .icon-max {
   filter: none !important;
 }
 .gallery img,
 .cat-card img,
-.promo img {
+.promo img,
+.person__photo img,
+.doctor__photo img {
   filter: none !important;
+}
+
+/* Header icon buttons — readable stroke on white */
+.icon-btn {
+  border-color: rgba(79, 132, 255, 0.28) !important;
+  background: rgba(79, 132, 255, 0.04) !important;
 }
 
 /* Marquee: static strip, no fade-mask / motion */
@@ -436,12 +531,24 @@ body.is-lock {
   transform: none !important;
 }
 
-/* Pseudo circles: explicit px size (aspect-ratio alone is fragile) */
-.hero__visual::before {
+/* Pseudo circles + hero orbit: explicit px size */
+.hero__visual::before,
+.hero__orbit {
   width: 640px !important;
   height: 640px !important;
   aspect-ratio: auto !important;
+  animation: none !important;
+  transform: none !important;
+  will-change: auto !important;
+  filter: none !important;
+}
+.hero__visual::before {
   background: #ffffff !important;
+  border-radius: 50% !important;
+}
+.hero__orbit {
+  overflow: hidden !important;
+  pointer-events: none !important;
 }
 .cta__box::after {
   width: 280px !important;
@@ -456,6 +563,16 @@ body.is-lock {
   height: 8px !important;
   border-radius: 50% !important;
   background: #4f84ff !important;
+}
+
+/* Kill fragile paint modes */
+* {
+  clip-path: none !important;
+  -webkit-clip-path: none !important;
+  mix-blend-mode: normal !important;
+  text-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 /* Accordion: expand all answers for capture */
@@ -473,6 +590,15 @@ body.is-lock {
 }
 .acc__panel > div {
   overflow: visible !important;
+}
+
+/* Calc: show first step options */
+.calc-opts[hidden],
+.calc__back[hidden] {
+  display: none !important;
+}
+.calc-opts:not([hidden]) {
+  display: flex !important;
 }
 
 /* Modal/geo overlays in hard panels — never fixed */
@@ -511,7 +637,9 @@ body.is-lock {
 .person:hover,
 .promo:hover,
 .cat-card:hover,
-.offer:hover {
+.offer:hover,
+.sticky-lead__btn:hover,
+.sticky-lead__btn:hover .sticky-lead__ico {
   transform: none !important;
 }
 
@@ -892,6 +1020,40 @@ def inject_overlays(html: str) -> str:
     return html
 
 
+def inject_sticky_lead(html: str) -> str:
+    """Bake sticky lead bar into DOM (live site injects via JS)."""
+    # Drop legacy float-call if present
+    html = re.sub(
+        r'<a\b[^>]*class="[^"]*\bfloat-call\b[^"]*"[^>]*>[\s\S]*?</a>',
+        "",
+        html,
+        flags=re.I,
+    )
+
+    def add_body_class(m):
+        attrs = m.group(1) or ""
+        if "has-sticky-lead" in attrs:
+            return m.group(0)
+        if re.search(r'\bclass="', attrs):
+            attrs = re.sub(r'\bclass="([^"]*)"', r'class="\1 has-sticky-lead"', attrs, count=1)
+        elif re.search(r"\bclass='", attrs):
+            attrs = re.sub(r"\bclass='([^']*)'", r"class='\1 has-sticky-lead'", attrs, count=1)
+        else:
+            attrs = attrs + ' class="has-sticky-lead"'
+        return f"<body{attrs}>"
+
+    html = re.sub(r"<body([^>]*)>", add_body_class, html, count=1, flags=re.I)
+
+    if "data-sticky-lead" in html:
+        return html
+
+    if re.search(r"</body>", html, re.I):
+        html = re.sub(r"</body>", STICKY_LEAD_HTML + "\n</body>", html, count=1, flags=re.I)
+    else:
+        html += STICKY_LEAD_HTML
+    return html
+
+
 def inject_figma_panels(html: str, name: str) -> str:
     # Full overlay panels on key/unique pages only
     if name not in {
@@ -962,7 +1124,19 @@ def figma_tune_html(html: str) -> str:
     html = html.replace('class="acc__item"', 'class="acc__item is-open"')
     html = html.replace("class='acc__item'", "class='acc__item is-open'")
 
-    # Remove empty hidden calc form clutter? keep for completeness
+    # Drop live JS — all dynamic UI is already baked for capture
+    html = re.sub(
+        r'<script\b[^>]*\bsrc=["\'][^"\']*main\.js["\'][^>]*>\s*</script>',
+        "",
+        html,
+        flags=re.I,
+    )
+    html = re.sub(
+        r'<script\b[^>]*\bsrc=["\'][^"\']*main\.js["\'][^>]*/>',
+        "",
+        html,
+        flags=re.I,
+    )
 
     # data-hidden geo pick: remove hidden attr in closed geo (already display:none whole geo)
     return html
@@ -982,6 +1156,7 @@ def harden(html: str, name: str) -> str:
     html = mark_reveals_and_splits(html)
     html = inject_overlays(html)
     html = inject_figma_panels(html, name)
+    html = inject_sticky_lead(html)
     html = figma_tune_html(html)
     return html
 
@@ -1018,14 +1193,17 @@ def main():
     (OUT / "README.txt").write_text(
         "HTML+CSS в одном файле для html-to-figma (Playwright DOM capture).\n\n"
         "Картинки: ../images/\n"
-        "JS-контент зашит: город, cookie, mega-меню, футер услуг, счётчики, калькулятор.\n\n"
-        "Профиль под плагин (shared/capture-script.ts):\n"
-        "- нет mask/filter/backdrop-filter/transform\n"
+        "JS-контент зашит: город, cookie, mega-меню, футер услуг, счётчики,\n"
+        "калькулятор, sticky-lead (Max / Telegram / Звонок).\n\n"
+        "Профиль под плагин (shared/capture-script.ts + prepareStaticPage):\n"
+        "- нет mask/filter/backdrop-filter/transform/clip-path\n"
         "- sticky/fixed → relative/absolute\n"
+        "- header relative, body без padding-top\n"
+        "- sticky-lead absolute снизу, без blur\n"
+        "- hero__orbit заморожен, диск с явным width/height\n"
         "- телефон и Max — inline SVG (не CSS mask/filter)\n"
-        "- images loading=eager\n"
-        "- marquee без анимации\n"
-        "- псевдо-круги с явным width/height\n\n"
+        "- images loading=eager, FAQ раскрыт\n"
+        "- marquee без анимации\n\n"
         "Импорт: npm run server в html-to-figma → плагин → папка tofigma → Desktop 1440.\n"
         "Пересборка: python _build_tofigma.py\n",
         encoding="utf-8",
