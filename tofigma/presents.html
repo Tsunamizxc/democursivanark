@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Разработка макета — Cursiva</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path fill='%234f84ff' d='M16 1.8c1.7 5.6 5.8 9.7 11.4 11.4C21.8 15 17.7 19.1 16 24.7 14.3 19.1 10.2 15 4.6 13.2 10.2 11.5 14.3 7.4 16 1.8Z'/></svg>">
+  <style>
+    :root {
+      --blue: #4f84ff;
+      --blue-soft: #7aa3ff;
+      --ink: #161924;
+      --white: #ffffff;
+      --font: "Manrope", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    body {
+      font-family: var(--font);
+      color: var(--white);
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 20%, rgba(79, 132, 255, 0.28), transparent 55%),
+        radial-gradient(ellipse 70% 50% at 15% 85%, rgba(59, 111, 240, 0.18), transparent 50%),
+        var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+    }
+    .presents {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      max-width: 920px;
+      animation: rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .presents__mark {
+      width: 42px;
+      height: 42px;
+      color: var(--blue);
+    }
+    .presents__text {
+      font-size: clamp(22px, 4.2vw, 40px);
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      line-height: 1.2;
+    }
+    .presents__text span {
+      color: var(--blue-soft);
+    }
+    .presents__logo {
+      display: block;
+      margin-top: 8px;
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
+      opacity: 0.95;
+    }
+    .presents__logo img {
+      width: min(280px, 62vw);
+      height: auto;
+      display: block;
+    }
+    .presents__logo:hover {
+      transform: translateY(-4px);
+      opacity: 1;
+    }
+    .presents__hint {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.38);
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .presents { animation: none; }
+      .presents__logo { transition: none; }
+    }
+  </style>
+<style>*,*::before,*::after{animation:none!important;transition:none!important}</style>
+</head>
+<body>
+  <main class="presents">
+    <svg class="presents__mark" viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 1.8c1.7 5.6 5.8 9.7 11.4 11.4C21.8 15 17.7 19.1 16 24.7 14.3 19.1 10.2 15 4.6 13.2 10.2 11.5 14.3 7.4 16 1.8Z"/></svg>
+    <p class="presents__text">Разработка макета<br><span>веб-студия Cursiva</span></p>
+    <a class="presents__logo" href="https://cursiva.ru/" target="_blank" rel="noopener" aria-label="Веб-студия Cursiva">
+      <img src="../images/cursiva-logo-white.png" alt="Cursiva — веб-студия" width="280" height="90" decoding="async">
+    </a>
+    <p class="presents__hint">cursiva.ru</p>
+  </main>
+</body>
+</html>
