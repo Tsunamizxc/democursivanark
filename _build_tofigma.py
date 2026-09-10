@@ -281,15 +281,50 @@ FOOT_DISC = (
     "</p>"
 )
 
-CALC_OPTS = (
-    '<button type="button">Алкоголизм</button>'
-    '<button type="button">Наркомания</button>'
-    '<button type="button">Игровая зависимость</button>'
-    '<button type="button">Токсикомания</button>'
-    '<button type="button">Срочный запой</button>'
+CALC_CATS = (
+    '<button type="button" role="tab" data-cat="0" class="is-on" aria-selected="true">Кодирование от алкоголизма</button>'
+    '<button type="button" role="tab" data-cat="1" aria-selected="false">Лечение алкоголизма</button>'
+    '<button type="button" role="tab" data-cat="2" aria-selected="false">Наркологическая помощь</button>'
+    '<button type="button" role="tab" data-cat="3" aria-selected="false">Лечение наркомании</button>'
+    '<button type="button" role="tab" data-cat="4" aria-selected="false">Прокапаться от алкоголя</button>'
+    '<button type="button" role="tab" data-cat="5" aria-selected="false">Срочный вывод из запоя</button>'
+    '<button type="button" role="tab" data-cat="6" aria-selected="false">Нарколог на дом</button>'
+    '<button type="button" role="tab" data-cat="7" aria-selected="false">Капельницы от алкоголя</button>'
 )
 
-CALC_DOTS = '<i class="is-on"></i><i></i><i></i><i></i>'
+CALC_SERVICES = (
+    '<a href="service-code.html">Кодирование</a>'
+    '<a href="service-code-dovzhenko.html">По Довженко</a>'
+    '<a href="service-code-hypnosis.html">Гипноз</a>'
+    '<a href="service-code-implant.html">Вшивание ампулы</a>'
+    '<a href="service-code-torpedo.html">Торпедо</a>'
+    '<a href="service-code-esperal.html">Эспераль</a>'
+    '<a href="service-code-double.html">Двойной блок</a>'
+    '<a href="service-code-shot.html">Укол</a>'
+    '<a href="service-code-vivitrol.html">Вивитрол</a>'
+    '<a href="service-code-naltrexone.html">Налтрексон</a>'
+    '<a href="service-code-disulfiram.html">Дисульфирам</a>'
+    '<a href="service-code-home.html">Кодирование на дому</a>'
+)
+
+MNAV_CONTACT = (
+    '<div class="mnav-contact" data-mnav-contact data-tofigma-hard>'
+    '<a class="mnav-contact__phone" href="tel:+78001001212">8 800 100-12-12</a>'
+    '<span class="mnav-contact__hint">Бесплатно по России</span>'
+    '<p class="mnav-contact__addr">Контакт-центр: ул. Ленина, 12</p>'
+    "</div>"
+)
+
+PD_REC = (
+    '<div class="pd-rec" data-pd-rec data-tofigma-hard>'
+    '<div class="pd-rec__top">'
+    '<span class="pd-rec__brand">ПроДокторов</span>'
+    '<span class="pd-rec__score">4.8 <i>★</i></span>'
+    "</div>"
+    "<p>Рекомендация пациентов на ПроДокторов: клиника Альба — анонимная наркологическая помощь с выездом и стационаром.</p>"
+    '<a href="https://prodoctorov.ru/" target="_blank" rel="noopener">Смотреть рекомендации</a>'
+    "</div>"
+)
 
 SELECT_EXTRA = [
     "Лечение алкоголизма",
@@ -319,8 +354,8 @@ MAX_SVG_BLUE = (
 )
 
 MAX_SVG_BLUE_SM = (
-    '<svg class="icon-max-svg" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true">'
-    '<path fill="#4f84ff" d="M12 2.1C5.7 2.5 1.5 7.8 1.8 14.2c.1 2.7 1.2 5.1 1.5 7.7.1.7-.1 1.5.6 1.8.9.4 2.4-.2 3.2-.8.3-.2.5-.4.7-.7.8.5 1.6 1.1 2.6 1.3 4.3 1 9-1.3 11.1-5.1C25.3 10.6 20 1.8 12 2.1Zm-2.4 14.9c-.3.3-.7.6-1 .8-.6.3-.7 0-.9-.5-.6-1.5-.7-4.1-.3-5.7.5-2.2 2.2-4.1 4.5-4.3 2.3-.2 4.5 1 5.5 3.1 2.2 4.8-3.4 9.5-7.8 6.6Z"/>'
+    '<svg class="icon-max-svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">'
+    '<path fill="#6b5cff" d="M12 2.1C5.7 2.5 1.5 7.8 1.8 14.2c.1 2.7 1.2 5.1 1.5 7.7.1.7-.1 1.5.6 1.8.9.4 2.4-.2 3.2-.8.3-.2.5-.4.7-.7.8.5 1.6 1.1 2.6 1.3 4.3 1 9-1.3 11.1-5.1C25.3 10.6 20 1.8 12 2.1Zm-2.4 14.9c-.3.3-.7.6-1 .8-.6.3-.7 0-.9-.5-.6-1.5-.7-4.1-.3-5.7.5-2.2 2.2-4.1 4.5-4.3 2.3-.2 4.5 1 5.5 3.1 2.2 4.8-3.4 9.5-7.8 6.6Z"/>'
     "</svg>"
 )
 
@@ -331,7 +366,7 @@ MAX_SVG_WHITE = (
 )
 
 TG_SVG_SM = (
-    '<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">'
+    '<svg width="20" height="20" viewBox="0 0 24 24" fill="#2aabee" aria-hidden="true">'
     '<path d="M21.43 4.53 3.87 11.32c-1.2.47-1.19 1.13-.22 1.43l4.5 1.4 10.45-6.59c.5-.3.95-.13.58.18l-8.46 7.63-.33 4.72c.48 0 .69-.22.96-.48l2.3-2.24 4.78 3.53c.88.48 1.51.23 1.73-.81l3.13-14.74c.32-1.28-.49-1.86-1.36-1.42Z"/>'
     "</svg>"
 )
@@ -341,21 +376,18 @@ STICKY_LEAD_HTML = f'''
   <div class="sticky-lead" data-sticky-lead data-tofigma-hard>
     <div class="sticky-lead__inner">
       <a class="sticky-lead__call" href="tel:+73812901212" data-city-tel>
-        <span class="sticky-lead__label">Вызов врача</span>
+        <span class="sticky-lead__label">Вызвать нарколога на дом</span>
         <strong class="sticky-lead__phone" data-city-phone>+7 (3812) 90-12-12</strong>
       </a>
       <div class="sticky-lead__actions">
         <a class="sticky-lead__btn sticky-lead__btn--max" href="https://max.ru/" data-city-max target="_blank" rel="noopener" aria-label="Max">
           <span class="sticky-lead__ico">{MAX_SVG_BLUE_SM}</span>
-          <span>Max</span>
         </a>
         <a class="sticky-lead__btn sticky-lead__btn--tg" href="https://t.me/+73812901212" data-city-tg target="_blank" rel="noopener" aria-label="Telegram">
           <span class="sticky-lead__ico">{TG_SVG_SM}</span>
-          <span>Telegram</span>
         </a>
         <a class="sticky-lead__btn sticky-lead__btn--phone" href="tel:+73812901212" data-city-tel aria-label="Позвонить">
           <span class="sticky-lead__ico">{PHONE_SVG_SM}</span>
-          <span>Звонок</span>
         </a>
       </div>
     </div>
@@ -420,7 +452,8 @@ body.has-sticky-lead {
   left: 0 !important;
   right: 0 !important;
   bottom: 24px !important;
-  width: min(600px, calc(100% - 24px)) !important;
+  width: max-content !important;
+  max-width: calc(100% - 24px) !important;
   margin: 0 auto !important;
   transform: none !important;
   backdrop-filter: none !important;
@@ -487,10 +520,20 @@ body.is-lock {
 .icon-phone-svg,
 .icon-max-svg {
   display: block !important;
-  width: 18px !important;
-  height: 18px !important;
+  width: 20px !important;
+  height: 20px !important;
   flex-shrink: 0;
   color: #4f84ff;
+}
+.sticky-lead__btn--tg .icon-phone-svg,
+.sticky-lead__btn--tg svg {
+  color: #2aabee !important;
+  fill: #2aabee !important;
+}
+.sticky-lead__btn--max .icon-max-svg,
+.sticky-lead__btn--max .icon-max-svg path {
+  color: #6b5cff !important;
+  fill: #6b5cff !important;
 }
 .footer .icon-phone-svg { color: #ffffff; }
 .icon-btn .icon-max,
@@ -799,6 +842,13 @@ def enrich_programs_nav(html: str) -> str:
 
 
 def enrich_mnav(html: str) -> str:
+    if "data-mnav" in html and "data-mnav-contact" not in html:
+        html = re.sub(
+            r'(<nav class="mnav"[^>]*>)',
+            r"\1\n    " + MNAV_CONTACT,
+            html,
+            count=1,
+        )
     if "data-extra-mnav" in html:
         return html
     # insert after prices.html link if present
@@ -909,29 +959,49 @@ def fill_counters(html: str) -> str:
 
 
 def fill_calc(html: str) -> str:
-    if "data-calc-opts" not in html:
+    if "data-calc" not in html:
         return html
     html = re.sub(
-        r'(<div class="calc__steps" data-calc-dots)\s*>\s*</div>',
-        r'\1>' + CALC_DOTS + "</div>",
+        r'(<div class="calc__cats" data-calc-cats[^>]*>)\s*</div>',
+        r"\1" + CALC_CATS + "</div>",
         html,
     )
     html = re.sub(
-        r'(<div class="calc__steps" data-calc-dots></div>)',
-        '<div class="calc__steps" data-calc-dots>' + CALC_DOTS + "</div>",
+        r'(<div class="calc-opts calc-services" data-calc-opts)\s*>\s*</div>',
+        r'\1>' + CALC_SERVICES + "</div>",
         html,
     )
     html = re.sub(
         r'(<div class="calc-opts" data-calc-opts)\s*>\s*</div>',
-        r'\1>' + CALC_OPTS + "</div>",
+        r'\1 class="calc-services">' + CALC_SERVICES + "</div>",
         html,
     )
     html = re.sub(
         r'(<h3 data-calc-q>)[^<]*(</h3>)',
-        r"\1Что сейчас важнее?\2",
+        r"\1Кодирование от алкоголизма\2",
         html,
     )
+    # show calc form in tofigma snapshot
+    html = re.sub(
+        r'(<div class="form" data-calc-form)\s+hidden>',
+        r"\1>",
+        html,
+        count=1,
+    )
     return html
+
+
+def inject_pd_rec(html: str, src_name: str) -> str:
+    if not src_name.startswith("service-"):
+        return html
+    if "data-pd-rec" in html or "svc-side" not in html:
+        return html
+    return re.sub(
+        r'(<aside class="svc-side"[^>]*>)([\s\S]*?)(</aside>)',
+        lambda m: m.group(1) + m.group(2) + "\n        " + PD_REC + "\n      " + m.group(3),
+        html,
+        count=1,
+    )
 
 
 def duplicate_marquee(html: str) -> str:
@@ -1151,6 +1221,7 @@ def harden(html: str, name: str) -> str:
     html = fill_year(html)
     html = fill_counters(html)
     html = fill_calc(html)
+    html = inject_pd_rec(html, name)
     html = duplicate_marquee(html)
     html = enrich_selects(html)
     html = mark_reveals_and_splits(html)

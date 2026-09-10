@@ -68,6 +68,11 @@
   </header>
 
     <nav class="mnav" data-mnav>
+    <div class="mnav-contact" data-mnav-contact>
+      <a class="mnav-contact__phone" href="tel:+78001001212">8 800 100-12-12</a>
+      <span class="mnav-contact__hint">Бесплатно по России</span>
+      <p class="mnav-contact__addr">Контакт-центр: ул. Ленина, 12</p>
+    </div>
     <a href="about.html">О нас</a>
     <a href="gallery.html">Галерея</a>
     <a href="licenses.html">Лицензии</a>
@@ -85,19 +90,28 @@
     <div class="wrap">
       <section class="hero">
         <div class="hero__content">
-          <h1 class="split">Современная наркология<br>с полной анонимностью</h1>
-          <p class="hero__lead" data-reveal>Врач на связи за минуты. Без огласки, без потери достоинства — сертифицированные протоколы и круглосуточное сопровождение.</p>
-          <div class="hero__cta" data-reveal data-delay="80">
-            <a class="btn btn--light" href="tel:+73812901212" data-city-tel>Вызвать врача сейчас <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
-            <a class="btn btn--ghost" href="#" data-open-modal>Получить консультацию</a>
+          <h1 class="split">Альба — клиника анонимной наркологической помощи <span data-city-prep>в Омске</span></h1>
+          <p class="hero__lead" data-reveal>7 мобильных бригад сертифицированных врачей. Капельница от алкоголя на дому.<br>Наркологическая помощь. Круглосуточный стационар</p>
+          <p class="hero__paylater" data-reveal data-delay="40">Лечитесь сейчас — платите потом</p>
+          <div class="hero-lead-form form" data-reveal data-delay="60">
+            <form data-form>
+              <div class="form__fields">
+                <label for="hero-phone">Телефон</label>
+                <input id="hero-phone" name="phone" type="tel" placeholder="+7 (" required autocomplete="tel">
+                <div class="hero-lead-form__actions">
+                  <button class="btn btn--blue" type="submit">Оставить заявку</button>
+                  <a class="btn btn--ghost" href="#calc">Рассчитать лечение</a>
+                </div>
+              </div>
+              <div class="form__ok">
+                <strong>Спасибо!</strong>
+                <p>Заявка принята. Дежурный врач перезвонит в ближайшее время.</p>
+              </div>
+            </form>
           </div>
-          <div class="hero-chips" data-reveal data-delay="120">
-            <a href="service-zapoy.html">Срочный вывод из запоя</a>
-            <a href="service-code.html">Кодирование</a>
-            <a href="service-rehab.html">Реабилитация</a>
-            <a href="service-visit.html">Выезд врача</a>
-            <a href="service-alcohol.html">Алкоголизм</a>
-            <a href="service-drugs.html">Наркомания</a>
+          <div class="hero__cta" data-reveal data-delay="80">
+            <a class="btn btn--light" href="tel:+73812901212" data-city-tel>Вызвать врача <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+            <a class="btn btn--ghost" href="#" data-open-modal>Получить бесплатную консультацию</a>
           </div>
           <div class="hero__rating" data-reveal data-delay="160">
             <div>
@@ -128,18 +142,17 @@
       </section>
     </div>
 
-    <section class="calc wrap" data-calc>
-      <div class="calc__box" data-reveal>
-        <div>
-          <h2 class="section-title">Не угадывайте программу<br>в два часа ночи</h2>
-          <p>Четыре коротких вопроса. Врач назовёт сумму и маршрут — дом или палата — до выезда.</p>
+    <section class="calc wrap" id="calc" data-calc>
+      <div class="calc__box">
+        <div class="calc__intro">
+          <h2 class="section-title">Подберите услугу<br>и рассчитайте лечение</h2>
+          <p>Выберите категорию — откроется список услуг с переходом на детальную страницу.</p>
         </div>
-        <div>
-          <div class="calc__steps" data-calc-dots role="status" aria-label="Шаги опроса"></div>
+        <div data-reveal data-delay="80" class="calc__panel-wrap">
+          <div class="calc__cats" data-calc-cats role="tablist" aria-label="Категории услуг"></div>
           <div class="calc__panel" data-calc-panel>
-            <h3 data-calc-q>Что сейчас важнее?</h3>
-            <div class="calc-opts" data-calc-opts></div>
-            <div class="calc-summary" data-calc-summary hidden></div>
+            <h3 data-calc-q>Выберите категорию</h3>
+            <div class="calc-opts calc-services" data-calc-opts></div>
             <div class="form" data-calc-form hidden>
               <form data-form>
                 <div class="form__fields">
@@ -154,9 +167,6 @@
                 </div>
               </form>
             </div>
-          </div>
-          <div class="calc__nav">
-            <button class="btn btn--line" type="button" data-calc-back hidden>Назад</button>
           </div>
         </div>
       </div>

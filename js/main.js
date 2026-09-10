@@ -67,6 +67,14 @@
     }
 
     const mnav = doc.querySelector("[data-mnav]");
+    if (mnav && !mnav.querySelector("[data-mnav-contact]")) {
+      mnav.insertAdjacentHTML("afterbegin",
+        '<div class="mnav-contact" data-mnav-contact>' +
+          '<a class="mnav-contact__phone" href="tel:+78001001212">8 800 100-12-12</a>' +
+          '<span class="mnav-contact__hint">Бесплатно по России</span>' +
+          '<p class="mnav-contact__addr">Контакт-центр: ул. Ленина, 12</p>' +
+        "</div>");
+    }
     if (mnav && !mnav.querySelector("[data-open-city]")) {
       const mb = doc.createElement("button");
       mb.type = "button";
@@ -178,12 +186,13 @@
       });
     };
     body.classList.add("is-lock");
-    window.addEventListener("load", () => setTimeout(done, 400));
-    setTimeout(done, 1200);
+    window.addEventListener("load", () => setTimeout(done, 200));
+    setTimeout(done, 900);
   };
 
   const splitHeadings = () => {
     doc.querySelectorAll(".split").forEach((el) => {
+      if (el.querySelector("[data-city-license], [data-city-prep]")) return;
       const html = el.innerHTML.trim();
       const parts = html.split(/<br\s*\/?>/i);
       el.innerHTML = parts.map((line) =>
@@ -194,21 +203,43 @@
 
   const tilt = () => {
     if (matchMedia("(pointer: coarse)").matches) return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     doc.querySelectorAll("[data-tilt]").forEach((card) => {
+      let raf = 0;
+      let lastX = 0;
+      let lastY = 0;
       card.addEventListener("mousemove", (e) => {
-        const r = card.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width;
-        const py = (e.clientY - r.top) / r.height;
-        card.style.transform = "perspective(800px) rotateX(" + ((0.5 - py) * 6) + "deg) rotateY(" + ((px - 0.5) * 8) + "deg) translateY(-4px)";
+        lastX = e.clientX;
+        lastY = e.clientY;
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          raf = 0;
+          const r = card.getBoundingClientRect();
+          const px = (lastX - r.left) / r.width;
+          const py = (lastY - r.top) / r.height;
+          card.style.transform = "perspective(800px) rotateX(" + ((0.5 - py) * 5) + "deg) rotateY(" + ((px - 0.5) * 6) + "deg) translateY(-3px)";
+        });
+      }, { passive: true });
+      card.addEventListener("mouseleave", () => {
+        if (raf) cancelAnimationFrame(raf);
+        raf = 0;
+        card.style.transform = "";
       });
-      card.addEventListener("mouseleave", () => { card.style.transform = ""; });
     });
   };
 
   const header = () => {
     const el = doc.querySelector("[data-header]");
     if (!el) return;
-    const onScroll = () => el.classList.toggle("is-scrolled", scrollY > 8);
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        el.classList.toggle("is-scrolled", scrollY > 8);
+        ticking = false;
+      });
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
   };
@@ -586,7 +617,8 @@
     }
 
     doc.querySelectorAll("a[data-city-max]").forEach((a) => {
-      if (a.querySelector(".icon-max")) return;
+      if (a.closest("[data-sticky-lead]") || a.classList.contains("sticky-lead__btn")) return;
+      if (a.querySelector(".icon-max, .icon-max-svg, .sticky-lead__ico")) return;
       const icon = doc.createElement("img");
       icon.className = "icon-max";
       icon.src = "images/Max_logo.svg";
@@ -614,128 +646,181 @@
   const calc = () => {
     const root = doc.querySelector("[data-calc]");
     if (!root) return;
-    const steps = [
-      { q: "Что сейчас важнее?", short: "Запрос", opts: ["Алкоголизм", "Наркомания", "Игровая зависимость", "Токсикомания", "Срочный запой"] },
-      { q: "Какой горизонт нужен?", short: "Цель", opts: ["Снять острое состояние", "Закрепить результат кодированием", "Полная реабилитация"] },
-      { q: "Кому нужна помощь?", short: "Кому", opts: ["Мне", "Мужу или жене", "Сыну или дочери 18+", "Близкому"] },
-      { q: "Человек готов разговаривать с врачом?", short: "Готовность", opts: ["Да, сам просит помощи", "Сомневается", "Пока отказывается"] }
+    const cats = [
+      {
+        id: "code",
+        title: "Кодирование от алкоголизма",
+        services: [
+          ["service-code.html", "Кодирование"],
+          ["service-code-dovzhenko.html", "По Довженко"],
+          ["service-code-hypnosis.html", "Гипноз"],
+          ["service-code-implant.html", "Вшивание ампулы"],
+          ["service-code-torpedo.html", "Торпедо"],
+          ["service-code-esperal.html", "Эспераль"],
+          ["service-code-double.html", "Двойной блок"],
+          ["service-code-shot.html", "Укол"],
+          ["service-code-vivitrol.html", "Вивитрол"],
+          ["service-code-naltrexone.html", "Налтрексон"],
+          ["service-code-disulfiram.html", "Дисульфирам"],
+          ["service-code-home.html", "Кодирование на дому"]
+        ]
+      },
+      {
+        id: "alcohol",
+        title: "Лечение алкоголизма",
+        services: [
+          ["service-alcohol.html", "Лечение алкоголизма"],
+          ["service-alcohol-women.html", "Женский алкоголизм"],
+          ["service-alcohol-men.html", "Мужской алкоголизм"],
+          ["service-alcohol-beer.html", "Пивной алкоголизм"],
+          ["service-alcohol-wine.html", "Винный алкоголизм"],
+          ["service-alcohol-elderly.html", "Старческий алкоголизм"],
+          ["service-alcohol-home.html", "Лечение на дому"],
+          ["service-alcohol-shichko.html", "Метод Шичко"],
+          ["service-rehab-alcohol.html", "Реабилитация алкозависимости"]
+        ]
+      },
+      {
+        id: "help",
+        title: "Наркологическая помощь",
+        services: [
+          ["service-help.html", "Наркологическая помощь"],
+          ["service-ambulance.html", "Наркологическая скорая"],
+          ["service-detox.html", "Детокс 24/7"],
+          ["service-consult.html", "Консультация нарколога"],
+          ["service-withdrawal.html", "Снятие ломки"],
+          ["service-ubod.html", "УБОД"],
+          ["service-sober.html", "Частный вытрезвитель"]
+        ]
+      },
+      {
+        id: "drugs",
+        title: "Лечение наркомании",
+        services: [
+          ["service-drugs.html", "Лечение наркомании"],
+          ["service-drugs-code.html", "Кодировка от наркозависимости"],
+          ["service-drugs-heroin.html", "Героин"],
+          ["service-drugs-methadone.html", "Метадон"],
+          ["service-drugs-mephedrone.html", "Мефедрон"],
+          ["service-drugs-salts.html", "Соли"],
+          ["service-drugs-spice.html", "Спайс"],
+          ["service-drugs-cocaine.html", "Кокаин"],
+          ["service-drugs-amphetamine.html", "Амфетамин"],
+          ["service-drugs-cannabis.html", "Марихуана"],
+          ["service-drugs-toxico.html", "Токсикомания"]
+        ]
+      },
+      {
+        id: "drip",
+        title: "Прокапаться от алкоголя",
+        services: [
+          ["service-alcohol-hangover.html", "Капельница от похмелья"],
+          ["service-alcohol-shot.html", "Укол от алкоголизма"],
+          ["service-zapoy.html", "Капельница при запое"],
+          ["service-detox.html", "Инфузионная терапия в стационаре"]
+        ]
+      },
+      {
+        id: "zapoy",
+        title: "Срочный вывод из запоя",
+        services: [
+          ["service-zapoy.html", "Вывод из запоя"],
+          ["service-ambulance.html", "Срочный выезд бригады"],
+          ["service-detox.html", "Стационар при тяжёлом запое"],
+          ["service-alcohol-home.html", "Вывод из запоя на дому"]
+        ]
+      },
+      {
+        id: "home",
+        title: "Нарколог на дом",
+        services: [
+          ["service-visit.html", "Выезд нарколога"],
+          ["service-alcohol-home.html", "Лечение алкоголизма на дому"],
+          ["service-code-home.html", "Кодирование на дому"],
+          ["service-psy-home.html", "Психиатр на дом"],
+          ["service-ambulance.html", "Наркологическая скорая"]
+        ]
+      },
+      {
+        id: "iv",
+        title: "Капельницы от алкоголя",
+        services: [
+          ["service-zapoy.html", "Капельница от алкоголя"],
+          ["service-alcohol-hangover.html", "Капельница от похмелья"],
+          ["service-detox.html", "Капельницы в стационаре"],
+          ["service-alcohol-home.html", "Инфузия на дому"]
+        ]
+      }
     ];
-    let i = 0;
-    let busy = false;
-    const picks = [];
+
+    let active = 0;
     const panel = root.querySelector("[data-calc-panel]");
     const q = root.querySelector("[data-calc-q]");
     const opts = root.querySelector("[data-calc-opts]");
-    const summary = root.querySelector("[data-calc-summary]");
-    const dots = root.querySelector("[data-calc-dots]");
-    const back = root.querySelector("[data-calc-back]");
+    const tabs = root.querySelector("[data-calc-cats]");
     const form = root.querySelector("[data-calc-form]");
 
-    const renderSummary = () => {
-      if (!summary) return;
-      summary.innerHTML =
-        "<p class=\"calc-summary__title\">Краткое резюме</p><ul>" +
-        steps.map((step, n) =>
-          "<li><span>" + step.short + "</span><b>" + (picks[n] || "—") + "</b></li>"
-        ).join("") +
-        "</ul><p class=\"calc-summary__note\">Оставьте телефон — врач подтвердит программу и ориентир по стоимости.</p>";
-    };
-
-    const fill = () => {
-      dots.innerHTML = steps.map((_, n) => {
-        const on = i >= steps.length || n <= i;
-        return "<i class=\"" + (on ? "is-on" : "") + "\"></i>";
-      }).join("");
-
-      if (i >= steps.length) {
-        q.textContent = "Расчёт почти готов";
-        opts.hidden = true;
-        opts.innerHTML = "";
-        renderSummary();
-        if (summary) summary.hidden = false;
-        form.hidden = false;
-        back.hidden = false;
-        return;
+    const renderServices = () => {
+      const cat = cats[active];
+      if (!cat) return;
+      if (q) q.textContent = cat.title;
+      if (opts) {
+        opts.hidden = false;
+        opts.innerHTML = cat.services.map(([href, title]) =>
+          '<a href="' + href + '">' + title + "</a>"
+        ).join("");
       }
-
-      form.hidden = true;
-      if (summary) {
-        summary.hidden = true;
-        summary.innerHTML = "";
-      }
-      opts.hidden = false;
-      q.textContent = steps[i].q;
-      opts.innerHTML = steps[i].opts.map((t) => "<button type=\"button\">" + t + "</button>").join("");
-      back.hidden = i === 0;
-    };
-
-    const paint = (dir = 0) => {
-      if (!panel || !dir) {
-        fill();
-        if (panel) panel.classList.add("is-ready");
-        return;
-      }
-      if (busy) return;
-      busy = true;
-      panel.classList.remove("is-ready");
-      panel.classList.add(dir > 0 ? "is-leave-next" : "is-leave-back");
-      window.setTimeout(() => {
-        fill();
-        panel.classList.remove("is-leave-next", "is-leave-back");
-        panel.classList.add(dir > 0 ? "is-enter-next" : "is-enter-back");
-        window.requestAnimationFrame(() => {
-          window.requestAnimationFrame(() => {
-            panel.classList.remove("is-enter-next", "is-enter-back");
-            panel.classList.add("is-ready");
-            busy = false;
-          });
+      if (form) form.hidden = false;
+      if (tabs) {
+        tabs.querySelectorAll("button").forEach((b, n) => {
+          b.classList.toggle("is-on", n === active);
+          b.setAttribute("aria-selected", n === active ? "true" : "false");
         });
-      }, 240);
+      }
+      if (panel) {
+        panel.classList.remove("is-leave-next", "is-leave-back", "is-enter-next", "is-enter-back");
+        panel.classList.add("is-ready");
+      }
     };
 
-    opts.addEventListener("click", (e) => {
-      const b = e.target.closest("button");
-      if (!b || opts.hidden || busy) return;
-      picks[i] = b.textContent.trim();
-      b.classList.add("is-on");
-      i += 1;
-      paint(1);
-    });
-    back.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (i <= 0 || busy) return;
-      i -= 1;
-      paint(-1);
-    });
+    if (tabs) {
+      tabs.innerHTML = cats.map((cat, n) =>
+        '<button type="button" role="tab" data-cat="' + n + '"' + (n === 0 ? ' class="is-on" aria-selected="true"' : ' aria-selected="false"') + ">" + cat.title + "</button>"
+      ).join("");
+      tabs.addEventListener("click", (e) => {
+        const b = e.target.closest("button[data-cat]");
+        if (!b) return;
+        active = Number(b.getAttribute("data-cat")) || 0;
+        renderServices();
+      });
+    }
 
     const formEl = form && form.querySelector("form[data-form]");
     if (formEl) {
       formEl.addEventListener("submit", (e) => {
         e.preventDefault();
-        if (busy) return;
         form.classList.add("is-sent");
-        if (summary) summary.hidden = true;
-        q.textContent = "Заявка отправлена";
-        back.hidden = true;
-        busy = true;
+        if (q) q.textContent = "Заявка отправлена";
         window.setTimeout(() => {
           form.classList.remove("is-sent");
           formEl.reset();
-          picks.length = 0;
-          i = 0;
-          busy = false;
-          paint(1);
+          renderServices();
         }, 3400);
       });
     }
 
-    fill();
-    if (panel) panel.classList.add("is-ready");
+    renderServices();
   };
 
   const stickyLead = () => {
     doc.querySelectorAll(".float-call").forEach((n) => n.remove());
-    if (doc.querySelector("[data-sticky-lead]")) {
+    const existing = doc.querySelector("[data-sticky-lead]");
+    if (existing) {
+      existing.querySelectorAll(".sticky-lead__label").forEach((n) => {
+        n.textContent = "Вызвать нарколога на дом";
+      });
+      existing.querySelectorAll(".sticky-lead__btn > span:not(.sticky-lead__ico)").forEach((n) => n.remove());
+      existing.querySelectorAll(".sticky-lead__btn > img.icon-max").forEach((n) => n.remove());
       body.classList.add("has-sticky-lead");
       return;
     }
@@ -746,21 +831,18 @@
     bar.innerHTML =
       '<div class="sticky-lead__inner">' +
         '<a class="sticky-lead__call" href="tel:+73812901212" data-city-tel>' +
-          '<span class="sticky-lead__label">Вызов врача</span>' +
+          '<span class="sticky-lead__label">Вызвать нарколога на дом</span>' +
           '<strong class="sticky-lead__phone" data-city-phone>+7 (3812) 90-12-12</strong>' +
         "</a>" +
         '<div class="sticky-lead__actions">' +
           '<a class="sticky-lead__btn sticky-lead__btn--max" href="https://max.ru/" data-city-max target="_blank" rel="noopener" aria-label="Max">' +
-            '<span class="sticky-lead__ico"><img class="icon-max" src="images/Max_logo.svg" alt="" width="15" height="15" decoding="async"></span>' +
-            "<span>Max</span>" +
+            '<span class="sticky-lead__ico"><svg class="icon-max-svg" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="#6b5cff" d="M12 2.1C5.7 2.5 1.5 7.8 1.8 14.2c.1 2.7 1.2 5.1 1.5 7.7.1.7-.1 1.5.6 1.8.9.4 2.4-.2 3.2-.8.3-.2.5-.4.7-.7.8.5 1.6 1.1 2.6 1.3 4.3 1 9-1.3 11.1-5.1C25.3 10.6 20 1.8 12 2.1Zm-2.4 14.9c-.3.3-.7.6-1 .8-.6.3-.7 0-.9-.5-.6-1.5-.7-4.1-.3-5.7.5-2.2 2.2-4.1 4.5-4.3 2.3-.2 4.5 1 5.5 3.1 2.2 4.8-3.4 9.5-7.8 6.6Z"/></svg></span>' +
           "</a>" +
           '<a class="sticky-lead__btn sticky-lead__btn--tg" href="https://t.me/+73812901212" data-city-tg target="_blank" rel="noopener" aria-label="Telegram">' +
-            '<span class="sticky-lead__ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.43 4.53 3.87 11.32c-1.2.47-1.19 1.13-.22 1.43l4.5 1.4 10.45-6.59c.5-.3.95-.13.58.18l-8.46 7.63-.33 4.72c.48 0 .69-.22.96-.48l2.3-2.24 4.78 3.53c.88.48 1.51.23 1.73-.81l3.13-14.74c.32-1.28-.49-1.86-1.36-1.42Z"/></svg></span>' +
-            "<span>Telegram</span>" +
+            '<span class="sticky-lead__ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="#2aabee" aria-hidden="true"><path d="M21.43 4.53 3.87 11.32c-1.2.47-1.19 1.13-.22 1.43l4.5 1.4 10.45-6.59c.5-.3.95-.13.58.18l-8.46 7.63-.33 4.72c.48 0 .69-.22.96-.48l2.3-2.24 4.78 3.53c.88.48 1.51.23 1.73-.81l3.13-14.74c.32-1.28-.49-1.86-1.36-1.42Z"/></svg></span>' +
           "</a>" +
           '<a class="sticky-lead__btn sticky-lead__btn--phone" href="tel:+73812901212" data-city-tel aria-label="Позвонить">' +
             '<span class="sticky-lead__ico"><span class="icon-phone" aria-hidden="true"></span></span>' +
-            "<span>Звонок</span>" +
           "</a>" +
         "</div>" +
       "</div>";
@@ -768,7 +850,26 @@
     body.classList.add("has-sticky-lead");
   };
 
+  const prodoctorov = () => {
+    const side = doc.querySelector(".svc .svc-side");
+    if (!side || side.querySelector("[data-pd-rec]")) return;
+    const file = (location.pathname || "").split("/").pop() || "";
+    if (!/^service-/i.test(file)) return;
+    const box = doc.createElement("div");
+    box.className = "pd-rec";
+    box.setAttribute("data-pd-rec", "");
+    box.innerHTML =
+      '<div class="pd-rec__top">' +
+        '<span class="pd-rec__brand">ПроДокторов</span>' +
+        '<span class="pd-rec__score">4.8 <i>★</i></span>' +
+      "</div>" +
+      "<p>Рекомендация пациентов на ПроДокторов: клиника Альба — анонимная наркологическая помощь с выездом и стационаром.</p>" +
+      '<a href="https://prodoctorov.ru/" target="_blank" rel="noopener">Смотреть рекомендации</a>';
+    side.appendChild(box);
+  };
+
   stickyLead();
+  prodoctorov();
   splitHeadings();
   geo();
   catalogNav();
@@ -785,6 +886,10 @@
   cookies();
   marquee();
   calc();
+
+  doc.addEventListener("visibilitychange", () => {
+    body.classList.toggle("is-hidden-tab", doc.hidden);
+  });
 
   // On Netlify: menu/internal page links → 404.html (pages themselves are not deleted)
   const previewLock = () => {
