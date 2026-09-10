@@ -19,14 +19,13 @@
 
   const byId = Object.fromEntries(CITIES.map((c) => [c.id, c]));
 
-  let scrollLockY = 0;
   let scrollLockDepth = 0;
   const lockScroll = () => {
     if (scrollLockDepth === 0) {
-      scrollLockY = window.scrollY || doc.documentElement.scrollTop || 0;
+      const gap = Math.max(0, window.innerWidth - doc.documentElement.clientWidth);
+      doc.documentElement.style.setProperty("--lock-gap", gap + "px");
       doc.documentElement.classList.add("is-lock");
       body.classList.add("is-lock");
-      body.style.top = "-" + scrollLockY + "px";
     }
     scrollLockDepth += 1;
   };
@@ -35,8 +34,7 @@
     if (scrollLockDepth > 0) return;
     doc.documentElement.classList.remove("is-lock");
     body.classList.remove("is-lock");
-    body.style.top = "";
-    window.scrollTo(0, scrollLockY);
+    doc.documentElement.style.removeProperty("--lock-gap");
   };
 
   const applyCity = (city) => {
