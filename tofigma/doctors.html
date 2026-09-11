@@ -479,8 +479,9 @@ ul {
   font-size: 15px;
   font-weight: 700;
   letter-spacing: -0.01em;
-  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), background 0.25s, color 0.25s, border-color 0.25s;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), background 0.35s, color 0.35s, border-color 0.35s, filter 0.35s;
   white-space: nowrap;
+  animation: btn-breathe 3.6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
 }
 
 .btn .arr {
@@ -525,6 +526,7 @@ ul {
 .btn--light {
   background: var(--white);
   color: var(--ink);
+  animation-name: btn-breathe-light;
 }
 
 @keyframes btn-breathe-light {
@@ -551,6 +553,7 @@ ul {
   color: var(--white);
   border: 1.5px solid rgba(255, 255, 255, 0.45);
   padding: 0 22px;
+  animation-name: btn-breathe-ghost;
 }
 
 @keyframes btn-breathe-ghost {
@@ -573,6 +576,7 @@ ul {
 .btn--dark {
   background: var(--ink);
   color: var(--white);
+  animation-name: btn-breathe-dark;
 }
 
 .btn--dark .arr {
@@ -603,6 +607,7 @@ ul {
 .btn--blue {
   background: var(--blue);
   color: var(--white);
+  animation-name: btn-breathe-blue;
 }
 
 @keyframes btn-breathe-blue {
@@ -634,6 +639,7 @@ ul {
   color: var(--ink);
   border: 1.5px solid var(--line);
   padding: 0 22px;
+  animation-name: btn-breathe-line;
 }
 
 @keyframes btn-breathe-line {
@@ -1014,6 +1020,7 @@ ul {
   height: 40px;
   padding: 0 16px;
   border-radius: 99px;
+  animation: btn-breathe 3.6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
 }
 
 .more.more--lead {
@@ -1271,12 +1278,116 @@ ul {
   padding: 64px 0 40px;
 }
 
+.people--page {
+  padding-top: 28px;
+  padding-bottom: 64px;
+}
+
 .people__head {
   display: flex;
   justify-content: space-between;
   align-items: end;
-  margin-bottom: 32px;
+  margin-bottom: 22px;
   gap: 16px;
+}
+
+.people__intro {
+  min-width: 0;
+  max-width: 640px;
+}
+
+.people__intro .section-title {
+  margin-bottom: 12px;
+}
+
+.people__lead {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.55;
+  max-width: 52ch;
+}
+
+.people__tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.people__nav {
+  display: flex;
+  gap: 8px;
+}
+
+.people__btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  border: 1.5px solid var(--line);
+  background: var(--white);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  transition: 0.25s var(--ease);
+}
+
+.people__btn:hover {
+  border-color: var(--blue);
+  color: var(--blue-deep);
+  background: var(--blue-pale);
+}
+
+.people__btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+  pointer-events: none;
+}
+
+.people__switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.people__switch button {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 99px;
+  border: 1.5px solid var(--line);
+  background: var(--white);
+  color: var(--ink-2);
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: 0.25s var(--ease);
+}
+
+.people__switch button:hover {
+  border-color: rgba(79, 132, 255, 0.35);
+  color: var(--blue-deep);
+}
+
+.people__switch button.is-on {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--white);
+  box-shadow: 0 10px 22px rgba(63, 112, 245, 0.22);
+}
+
+.people__viewport {
+  overflow: hidden;
+  margin: 0 -4px;
+  padding: 4px;
+}
+
+.people__track {
+  display: flex;
+  gap: 18px;
+  transition: transform 0.45s var(--ease);
+  will-change: transform;
 }
 
 .people__grid {
@@ -1286,25 +1397,31 @@ ul {
 }
 
 .person {
+  flex: 0 0 calc((100% - 36px) / 3);
+  min-width: 0;
   border-radius: 28px;
   overflow: hidden;
   background: var(--bg);
-  display: block;
   color: inherit;
-  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
-  color: inherit;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease), opacity 0.3s var(--ease);
   text-decoration: none;
-  display: block;
+  display: flex;
+  flex-direction: column;
+}
+
+.person.is-off {
+  display: none;
 }
 
 .person:hover {
-  transform: translateY(-8px);
+  transform: translateY(-6px);
   box-shadow: var(--shadow-h);
 }
 
 .person__photo {
-  aspect-ratio: 3/3.4;
+  aspect-ratio: 3/3.2;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .person__photo img {
@@ -1320,14 +1437,39 @@ ul {
 }
 
 .person__meta {
-  padding: 18px 18px 22px;
+  padding: 18px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 4px;
 }
 
 .person h3 {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 800;
   letter-spacing: -0.03em;
-  margin-bottom: 4px;
+  line-height: 1.25;
+  margin-bottom: 2px;
+}
+
+.person__spec {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink-2);
+  letter-spacing: -0.01em;
+}
+
+.person__exp {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blue-deep);
+}
+
+.person__desc {
+  margin-top: 6px;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.45;
 }
 
 .person p {
@@ -1335,14 +1477,23 @@ ul {
   color: var(--muted);
 }
 
+.person__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 14px;
+}
+
 .person__more {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-top: 12px;
   font-size: 13px;
   font-weight: 800;
   color: var(--blue-deep);
+  white-space: nowrap;
 }
 
 .person__more::after {
@@ -1359,12 +1510,77 @@ ul {
   transform: rotate(45deg) translate(1px, -1px);
 }
 
+.person__book {
+  height: 40px;
+  padding: 0 14px 0 16px;
+  font-size: 13.5px;
+  flex-shrink: 0;
+}
+
+.person__book .arr {
+  width: 26px;
+  height: 26px;
+}
+
+.people__dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.people__dots[hidden],
+.people__btn[hidden] {
+  display: none !important;
+}
+
+.people__dots button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--line);
+  cursor: pointer;
+  padding: 0;
+  transition: 0.25s var(--ease);
+}
+
+.people__dots button.is-on {
+  background: var(--blue);
+  transform: scale(1.2);
+}
+
 .people--roster {
   background: linear-gradient(180deg, var(--bg) 0%, var(--white) 100%);
   border-radius: 32px;
   margin-top: 12px;
   padding-left: 18px !important;
   padding-right: 18px !important;
+}
+
+@media (max-width: 1100px) {
+  .person {
+    flex-basis: calc((100% - 18px) / 2);
+  }
+}
+
+@media (max-width: 720px) {
+  .person {
+    flex-basis: 100%;
+  }
+  .people__tools {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .people__switch {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .people__switch::-webkit-scrollbar { display: none; }
+  .people__switch button { flex: 0 0 auto; }
 }
 
 /* Doctor detail */
@@ -2723,7 +2939,8 @@ body:has(.mnav.is-open) .sticky-lead {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.35),
     0 10px 24px rgba(63, 112, 245, 0.28);
-  transition: 0.3s var(--ease);
+  transition: 0.35s var(--ease);
+  animation: sticky-call-pulse 3.6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
 }
 
 .sticky-lead__call::after {
@@ -2844,7 +3061,8 @@ body:has(.mnav.is-open) .sticky-lead {
     inset 0 1px 0 rgba(255, 255, 255, 0.95),
     0 6px 14px rgba(55, 90, 180, 0.1);
   color: var(--blue);
-  transition: 0.25s var(--ease);
+  transition: 0.35s var(--ease);
+  animation: sticky-action-glow 6.6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
 }
 
 .sticky-lead__btn--tg {
@@ -4084,6 +4302,218 @@ body:has(.mnav.is-open) .sticky-lead {
   color: var(--blue);
 }
 
+/* Rooms slider */
+.rooms {
+  padding: 48px 0 20px;
+}
+
+.rooms__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.rooms__head .section-title {
+  margin-bottom: 0;
+}
+
+.rooms__nav {
+  display: flex;
+  gap: 8px;
+}
+
+.rooms__btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  border: 1.5px solid var(--line);
+  background: var(--white);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  transition: 0.25s var(--ease);
+}
+
+.rooms__btn:hover {
+  border-color: var(--blue);
+  color: var(--blue-deep);
+  background: var(--blue-pale);
+}
+
+.rooms__viewport {
+  overflow: hidden;
+  border-radius: 28px;
+  background: var(--bg);
+}
+
+.rooms__track {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.rooms__slide {
+  grid-area: 1 / 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  min-height: 360px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.rooms__slide.is-on {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+.rooms__slide img {
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
+  max-height: 360px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.rooms__meta {
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.rooms__meta h3 {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.rooms__meta p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.rooms__meta span {
+  margin-top: 8px;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--blue-deep);
+}
+
+.rooms__dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.rooms__dots button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--line);
+  cursor: pointer;
+  padding: 0;
+}
+
+.rooms__dots button.is-on {
+  background: var(--blue);
+  transform: scale(1.2);
+}
+
+@media (max-width: 720px) {
+  .rooms__slide,
+  .rooms__slide.is-on {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+  .rooms__slide img {
+    min-height: 220px;
+    max-height: 220px;
+  }
+  .rooms__meta { padding: 22px 18px 26px; }
+  .rooms__head { align-items: center; }
+}
+
+/* Home licenses */
+.home-licenses {
+  padding: 56px 0 24px;
+}
+
+.home-licenses__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.home-licenses__head .section-title {
+  margin-bottom: 0;
+}
+
+.home-licenses__note {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 22px;
+}
+
+.home-licenses__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.home-licenses__card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 22px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  transition: 0.25s var(--ease);
+}
+
+.home-licenses__card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(79, 132, 255, 0.28);
+}
+
+.home-licenses__card img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 14px;
+  background: var(--bg);
+}
+
+.home-licenses__card span {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink-2);
+}
+
+@media (max-width: 900px) {
+  .home-licenses__grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 560px) {
+  .home-licenses__grid { grid-template-columns: 1fr; }
+  .home-licenses__head { flex-direction: column; align-items: stretch; }
+}
+
 /* Essay */
 .essay {
   padding: 56px 0 12px;
@@ -4177,7 +4607,7 @@ body:has(.mnav.is-open) .sticky-lead {
 }
 
 .calc__panel-wrap {
-  overflow-x: clip;
+  overflow: visible;
   min-width: 0;
 }
 
@@ -4212,68 +4642,43 @@ body:has(.mnav.is-open) .sticky-lead {
   margin-top: 20px;
 }
 
-.calc__cats {
+.calc__steps {
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
   margin-bottom: 18px;
-  max-width: 100%;
+}
+
+.calc__steps::before {
+  content: "Шаги";
+  margin-right: 4px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  line-height: 1;
+}
+
+.calc__steps i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--line);
+  font-style: normal;
+  transition: background 0.3s var(--ease), transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+
+.calc__steps i.is-on {
+  background: var(--blue);
+  transform: scale(1.15);
+  box-shadow: 0 0 0 4px rgba(79, 132, 255, 0.14);
 }
 
 @media (max-width: 900px) {
   .calc__intro {
     position: static;
   }
-}
-
-@media (max-width: 720px) {
-  .calc__cats {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: max-content;
-    justify-content: start;
-    overflow-x: auto;
-    overflow-y: hidden;
-    overscroll-behavior-x: contain;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 6px;
-    margin: 0 0 18px;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    scrollbar-width: thin;
-  }
-
-  .calc__cats button {
-    width: max-content;
-    white-space: nowrap;
-  }
-}
-
-.calc__cats button {
-  appearance: none;
-  border: 1.5px solid var(--line);
-  background: var(--white);
-  color: var(--ink-2);
-  border-radius: 999px;
-  padding: 10px 14px;
-  font: inherit;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.25s var(--ease);
-}
-
-.calc__cats button:hover,
-.calc__cats button.is-on {
-  border-color: var(--blue);
-  color: var(--blue-deep);
-  background: var(--blue-pale);
-  box-shadow: 0 8px 20px rgba(79, 132, 255, 0.14);
-}
-
-.calc__steps {
-  display: none;
 }
 
 .calc__panel {
@@ -4325,19 +4730,30 @@ body:has(.mnav.is-open) .sticky-lead {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  padding: 6px 8px 14px;
+  margin: -6px -8px -14px;
 }
 
 .calc-services {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
 
+@media (max-width: 560px) {
+  .calc-services {
+    grid-template-columns: 1fr;
+  }
+}
+
+.calc-services button,
 .calc-services a {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  width: 100%;
+  text-align: left;
   padding: 14px 16px;
   border-radius: 16px;
   background: var(--white);
@@ -4346,15 +4762,20 @@ body:has(.mnav.is-open) .sticky-lead {
   font-size: 15px;
   font-weight: 700;
   letter-spacing: -0.02em;
+  cursor: pointer;
   transition: 0.25s var(--ease);
 }
 
+.calc-services button::after,
 .calc-services a::after {
   content: "→";
   color: var(--blue);
   font-weight: 800;
+  flex-shrink: 0;
 }
 
+.calc-services button:hover,
+.calc-services button.is-on,
 .calc-services a:hover {
   border-color: var(--blue);
   color: var(--blue-deep);
@@ -5362,6 +5783,8 @@ body.is-hidden-tab .hero__orbit,
 body.is-hidden-tab .marquee__track {
   animation-play-state: paused !important;
 }
+
+@media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation: none !important;
     transition: none !important;
@@ -5372,14 +5795,13 @@ body.is-hidden-tab .marquee__track {
   .marquee__track { animation: none !important; }
 }
 
-/* Paint isolation for heavy sections */
+/* Layout isolation without clipping shadows/paint */
 .hero,
-.calc,
 .promos,
 .station,
 .people,
 .reviews {
-  contain: layout paint style;
+  contain: layout style;
 }
 
 .promo,
@@ -5760,7 +6182,7 @@ html, body {
     <a href="gallery.html">Галерея</a>
     <a href="licenses.html">Лицензии</a>
     <a href="prices.html">Цены</a>
-    <a data-extra-mnav href="service-alcohol.html">Алкоголизм</a><a data-extra-mnav href="service-drugs.html">Наркомания</a><a data-extra-mnav href="service-code.html">Кодирование</a><a data-extra-mnav href="service-help.html">Наркологическая помощь</a><a data-extra-mnav href="service-gambling.html">Игровая зависимость</a><a data-extra-mnav href="reviews.html">Отзывы</a><a data-extra-mnav href="methods.html">Методы</a><a data-extra-mnav href="sitemap.html">Карта сайта</a>
+    <a data-extra-mnav href="reviews.html">Отзывы</a><a data-extra-mnav href="methods.html">Методы</a><a data-extra-mnav href="sitemap.html">Карта сайта</a>
     <a href="programs.html">Программы</a>
     <a href="about.html#anon">Анонимность</a>
     <a href="doctors.html">Врачи</a>
@@ -5783,41 +6205,83 @@ html, body {
       </div>
     </section>
 
-    <section class="people wrap" style="padding-top:28px;padding-bottom:64px">
-      <div class="people__grid">
-        <a class="person is-in" href="doctor-volkov.html" data-reveal>
-          <div class="person__photo"><img src="../images/doctor-1.jpg" alt="Андрей Волков" loading="eager"></div>
-          <div class="person__meta">
-            <h3>Андрей Волков</h3>
-            <p>Главный врач, врач-нарколог. 18 лет стационара, протоколы тяжёлого абстинентного синдрома.</p>
-            <span class="person__more">Подробнее</span>
+    <section class="people wrap people--page" data-doctors>
+      <div class="people__head">
+        <div class="people__intro">
+          <h2 class="section-title is-in" data-reveal>Наши врачи</h2>
+          <p class="people__lead is-in" data-reveal>Наркологи, психиатры, анестезиологи и психотерапевты работают в одной смене. Решение по протоколу принимается вместе — можно выбрать врача ещё до заезда.</p>
+        </div>
+        <div class="people__tools">
+          <div class="people__nav">
+            <button type="button" class="people__btn" data-docs-prev aria-label="Предыдущий">←</button>
+            <button type="button" class="people__btn" data-docs-next aria-label="Следующий">→</button>
           </div>
-        </a>
-        <a class="person is-in" href="doctor-safonova.html" data-reveal data-delay="80">
-          <div class="person__photo"><img src="../images/doctor-2.jpg" alt="Елена Сафонова" loading="eager"></div>
-          <div class="person__meta">
-            <h3>Елена Сафонова</h3>
-            <p>Психиатр-нарколог, к.м.н. Ведёт сложные двойные диагнозы и первичную консультацию семьи.</p>
-            <span class="person__more">Подробнее</span>
-          </div>
-        </a>
-        <a class="person is-in" href="doctor-lebedev.html" data-reveal data-delay="160">
-          <div class="person__photo"><img src="../images/doctor-3.jpg" alt="Игорь Лебедев" loading="eager"></div>
-          <div class="person__meta">
-            <h3>Игорь Лебедев</h3>
-            <p>Анестезиолог-реаниматолог. Ночной детокс, мониторинг, вывод из запоя с сопутствующей кардиологией.</p>
-            <span class="person__more">Подробнее</span>
-          </div>
-        </a>
-        <a class="person is-in" href="doctor-orlova.html" data-reveal data-delay="240">
-          <div class="person__photo"><img src="../images/doctor-4.jpg" alt="Мария Орлова" loading="eager"></div>
-          <div class="person__meta">
-            <h3>Мария Орлова</h3>
-            <p>Клинический психолог, семейный терапевт. Реабилитация и работа с созависимостью.</p>
-            <span class="person__more">Подробнее</span>
-          </div>
-        </a>
+        </div>
       </div>
+      <div class="people__switch is-in" data-docs-switch role="tablist" aria-label="Специальности" data-reveal>
+        <button type="button" class="is-on" data-docs-filter="all" role="tab" aria-selected="true">Все</button>
+        <button type="button" data-docs-filter="narcology" role="tab" aria-selected="false">Наркология</button>
+        <button type="button" data-docs-filter="psychiatry" role="tab" aria-selected="false">Психиатрия</button>
+        <button type="button" data-docs-filter="anesthesia" role="tab" aria-selected="false">Анестезия</button>
+        <button type="button" data-docs-filter="therapy" role="tab" aria-selected="false">Психотерапия</button>
+      </div>
+      <div class="people__viewport is-in" data-reveal>
+        <div class="people__track" data-docs-track>
+          <article class="person" data-docs-card data-spec="narcology">
+            <div class="person__photo"><img src="../images/doctor-1.jpg" alt="Волков Андрей Сергеевич" loading="eager" decoding="sync"></div>
+            <div class="person__meta">
+              <h3>Волков Андрей Сергеевич</h3>
+              <p class="person__spec">Главный врач, врач-нарколог</p>
+              <p class="person__exp">Стаж 18 лет</p>
+              <p class="person__desc">18 лет стационара, протоколы тяжёлого абстинентного синдрома и маршрутизация в первые часы.</p>
+              <div class="person__actions">
+                <a class="person__more" href="doctor-volkov.html">Подробнее</a>
+                <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+              </div>
+            </div>
+          </article>
+          <article class="person" data-docs-card data-spec="psychiatry">
+            <div class="person__photo"><img src="../images/doctor-2.jpg" alt="Сафонова Елена Викторовна" loading="eager" decoding="sync"></div>
+            <div class="person__meta">
+              <h3>Сафонова Елена Викторовна</h3>
+              <p class="person__spec">Психиатр-нарколог, к.м.н.</p>
+              <p class="person__exp">Стаж 15 лет</p>
+              <p class="person__desc">Сложные двойные диагнозы и первичная консультация семьи без давления и ярлыков.</p>
+              <div class="person__actions">
+                <a class="person__more" href="doctor-safonova.html">Подробнее</a>
+                <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+              </div>
+            </div>
+          </article>
+          <article class="person" data-docs-card data-spec="anesthesia">
+            <div class="person__photo"><img src="../images/doctor-3.jpg" alt="Лебедев Игорь Алексеевич" loading="eager" decoding="sync"></div>
+            <div class="person__meta">
+              <h3>Лебедев Игорь Алексеевич</h3>
+              <p class="person__spec">Анестезиолог-реаниматолог</p>
+              <p class="person__exp">Стаж 14 лет</p>
+              <p class="person__desc">Ночной детокс, мониторинг и вывод из запоя с сопутствующей кардиологией.</p>
+              <div class="person__actions">
+                <a class="person__more" href="doctor-lebedev.html">Подробнее</a>
+                <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+              </div>
+            </div>
+          </article>
+          <article class="person" data-docs-card data-spec="therapy">
+            <div class="person__photo"><img src="../images/doctor-4.jpg" alt="Орлова Мария Дмитриевна" loading="eager" decoding="sync"></div>
+            <div class="person__meta">
+              <h3>Орлова Мария Дмитриевна</h3>
+              <p class="person__spec">Клинический психолог, семейный терапевт</p>
+              <p class="person__exp">Стаж 12 лет</p>
+              <p class="person__desc">Реабилитация и работа с созависимостью — индивидуальные и семейные сессии.</p>
+              <div class="person__actions">
+                <a class="person__more" href="doctor-orlova.html">Подробнее</a>
+                <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="people__dots" data-docs-dots role="tablist" aria-label="Врачи"></div>
     </section>
 
     <section class="cta wrap">

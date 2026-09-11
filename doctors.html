@@ -81,41 +81,83 @@
       </div>
     </section>
 
-    <section class="people wrap" style="padding-top:28px;padding-bottom:64px">
-      <div class="people__grid">
-        <a class="person" href="doctor-volkov.html" data-reveal>
-          <div class="person__photo"><img src="images/doctor-1.jpg" alt="Андрей Волков"></div>
-          <div class="person__meta">
-            <h3>Андрей Волков</h3>
-            <p>Главный врач, врач-нарколог. 18 лет стационара, протоколы тяжёлого абстинентного синдрома.</p>
-            <span class="person__more">Подробнее</span>
+    <section class="people wrap people--page" data-doctors>
+      <div class="people__head">
+        <div class="people__intro">
+          <h2 class="section-title" data-reveal>Наши врачи</h2>
+          <p class="people__lead" data-reveal>Наркологи, психиатры, анестезиологи и психотерапевты работают в одной смене. Решение по протоколу принимается вместе — можно выбрать врача ещё до заезда.</p>
+        </div>
+        <div class="people__tools">
+          <div class="people__nav">
+            <button type="button" class="people__btn" data-docs-prev aria-label="Предыдущий">←</button>
+            <button type="button" class="people__btn" data-docs-next aria-label="Следующий">→</button>
           </div>
-        </a>
-        <a class="person" href="doctor-safonova.html" data-reveal data-delay="80">
-          <div class="person__photo"><img src="images/doctor-2.jpg" alt="Елена Сафонова"></div>
-          <div class="person__meta">
-            <h3>Елена Сафонова</h3>
-            <p>Психиатр-нарколог, к.м.н. Ведёт сложные двойные диагнозы и первичную консультацию семьи.</p>
-            <span class="person__more">Подробнее</span>
-          </div>
-        </a>
-        <a class="person" href="doctor-lebedev.html" data-reveal data-delay="160">
-          <div class="person__photo"><img src="images/doctor-3.jpg" alt="Игорь Лебедев"></div>
-          <div class="person__meta">
-            <h3>Игорь Лебедев</h3>
-            <p>Анестезиолог-реаниматолог. Ночной детокс, мониторинг, вывод из запоя с сопутствующей кардиологией.</p>
-            <span class="person__more">Подробнее</span>
-          </div>
-        </a>
-        <a class="person" href="doctor-orlova.html" data-reveal data-delay="240">
-          <div class="person__photo"><img src="images/doctor-4.jpg" alt="Мария Орлова"></div>
-          <div class="person__meta">
-            <h3>Мария Орлова</h3>
-            <p>Клинический психолог, семейный терапевт. Реабилитация и работа с созависимостью.</p>
-            <span class="person__more">Подробнее</span>
-          </div>
-        </a>
+        </div>
       </div>
+      <div class="people__switch" data-docs-switch role="tablist" aria-label="Специальности" data-reveal>
+        <button type="button" class="is-on" data-docs-filter="all" role="tab" aria-selected="true">Все</button>
+        <button type="button" data-docs-filter="narcology" role="tab" aria-selected="false">Наркология</button>
+        <button type="button" data-docs-filter="psychiatry" role="tab" aria-selected="false">Психиатрия</button>
+        <button type="button" data-docs-filter="anesthesia" role="tab" aria-selected="false">Анестезия</button>
+        <button type="button" data-docs-filter="therapy" role="tab" aria-selected="false">Психотерапия</button>
+      </div>
+      <div class="people__viewport" data-reveal>
+        <div class="people__track" data-docs-track>
+          <article class="person" data-docs-card data-spec="narcology">
+            <div class="person__photo"><img src="images/doctor-1.jpg" alt="Волков Андрей Сергеевич" loading="lazy" decoding="async"></div>
+            <div class="person__meta">
+              <h3>Волков Андрей Сергеевич</h3>
+              <p class="person__spec">Главный врач, врач-нарколог</p>
+              <p class="person__exp">Стаж 18 лет</p>
+              <p class="person__desc">18 лет стационара, протоколы тяжёлого абстинентного синдрома и маршрутизация в первые часы.</p>
+              <div class="person__actions">
+                <a class="person__more" href="doctor-volkov.html">Подробнее</a>
+                <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+              </div>
+            </div>
+          </article>
+          <article class="person" data-docs-card data-spec="psychiatry">
+            <div class="person__photo"><img src="images/doctor-2.jpg" alt="Сафонова Елена Викторовна" loading="lazy" decoding="async"></div>
+            <div class="person__meta">
+              <h3>Сафонова Елена Викторовна</h3>
+              <p class="person__spec">Психиатр-нарколог, к.м.н.</p>
+              <p class="person__exp">Стаж 15 лет</p>
+              <p class="person__desc">Сложные двойные диагнозы и первичная консультация семьи без давления и ярлыков.</p>
+              <div class="person__actions">
+                <a class="person__more" href="doctor-safonova.html">Подробнее</a>
+                <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+              </div>
+            </div>
+          </article>
+          <article class="person" data-docs-card data-spec="anesthesia">
+            <div class="person__photo"><img src="images/doctor-3.jpg" alt="Лебедев Игорь Алексеевич" loading="lazy" decoding="async"></div>
+            <div class="person__meta">
+              <h3>Лебедев Игорь Алексеевич</h3>
+              <p class="person__spec">Анестезиолог-реаниматолог</p>
+              <p class="person__exp">Стаж 14 лет</p>
+              <p class="person__desc">Ночной детокс, мониторинг и вывод из запоя с сопутствующей кардиологией.</p>
+              <div class="person__actions">
+                <a class="person__more" href="doctor-lebedev.html">Подробнее</a>
+                <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+              </div>
+            </div>
+          </article>
+          <article class="person" data-docs-card data-spec="therapy">
+            <div class="person__photo"><img src="images/doctor-4.jpg" alt="Орлова Мария Дмитриевна" loading="lazy" decoding="async"></div>
+            <div class="person__meta">
+              <h3>Орлова Мария Дмитриевна</h3>
+              <p class="person__spec">Клинический психолог, семейный терапевт</p>
+              <p class="person__exp">Стаж 12 лет</p>
+              <p class="person__desc">Реабилитация и работа с созависимостью — индивидуальные и семейные сессии.</p>
+              <div class="person__actions">
+                <a class="person__more" href="doctor-orlova.html">Подробнее</a>
+                <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="people__dots" data-docs-dots role="tablist" aria-label="Врачи"></div>
     </section>
 
     <section class="cta wrap">

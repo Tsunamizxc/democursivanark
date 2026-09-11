@@ -67,13 +67,22 @@
     }
 
     const mnav = doc.querySelector("[data-mnav]");
-    if (mnav && !mnav.querySelector("[data-mnav-contact]")) {
-      mnav.insertAdjacentHTML("afterbegin",
-        '<div class="mnav-contact" data-mnav-contact>' +
-          '<a class="mnav-contact__phone" href="tel:+78001001212">8 800 100-12-12</a>' +
-          '<span class="mnav-contact__hint">Бесплатно по России</span>' +
-          '<p class="mnav-contact__addr">Контакт-центр: ул. Ленина, 12</p>' +
-        "</div>");
+    if (mnav) {
+      if (!mnav.querySelector("[data-mnav-contact]")) {
+        mnav.insertAdjacentHTML("afterbegin",
+          '<div class="mnav-contact" data-mnav-contact>' +
+            '<a class="mnav-contact__phone" href="tel:+78001001212">8 800 100-12-12</a>' +
+            '<span class="mnav-contact__hint">Бесплатно по России</span>' +
+            '<p class="mnav-contact__addr">Контакт-центр: ул. Ленина, 12</p>' +
+          "</div>");
+      } else {
+        const contact = mnav.querySelector("[data-mnav-contact]");
+        if (contact && mnav.firstElementChild !== contact) mnav.insertBefore(contact, mnav.firstChild);
+      }
+      // Keep only page links in burger: strip service/extra/messenger entries
+      mnav.querySelectorAll("[data-extra-mnav]").forEach((n) => n.remove());
+      mnav.querySelectorAll("a[data-city-max], a[data-city-tg]").forEach((n) => n.remove());
+      mnav.querySelectorAll('a[href^="service-"]').forEach((n) => n.remove());
     }
     if (mnav && !mnav.querySelector("[data-open-city]")) {
       const mb = doc.createElement("button");
@@ -449,20 +458,25 @@
     }
 
     const mnav = doc.querySelector("[data-mnav]");
-    if (mnav && !mnav.querySelector("[data-extra-mnav]")) {
-      const extra = [
-        ["service-alcohol.html", "Алкоголизм"],
-        ["service-drugs.html", "Наркомания"],
-        ["service-code.html", "Кодирование"],
-        ["service-help.html", "Наркологическая помощь"],
-        ["service-gambling.html", "Игровая зависимость"],
+    if (mnav) {
+      mnav.querySelectorAll("[data-extra-mnav]").forEach((n) => n.remove());
+      mnav.querySelectorAll("a[data-city-max], a[data-city-tg]").forEach((n) => n.remove());
+      mnav.querySelectorAll('a[href^="service-"]').forEach((n) => n.remove());
+      const pageLinks = [
         ["reviews.html", "Отзывы"],
         ["methods.html", "Методы"],
         ["sitemap.html", "Карта сайта"]
-      ].map(([h, t]) => '<a data-extra-mnav href="' + h + '">' + t + "</a>").join("");
-      const prices = [...mnav.querySelectorAll("a")].find((a) => a.getAttribute("href") === "prices.html");
-      if (prices) prices.insertAdjacentHTML("afterend", extra);
-      else mnav.insertAdjacentHTML("afterbegin", extra);
+      ];
+      pageLinks.forEach(([h, t]) => {
+        if ([...mnav.querySelectorAll("a")].some((a) => a.getAttribute("href") === h)) return;
+        const a = doc.createElement("a");
+        a.href = h;
+        a.textContent = t;
+        a.setAttribute("data-extra-mnav", "");
+        const contacts = [...mnav.querySelectorAll("a")].find((x) => x.getAttribute("href") === "contacts.html");
+        if (contacts) contacts.before(a);
+        else mnav.appendChild(a);
+      });
     }
 
     const foot = doc.querySelector(".footer__grid");
@@ -646,152 +660,162 @@
   const calc = () => {
     const root = doc.querySelector("[data-calc]");
     if (!root) return;
-    const cats = [
+    const steps = [
       {
-        id: "code",
-        title: "Кодирование от алкоголизма",
-        services: [
-          ["service-code.html", "Кодирование"],
-          ["service-code-dovzhenko.html", "По Довженко"],
-          ["service-code-hypnosis.html", "Гипноз"],
-          ["service-code-implant.html", "Вшивание ампулы"],
-          ["service-code-torpedo.html", "Торпедо"],
-          ["service-code-esperal.html", "Эспераль"],
-          ["service-code-double.html", "Двойной блок"],
-          ["service-code-shot.html", "Укол"],
-          ["service-code-vivitrol.html", "Вивитрол"],
-          ["service-code-naltrexone.html", "Налтрексон"],
-          ["service-code-disulfiram.html", "Дисульфирам"],
-          ["service-code-home.html", "Кодирование на дому"]
+        q: "Какая услуга нужна?",
+        short: "Услуга",
+        opts: [
+          "Кодирование от алкоголизма",
+          "Лечение алкоголизма",
+          "Наркологическая помощь",
+          "Лечение наркомании",
+          "Прокапаться от алкоголя",
+          "Срочный вывод из запоя",
+          "Нарколог на дом",
+          "Капельницы от алкоголя"
         ]
       },
       {
-        id: "alcohol",
-        title: "Лечение алкоголизма",
-        services: [
-          ["service-alcohol.html", "Лечение алкоголизма"],
-          ["service-alcohol-women.html", "Женский алкоголизм"],
-          ["service-alcohol-men.html", "Мужской алкоголизм"],
-          ["service-alcohol-beer.html", "Пивной алкоголизм"],
-          ["service-alcohol-wine.html", "Винный алкоголизм"],
-          ["service-alcohol-elderly.html", "Старческий алкоголизм"],
-          ["service-alcohol-home.html", "Лечение на дому"],
-          ["service-alcohol-shichko.html", "Метод Шичко"],
-          ["service-rehab-alcohol.html", "Реабилитация алкозависимости"]
-        ]
+        q: "Пол пациента",
+        short: "Пол",
+        opts: ["Мужчина", "Женщина"]
       },
       {
-        id: "help",
-        title: "Наркологическая помощь",
-        services: [
-          ["service-help.html", "Наркологическая помощь"],
-          ["service-ambulance.html", "Наркологическая скорая"],
-          ["service-detox.html", "Детокс 24/7"],
-          ["service-consult.html", "Консультация нарколога"],
-          ["service-withdrawal.html", "Снятие ломки"],
-          ["service-ubod.html", "УБОД"],
-          ["service-sober.html", "Частный вытрезвитель"]
-        ]
+        q: "Как долго длится состояние?",
+        short: "Длительность",
+        opts: ["1–2 дня", "3–7 дней", "Более недели", "Сложно сказать / трезв"]
       },
       {
-        id: "drugs",
-        title: "Лечение наркомании",
-        services: [
-          ["service-drugs.html", "Лечение наркомании"],
-          ["service-drugs-code.html", "Кодировка от наркозависимости"],
-          ["service-drugs-heroin.html", "Героин"],
-          ["service-drugs-methadone.html", "Метадон"],
-          ["service-drugs-mephedrone.html", "Мефедрон"],
-          ["service-drugs-salts.html", "Соли"],
-          ["service-drugs-spice.html", "Спайс"],
-          ["service-drugs-cocaine.html", "Кокаин"],
-          ["service-drugs-amphetamine.html", "Амфетамин"],
-          ["service-drugs-cannabis.html", "Марихуана"],
-          ["service-drugs-toxico.html", "Токсикомания"]
-        ]
+        q: "Есть согласие на лечение?",
+        short: "Согласие",
+        opts: ["Да", "Нет", "Иногда / сомневается"]
       },
       {
-        id: "drip",
-        title: "Прокапаться от алкоголя",
-        services: [
-          ["service-alcohol-hangover.html", "Капельница от похмелья"],
-          ["service-alcohol-shot.html", "Укол от алкоголизма"],
-          ["service-zapoy.html", "Капельница при запое"],
-          ["service-detox.html", "Инфузионная терапия в стационаре"]
-        ]
+        q: "Проходил ли ранее лечение?",
+        short: "Опыт",
+        opts: ["Не лечился", "Детоксикация", "Реабилитация / кодирование"]
       },
       {
-        id: "zapoy",
-        title: "Срочный вывод из запоя",
-        services: [
-          ["service-zapoy.html", "Вывод из запоя"],
-          ["service-ambulance.html", "Срочный выезд бригады"],
-          ["service-detox.html", "Стационар при тяжёлом запое"],
-          ["service-alcohol-home.html", "Вывод из запоя на дому"]
-        ]
-      },
-      {
-        id: "home",
-        title: "Нарколог на дом",
-        services: [
-          ["service-visit.html", "Выезд нарколога"],
-          ["service-alcohol-home.html", "Лечение алкоголизма на дому"],
-          ["service-code-home.html", "Кодирование на дому"],
-          ["service-psy-home.html", "Психиатр на дом"],
-          ["service-ambulance.html", "Наркологическая скорая"]
-        ]
-      },
-      {
-        id: "iv",
-        title: "Капельницы от алкоголя",
-        services: [
-          ["service-zapoy.html", "Капельница от алкоголя"],
-          ["service-alcohol-hangover.html", "Капельница от похмелья"],
-          ["service-detox.html", "Капельницы в стационаре"],
-          ["service-alcohol-home.html", "Инфузия на дому"]
-        ]
+        q: "Есть отягощающие факторы?",
+        short: "Факторы",
+        opts: ["Нет осложнений", "Есть хронические болезни", "Возраст 60+", "Агрессия / спутанность"]
       }
     ];
-
-    let active = 0;
+    let i = 0;
+    let busy = false;
+    const picks = [];
     const panel = root.querySelector("[data-calc-panel]");
     const q = root.querySelector("[data-calc-q]");
     const opts = root.querySelector("[data-calc-opts]");
-    const tabs = root.querySelector("[data-calc-cats]");
+    const summary = root.querySelector("[data-calc-summary]");
+    const dots = root.querySelector("[data-calc-dots]");
+    const back = root.querySelector("[data-calc-back]");
     const form = root.querySelector("[data-calc-form]");
 
-    const renderServices = () => {
-      const cat = cats[active];
-      if (!cat) return;
-      if (q) q.textContent = cat.title;
-      if (opts) {
-        opts.hidden = false;
-        opts.innerHTML = cat.services.map(([href, title]) =>
-          '<a href="' + href + '">' + title + "</a>"
-        ).join("");
-      }
-      if (form) form.hidden = false;
-      if (tabs) {
-        tabs.querySelectorAll("button").forEach((b, n) => {
-          b.classList.toggle("is-on", n === active);
-          b.setAttribute("aria-selected", n === active ? "true" : "false");
-        });
-      }
-      if (panel) {
-        panel.classList.remove("is-leave-next", "is-leave-back", "is-enter-next", "is-enter-back");
-        panel.classList.add("is-ready");
-      }
+    const estimate = () => {
+      let base = 4900;
+      const service = picks[0] || "";
+      if (/запой|капельн|прокап/i.test(service)) base = 6500;
+      if (/код/i.test(service)) base = 12000;
+      if (/наркоман/i.test(service)) base = 9800;
+      if (/нарколог на дом/i.test(service)) base = 7500;
+      if (/помощ/i.test(service)) base = 5500;
+      if (picks[2] === "Более недели") base += 2500;
+      if (picks[2] === "3–7 дней") base += 1200;
+      if (picks[5] && picks[5] !== "Нет осложнений") base += 1800;
+      if (picks[3] === "Нет") base += 900;
+      const hi = Math.round(base * 1.35 / 100) * 100;
+      return { lo: base, hi: hi };
     };
 
-    if (tabs) {
-      tabs.innerHTML = cats.map((cat, n) =>
-        '<button type="button" role="tab" data-cat="' + n + '"' + (n === 0 ? ' class="is-on" aria-selected="true"' : ' aria-selected="false"') + ">" + cat.title + "</button>"
-      ).join("");
-      tabs.addEventListener("click", (e) => {
-        const b = e.target.closest("button[data-cat]");
-        if (!b) return;
-        active = Number(b.getAttribute("data-cat")) || 0;
-        renderServices();
+    const renderSummary = () => {
+      if (!summary) return;
+      const price = estimate();
+      summary.innerHTML =
+        "<p class=\"calc-summary__title\">Краткое резюме</p><ul>" +
+        steps.map((step, n) =>
+          "<li><span>" + step.short + "</span><b>" + (picks[n] || "—") + "</b></li>"
+        ).join("") +
+        "<li><span>Ориентир</span><b>от " + price.lo.toLocaleString("ru-RU") + " ₽</b></li>" +
+        "</ul><p class=\"calc-summary__note\">Расчёт предварительный. Точную сумму врач подтвердит после короткого опроса по телефону.</p>";
+    };
+
+    const fill = () => {
+      if (dots) {
+        dots.innerHTML = steps.map((_, n) => {
+          const on = i >= steps.length || n <= i;
+          return "<i class=\"" + (on ? "is-on" : "") + "\"></i>";
+        }).join("");
+      }
+
+      if (i >= steps.length) {
+        if (q) q.textContent = "Расчёт почти готов";
+        if (opts) {
+          opts.hidden = true;
+          opts.innerHTML = "";
+          opts.classList.remove("calc-services");
+        }
+        renderSummary();
+        if (summary) summary.hidden = false;
+        if (form) form.hidden = false;
+        if (back) back.hidden = false;
+        return;
+      }
+
+      if (form) form.hidden = true;
+      if (summary) {
+        summary.hidden = true;
+        summary.innerHTML = "";
+      }
+      if (opts) {
+        opts.hidden = false;
+        opts.classList.toggle("calc-services", i === 0);
+        opts.innerHTML = steps[i].opts.map((t) => "<button type=\"button\">" + t + "</button>").join("");
+      }
+      if (q) q.textContent = steps[i].q;
+      if (back) back.hidden = i === 0;
+    };
+
+    const paint = (dir = 0) => {
+      if (!panel || !dir) {
+        fill();
+        if (panel) panel.classList.add("is-ready");
+        return;
+      }
+      if (busy) return;
+      busy = true;
+      panel.classList.remove("is-ready");
+      panel.classList.add(dir > 0 ? "is-leave-next" : "is-leave-back");
+      window.setTimeout(() => {
+        fill();
+        panel.classList.remove("is-leave-next", "is-leave-back");
+        panel.classList.add(dir > 0 ? "is-enter-next" : "is-enter-back");
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => {
+            panel.classList.remove("is-enter-next", "is-enter-back");
+            panel.classList.add("is-ready");
+            busy = false;
+          });
+        });
+      }, 220);
+    };
+
+    if (opts) {
+      opts.addEventListener("click", (e) => {
+        const b = e.target.closest("button");
+        if (!b || opts.hidden || busy) return;
+        picks[i] = b.textContent.trim();
+        b.classList.add("is-on");
+        i += 1;
+        paint(1);
+      });
+    }
+    if (back) {
+      back.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (i <= 0 || busy) return;
+        i -= 1;
+        paint(-1);
       });
     }
 
@@ -799,17 +823,178 @@
     if (formEl) {
       formEl.addEventListener("submit", (e) => {
         e.preventDefault();
+        if (busy) return;
         form.classList.add("is-sent");
+        if (summary) summary.hidden = true;
         if (q) q.textContent = "Заявка отправлена";
+        if (back) back.hidden = true;
+        busy = true;
         window.setTimeout(() => {
           form.classList.remove("is-sent");
           formEl.reset();
-          renderServices();
+          picks.length = 0;
+          i = 0;
+          busy = false;
+          paint(1);
         }, 3400);
       });
     }
 
-    renderServices();
+    fill();
+    if (panel) panel.classList.add("is-ready");
+  };
+
+  const roomsSlider = () => {
+    const root = doc.querySelector("[data-rooms]");
+    if (!root) return;
+    const slides = [...root.querySelectorAll(".rooms__slide")];
+    const dotsWrap = root.querySelector("[data-rooms-dots]");
+    const prev = root.querySelector("[data-rooms-prev]");
+    const next = root.querySelector("[data-rooms-next]");
+    if (!slides.length) return;
+    let i = 0;
+
+    const paint = () => {
+      slides.forEach((s, n) => s.classList.toggle("is-on", n === i));
+      if (dotsWrap) {
+        dotsWrap.querySelectorAll("button").forEach((b, n) => {
+          b.classList.toggle("is-on", n === i);
+          b.setAttribute("aria-selected", n === i ? "true" : "false");
+        });
+      }
+    };
+
+    if (dotsWrap) {
+      dotsWrap.innerHTML = slides.map((_, n) =>
+        '<button type="button" role="tab"' + (n === 0 ? ' class="is-on" aria-selected="true"' : ' aria-selected="false"') + ' aria-label="Палата ' + (n + 1) + '"></button>'
+      ).join("");
+      dotsWrap.addEventListener("click", (e) => {
+        const b = e.target.closest("button");
+        if (!b) return;
+        i = [...dotsWrap.children].indexOf(b);
+        if (i < 0) return;
+        paint();
+      });
+    }
+    if (prev) prev.addEventListener("click", () => { i = (i - 1 + slides.length) % slides.length; paint(); });
+    if (next) next.addEventListener("click", () => { i = (i + 1) % slides.length; paint(); });
+    paint();
+  };
+
+  const doctorsSlider = () => {
+    const root = doc.querySelector("[data-doctors]");
+    if (!root) return;
+    const track = root.querySelector("[data-docs-track]");
+    const cards = [...root.querySelectorAll("[data-docs-card]")];
+    const switcher = root.querySelector("[data-docs-switch]");
+    const dotsWrap = root.querySelector("[data-docs-dots]");
+    const prev = root.querySelector("[data-docs-prev]");
+    const next = root.querySelector("[data-docs-next]");
+    if (!track || !cards.length) return;
+
+    let filter = "all";
+    let i = 0;
+
+    const visible = () => cards.filter((c) => !c.classList.contains("is-off"));
+
+    const perView = () => {
+      const w = window.innerWidth || 1200;
+      if (w <= 720) return 1;
+      if (w <= 1100) return 2;
+      return 3;
+    };
+
+    const maxIndex = () => Math.max(0, visible().length - perView());
+
+    const paint = () => {
+      const pv = perView();
+      const gap = 18;
+      const basis = "calc((100% - " + ((pv - 1) * gap) + "px) / " + pv + ")";
+      cards.forEach((c) => { c.style.flexBasis = basis; });
+
+      i = Math.min(i, maxIndex());
+      const first = visible()[0];
+      const step = first ? first.getBoundingClientRect().width + gap : 0;
+      track.style.transform = "translate3d(" + (-i * step) + "px,0,0)";
+
+      const pages = maxIndex() + 1;
+      const alone = visible().length <= 1 || pages <= 1;
+
+      if (prev) {
+        prev.disabled = alone || i <= 0;
+        prev.hidden = alone;
+      }
+      if (next) {
+        next.disabled = alone || i >= maxIndex();
+        next.hidden = alone;
+      }
+
+      if (dotsWrap) {
+        if (alone) {
+          dotsWrap.innerHTML = "";
+          dotsWrap.hidden = true;
+        } else {
+          dotsWrap.hidden = false;
+          const need = pages !== dotsWrap.children.length;
+          if (need) {
+            dotsWrap.innerHTML = Array.from({ length: pages }, (_, n) =>
+              '<button type="button" role="tab"' +
+              (n === i ? ' class="is-on" aria-selected="true"' : ' aria-selected="false"') +
+              ' aria-label="Слайд ' + (n + 1) + '"></button>'
+            ).join("");
+          } else {
+            [...dotsWrap.children].forEach((b, n) => {
+              b.classList.toggle("is-on", n === i);
+              b.setAttribute("aria-selected", n === i ? "true" : "false");
+            });
+          }
+        }
+      }
+    };
+
+    const applyFilter = (nextFilter) => {
+      filter = nextFilter;
+      cards.forEach((c) => {
+        const ok = filter === "all" || c.getAttribute("data-spec") === filter;
+        c.classList.toggle("is-off", !ok);
+      });
+      if (switcher) {
+        switcher.querySelectorAll("[data-docs-filter]").forEach((b) => {
+          const on = b.getAttribute("data-docs-filter") === filter;
+          b.classList.toggle("is-on", on);
+          b.setAttribute("aria-selected", on ? "true" : "false");
+        });
+      }
+      i = 0;
+      paint();
+    };
+
+    if (switcher) {
+      switcher.addEventListener("click", (e) => {
+        const b = e.target.closest("[data-docs-filter]");
+        if (!b) return;
+        applyFilter(b.getAttribute("data-docs-filter") || "all");
+      });
+    }
+    if (prev) prev.addEventListener("click", () => { i = Math.max(0, i - 1); paint(); });
+    if (next) next.addEventListener("click", () => { i = Math.min(maxIndex(), i + 1); paint(); });
+    if (dotsWrap) {
+      dotsWrap.addEventListener("click", (e) => {
+        const b = e.target.closest("button");
+        if (!b) return;
+        i = [...dotsWrap.children].indexOf(b);
+        if (i < 0) return;
+        paint();
+      });
+    }
+
+    let resizeTimer = 0;
+    window.addEventListener("resize", () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(paint, 120);
+    });
+
+    applyFilter("all");
   };
 
   const stickyLead = () => {
@@ -886,6 +1071,8 @@
   cookies();
   marquee();
   calc();
+  roomsSlider();
+  doctorsSlider();
 
   doc.addEventListener("visibilitychange", () => {
     body.classList.toggle("is-hidden-tab", doc.hidden);

@@ -129,11 +129,6 @@ PROGRAMS_MEGA = '''
 MNAV_EXTRA = "".join(
     f'<a data-extra-mnav href="{h}">{t}</a>'
     for h, t in [
-        ("service-alcohol.html", "Алкоголизм"),
-        ("service-drugs.html", "Наркомания"),
-        ("service-code.html", "Кодирование"),
-        ("service-help.html", "Наркологическая помощь"),
-        ("service-gambling.html", "Игровая зависимость"),
         ("reviews.html", "Отзывы"),
         ("methods.html", "Методы"),
         ("sitemap.html", "Карта сайта"),
@@ -292,20 +287,18 @@ CALC_CATS = (
     '<button type="button" role="tab" data-cat="7" aria-selected="false">Капельницы от алкоголя</button>'
 )
 
-CALC_SERVICES = (
-    '<a href="service-code.html">Кодирование</a>'
-    '<a href="service-code-dovzhenko.html">По Довженко</a>'
-    '<a href="service-code-hypnosis.html">Гипноз</a>'
-    '<a href="service-code-implant.html">Вшивание ампулы</a>'
-    '<a href="service-code-torpedo.html">Торпедо</a>'
-    '<a href="service-code-esperal.html">Эспераль</a>'
-    '<a href="service-code-double.html">Двойной блок</a>'
-    '<a href="service-code-shot.html">Укол</a>'
-    '<a href="service-code-vivitrol.html">Вивитрол</a>'
-    '<a href="service-code-naltrexone.html">Налтрексон</a>'
-    '<a href="service-code-disulfiram.html">Дисульфирам</a>'
-    '<a href="service-code-home.html">Кодирование на дому</a>'
+CALC_QUIZ_OPTS = (
+    "<button type=\"button\">Кодирование от алкоголизма</button>"
+    "<button type=\"button\">Лечение алкоголизма</button>"
+    "<button type=\"button\">Наркологическая помощь</button>"
+    "<button type=\"button\">Лечение наркомании</button>"
+    "<button type=\"button\">Прокапаться от алкоголя</button>"
+    "<button type=\"button\">Срочный вывод из запоя</button>"
+    "<button type=\"button\">Нарколог на дом</button>"
+    "<button type=\"button\">Капельницы от алкоголя</button>"
 )
+
+CALC_SERVICES = CALC_QUIZ_OPTS
 
 MNAV_CONTACT = (
     '<div class="mnav-contact" data-mnav-contact data-tofigma-hard>'
@@ -962,31 +955,19 @@ def fill_calc(html: str) -> str:
     if "data-calc" not in html:
         return html
     html = re.sub(
-        r'(<div class="calc__cats" data-calc-cats[^>]*>)\s*</div>',
-        r"\1" + CALC_CATS + "</div>",
-        html,
-    )
-    html = re.sub(
-        r'(<div class="calc-opts calc-services" data-calc-opts)\s*>\s*</div>',
-        r'\1>' + CALC_SERVICES + "</div>",
-        html,
-    )
-    html = re.sub(
-        r'(<div class="calc-opts" data-calc-opts)\s*>\s*</div>',
-        r'\1 class="calc-services">' + CALC_SERVICES + "</div>",
+        r'<div class="calc-opts" data-calc-opts>\s*</div>',
+        '<div class="calc-opts calc-services" data-calc-opts>' + CALC_QUIZ_OPTS + "</div>",
         html,
     )
     html = re.sub(
         r'(<h3 data-calc-q>)[^<]*(</h3>)',
-        r"\1Кодирование от алкоголизма\2",
+        r"\1Какая услуга нужна?\2",
         html,
     )
-    # show calc form in tofigma snapshot
     html = re.sub(
-        r'(<div class="form" data-calc-form)\s+hidden>',
-        r"\1>",
+        r'(<div class="calc__steps" data-calc-dots[^>]*>)\s*</div>',
+        r'\1<i class="is-on"></i><i></i><i></i><i></i><i></i><i></i></div>',
         html,
-        count=1,
     )
     return html
 

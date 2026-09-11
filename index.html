@@ -80,10 +80,11 @@
     <a href="programs.html">Программы</a>
     <a href="about.html#anon">Анонимность</a>
     <a href="doctors.html">Врачи</a>
+    <a href="reviews.html">Отзывы</a>
     <a href="articles.html">Статьи</a>
+    <a href="methods.html">Методы</a>
     <a href="contacts.html">Контакты</a>
-    <a href="https://max.ru/" data-city-max target="_blank" rel="noopener">Max</a>
-    <a href="https://t.me/+73812901212" data-city-tg target="_blank" rel="noopener">Telegram</a>
+    <a href="sitemap.html">Карта сайта</a>
   </nav>
 
   <main>
@@ -133,7 +134,7 @@
                 <path id="heroOrbitPath" d="M50,50 m-45.5,0 a45.5,45.5 0 1,1 91,0 a45.5,45.5 0 1,1 -91,0"></path>
               </defs>
               <text>
-                <textPath href="#heroOrbitPath">Анонимно 24/7 · Нарколог на связи · Лицензия · Без огласки · Детокс · Кодирование · Реабилитация · Анонимно 24/7 · Нарколог на связи · Лицензия · Без огласки · Детокс · Кодирование · Реабилитация · </textPath>
+                <textPath href="#heroOrbitPath">Особое отношение к каждому пациенту · Особое отношение к каждому пациенту · Особое отношение к каждому пациенту · </textPath>
               </text>
             </svg>
           </div>
@@ -146,13 +147,14 @@
       <div class="calc__box">
         <div class="calc__intro">
           <h2 class="section-title">Подберите услугу<br>и рассчитайте лечение</h2>
-          <p>Выберите категорию — откроется список услуг с переходом на детальную страницу.</p>
+          <p>Ответьте на несколько вопросов — получите ориентир по программе и стоимости до звонка врача.</p>
         </div>
-        <div data-reveal data-delay="80" class="calc__panel-wrap">
-          <div class="calc__cats" data-calc-cats role="tablist" aria-label="Категории услуг"></div>
+        <div class="calc__panel-wrap" data-reveal data-delay="80">
+          <div class="calc__steps" data-calc-dots role="status" aria-label="Шаги опроса"></div>
           <div class="calc__panel" data-calc-panel>
-            <h3 data-calc-q>Выберите категорию</h3>
-            <div class="calc-opts calc-services" data-calc-opts></div>
+            <h3 data-calc-q>Какая услуга нужна?</h3>
+            <div class="calc-opts" data-calc-opts></div>
+            <div class="calc-summary" data-calc-summary hidden></div>
             <div class="form" data-calc-form hidden>
               <form data-form>
                 <div class="form__fields">
@@ -167,6 +169,9 @@
                 </div>
               </form>
             </div>
+          </div>
+          <div class="calc__nav">
+            <button class="btn btn--line" type="button" data-calc-back hidden>Назад</button>
           </div>
         </div>
       </div>
@@ -424,45 +429,153 @@
       </div>
     </section>
 
-    <section class="people wrap">
+    <section class="rooms wrap" data-rooms>
+      <div class="rooms__head">
+        <h2 class="section-title" data-reveal>Выберите палату<br>под ваш сценарий</h2>
+        <div class="rooms__nav">
+          <button type="button" class="rooms__btn" data-rooms-prev aria-label="Предыдущая">←</button>
+          <button type="button" class="rooms__btn" data-rooms-next aria-label="Следующая">→</button>
+        </div>
+      </div>
+      <div class="rooms__viewport" data-reveal>
+        <div class="rooms__track" data-rooms-track>
+          <article class="rooms__slide is-on">
+            <img src="images/room-single.jpg" alt="Одноместная палата" loading="lazy" decoding="async">
+            <div class="rooms__meta">
+              <h3>Одноместная</h3>
+              <p>Тишина, отдельный санузел, круглосуточный пост рядом.</p>
+              <span>от 8 900 ₽ / сутки</span>
+            </div>
+          </article>
+          <article class="rooms__slide">
+            <img src="images/room-double.jpg" alt="Двухместная палата" loading="lazy" decoding="async">
+            <div class="rooms__meta">
+              <h3>Двухместная</h3>
+              <p>Для сопровождения родственника или более спокойного курса.</p>
+              <span>от 6 900 ₽ / сутки</span>
+            </div>
+          </article>
+          <article class="rooms__slide">
+            <img src="images/room-vip.jpg" alt="VIP-палата" loading="lazy" decoding="async">
+            <div class="rooms__meta">
+              <h3>VIP-сьют</h3>
+              <p>Расширенная зона отдыха, больше приватности и комфорта.</p>
+              <span>от 14 900 ₽ / сутки</span>
+            </div>
+          </article>
+          <article class="rooms__slide">
+            <img src="images/room-stabilize.jpg" alt="Палата со стабилизацией" loading="lazy" decoding="async">
+            <div class="rooms__meta">
+              <h3>Стабилизация</h3>
+              <p>Первые сутки с монитором и усиленным наблюдением.</p>
+              <span>от 11 500 ₽ / сутки</span>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="rooms__dots" data-rooms-dots role="tablist" aria-label="Палаты"></div>
+    </section>
+
+    <section class="home-licenses wrap">
+      <div class="home-licenses__head">
+        <h2 class="section-title" data-reveal>Лицензии<br>и документы клиники</h2>
+        <a class="btn btn--line" href="licenses.html">Все документы</a>
+      </div>
+      <p class="home-licenses__note" data-reveal>Временные макеты для вёрстки. Финальные сканы заменим после согласования.</p>
+      <div class="home-licenses__grid">
+        <a class="home-licenses__card" href="licenses.html" data-reveal>
+          <img src="images/license-1.jpg" alt="Лицензия на медицинскую деятельность" loading="lazy" decoding="async">
+          <span>Лицензия ЛО-55-01-002891</span>
+        </a>
+        <a class="home-licenses__card" href="licenses.html" data-reveal data-delay="80">
+          <img src="images/license-2.jpg" alt="Приложение к лицензии" loading="lazy" decoding="async">
+          <span>Приложение к видам работ</span>
+        </a>
+        <a class="home-licenses__card" href="licenses.html" data-reveal data-delay="160">
+          <img src="images/license-3.jpg" alt="Выписка о регистрации" loading="lazy" decoding="async">
+          <span>Выписка ООО «Альба Медикал»</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="people wrap" data-doctors>
       <div class="people__head">
-        <h2 class="section-title" data-reveal>Врачи, которым<br>доверяют семьи</h2>
-        <a class="btn btn--line" href="doctors.html">Вся команда</a>
+        <div class="people__intro">
+          <h2 class="section-title" data-reveal>Наши врачи</h2>
+          <p class="people__lead" data-reveal>Наркологи, психиатры и психотерапевты работают в одной смене. Можно выбрать специалиста ещё до заезда — администратор подскажет, кто дежурит сегодня.</p>
+        </div>
+        <div class="people__tools">
+          <div class="people__nav">
+            <button type="button" class="people__btn" data-docs-prev aria-label="Предыдущий">←</button>
+            <button type="button" class="people__btn" data-docs-next aria-label="Следующий">→</button>
+          </div>
+          <a class="btn btn--line" href="doctors.html">Вся команда</a>
+        </div>
       </div>
-      <div class="people__grid">
-        <a class="person" href="doctor-volkov.html" data-reveal>
-          <div class="person__photo"><img src="images/doctor-1.jpg" alt="Андрей Волков" loading="lazy" decoding="async"></div>
-          <div class="person__meta">
-            <h3>Андрей Волков</h3>
-            <p>Главный врач, нарколог, 18 лет</p>
-            <span class="person__more">Подробнее</span>
-          </div>
-        </a>
-        <a class="person" href="doctor-safonova.html" data-reveal data-delay="80">
-          <div class="person__photo"><img src="images/doctor-2.jpg" alt="Елена Сафонова" loading="lazy" decoding="async"></div>
-          <div class="person__meta">
-            <h3>Елена Сафонова</h3>
-            <p>Психиатр-нарколог, к.м.н.</p>
-            <span class="person__more">Подробнее</span>
-          </div>
-        </a>
-        <a class="person" href="doctor-lebedev.html" data-reveal data-delay="160">
-          <div class="person__photo"><img src="images/doctor-3.jpg" alt="Игорь Лебедев" loading="lazy" decoding="async"></div>
-          <div class="person__meta">
-            <h3>Игорь Лебедев</h3>
-            <p>Анестезиолог, детокс 24/7</p>
-            <span class="person__more">Подробнее</span>
-          </div>
-        </a>
-        <a class="person" href="doctor-orlova.html" data-reveal data-delay="240">
-          <div class="person__photo"><img src="images/doctor-4.jpg" alt="Мария Орлова" loading="lazy" decoding="async"></div>
-          <div class="person__meta">
-            <h3>Мария Орлова</h3>
-            <p>Психотерапевт, семейный приём</p>
-            <span class="person__more">Подробнее</span>
-          </div>
-        </a>
+      <div class="people__switch" data-docs-switch role="tablist" aria-label="Специальности" data-reveal>
+        <button type="button" class="is-on" data-docs-filter="all" role="tab" aria-selected="true">Все</button>
+        <button type="button" data-docs-filter="narcology" role="tab" aria-selected="false">Наркология</button>
+        <button type="button" data-docs-filter="psychiatry" role="tab" aria-selected="false">Психиатрия</button>
+        <button type="button" data-docs-filter="anesthesia" role="tab" aria-selected="false">Анестезия</button>
+        <button type="button" data-docs-filter="therapy" role="tab" aria-selected="false">Психотерапия</button>
       </div>
+      <div class="people__viewport" data-reveal>
+        <div class="people__track" data-docs-track>
+          <article class="person" data-docs-card data-spec="narcology">
+            <div class="person__photo"><img src="images/doctor-1.jpg" alt="Волков Андрей Сергеевич" loading="lazy" decoding="async"></div>
+            <div class="person__meta">
+              <h3>Волков Андрей Сергеевич</h3>
+              <p class="person__spec">Главный врач, врач-нарколог</p>
+              <p class="person__exp">Стаж 18 лет</p>
+              <p class="person__desc">Протоколы тяжёлого абстинентного синдрома и маршрутизация в первые часы обращения.</p>
+              <div class="person__actions">
+                <a class="person__more" href="doctor-volkov.html">Подробнее</a>
+                <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+              </div>
+            </div>
+          </article>
+          <article class="person" data-docs-card data-spec="psychiatry">
+            <div class="person__photo"><img src="images/doctor-2.jpg" alt="Сафонова Елена Викторовна" loading="lazy" decoding="async"></div>
+            <div class="person__meta">
+              <h3>Сафонова Елена Викторовна</h3>
+              <p class="person__spec">Психиатр-нарколог, к.м.н.</p>
+              <p class="person__exp">Стаж 15 лет</p>
+              <p class="person__desc">Сложные двойные диагнозы, первичная консультация пациента и семьи.</p>
+              <div class="person__actions">
+                <a class="person__more" href="doctor-safonova.html">Подробнее</a>
+                <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+              </div>
+            </div>
+          </article>
+          <article class="person" data-docs-card data-spec="anesthesia">
+            <div class="person__photo"><img src="images/doctor-3.jpg" alt="Лебедев Игорь Алексеевич" loading="lazy" decoding="async"></div>
+            <div class="person__meta">
+              <h3>Лебедев Игорь Алексеевич</h3>
+              <p class="person__spec">Анестезиолог-реаниматолог</p>
+              <p class="person__exp">Стаж 14 лет</p>
+              <p class="person__desc">Ночной детокс, мониторинг и вывод из запоя при сопутствующей кардиологии.</p>
+              <div class="person__actions">
+                <a class="person__more" href="doctor-lebedev.html">Подробнее</a>
+                <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+              </div>
+            </div>
+          </article>
+          <article class="person" data-docs-card data-spec="therapy">
+            <div class="person__photo"><img src="images/doctor-4.jpg" alt="Орлова Мария Дмитриевна" loading="lazy" decoding="async"></div>
+            <div class="person__meta">
+              <h3>Орлова Мария Дмитриевна</h3>
+              <p class="person__spec">Клинический психолог, семейный терапевт</p>
+              <p class="person__exp">Стаж 12 лет</p>
+              <p class="person__desc">Реабилитация, созависимость и поддержка семьи после острого этапа.</p>
+              <div class="person__actions">
+                <a class="person__more" href="doctor-orlova.html">Подробнее</a>
+                <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="people__dots" data-docs-dots role="tablist" aria-label="Врачи"></div>
     </section>
 
     <section class="guarantee wrap">
