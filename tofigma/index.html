@@ -727,13 +727,27 @@ ul {
   box-sizing: border-box;
 }
 
+.hero__call-mobile {
+  display: none;
+}
+
 .hero-lead-form {
-  max-width: 420px;
+  max-width: 440px;
   margin-bottom: 18px;
-  padding: 18px;
+  padding: 20px 20px 18px;
   background: rgba(255, 255, 255, 0.96);
   border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 22px;
+  border-radius: 24px;
+  color: var(--ink);
+  box-shadow: 0 18px 40px rgba(20, 40, 100, 0.12);
+}
+
+.hero-lead-form__title {
+  margin: 0 0 14px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
   color: var(--ink);
 }
 
@@ -743,7 +757,16 @@ ul {
 
 .hero-lead-form input {
   background: var(--bg);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
+}
+
+.hero-lead-form__note {
+  margin: 0 0 14px;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--muted);
+  letter-spacing: -0.01em;
 }
 
 .hero-lead-form__actions {
@@ -761,9 +784,19 @@ ul {
 }
 
 .hero-lead-form .btn--ghost {
-  background: transparent;
+  background: var(--blue-pale);
   color: var(--blue-deep);
-  border: 1.5px solid rgba(79, 132, 255, 0.35);
+  border: 1.5px solid rgba(79, 132, 255, 0.28);
+  animation: none;
+  box-shadow: none;
+  filter: none;
+}
+
+.hero-lead-form .btn--ghost:hover {
+  background: var(--blue);
+  color: var(--white);
+  border-color: var(--blue);
+  box-shadow: 0 10px 22px rgba(63, 112, 245, 0.22);
 }
 
 .hero-lead-form .form__ok {
@@ -3298,6 +3331,18 @@ body:has(.mnav.is-open) .sticky-lead {
   }
   .hero__content { padding: 0 18px 18px; }
   .hero__lead { font-size: 15px; margin-bottom: 20px; }
+  .hero__paylater {
+    margin-bottom: 12px;
+  }
+  .hero__call-mobile {
+    display: inline-flex;
+    width: 100%;
+    justify-content: center;
+    margin: 0 0 18px;
+  }
+  .hero__call-desktop {
+    display: none;
+  }
   .hero__cta {
     flex-direction: column;
     align-items: stretch;
@@ -3305,6 +3350,9 @@ body:has(.mnav.is-open) .sticky-lead {
   }
   .hero__cta .btn { justify-content: center; width: 100%; }
   .hero-lead-form { max-width: none; }
+  .hero-lead-form__title {
+    font-size: 16px;
+  }
   .hero-lead-form__actions {
     grid-template-columns: 1fr;
   }
@@ -6217,14 +6265,17 @@ html, body {
           <h1 class="split is-in">Альба — клиника анонимной наркологической помощи <span data-city-prep>в Омске</span></h1>
           <p class="hero__lead is-in" data-reveal>7 мобильных бригад сертифицированных врачей. Капельница от алкоголя на дому.<br>Наркологическая помощь. Круглосуточный стационар</p>
           <p class="hero__paylater is-in" data-reveal data-delay="40">Лечитесь сейчас — платите потом</p>
+          <a class="btn btn--light hero__call-mobile is-in" href="tel:+73812901212" data-city-tel data-reveal data-delay="50">Вызвать врача <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
           <div class="hero-lead-form form is-in" data-reveal data-delay="60">
+            <h3 class="hero-lead-form__title">Отправить заявку на отсрочку оплаты за лечение</h3>
             <form data-form>
               <div class="form__fields">
                 <label for="hero-phone">Телефон</label>
                 <input id="hero-phone" name="phone" type="tel" placeholder="+7 (" required autocomplete="tel">
+                <p class="hero-lead-form__note">Мы понимаем Ваше состояние и готовы помочь прямо сейчас без оплаты. Отправьте заявку и наш врач перезвонит Вам через 2 минуты</p>
                 <div class="hero-lead-form__actions">
                   <button class="btn btn--blue" type="submit">Оставить заявку</button>
-                  <a class="btn btn--ghost" href="#calc">Рассчитать лечение</a>
+                  <a class="btn btn--ghost" href="#calc">Рассчитать стоимость</a>
                 </div>
               </div>
               <div class="form__ok">
@@ -6234,7 +6285,7 @@ html, body {
             </form>
           </div>
           <div class="hero__cta is-in" data-reveal data-delay="80">
-            <a class="btn btn--light" href="tel:+73812901212" data-city-tel>Вызвать врача <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+            <a class="btn btn--light hero__call-desktop" href="tel:+73812901212" data-city-tel>Вызвать врача <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
             <a class="btn btn--ghost" href="#" data-open-modal>Получить бесплатную консультацию</a>
           </div>
           <div class="hero__rating is-in" data-reveal data-delay="160">
@@ -6276,7 +6327,7 @@ html, body {
           <div class="calc__steps" data-calc-dots role="status" aria-label="Шаги опроса"><i class="is-on"></i><i></i><i></i><i></i><i></i><i></i></div>
           <div class="calc__panel" data-calc-panel>
             <h3 data-calc-q>Какая услуга нужна?</h3>
-            <div class="calc-opts calc-services" data-calc-opts><button type="button">Кодирование от алкоголизма</button><button type="button">Лечение алкоголизма</button><button type="button">Наркологическая помощь</button><button type="button">Лечение наркомании</button><button type="button">Прокапаться от алкоголя</button><button type="button">Срочный вывод из запоя</button><button type="button">Нарколог на дом</button><button type="button">Капельницы от алкоголя</button></div>
+            <div class="calc-opts calc-services" data-calc-opts><button type="button">Кодирование от алкоголизма</button><button type="button">Лечение алкоголизма</button><button type="button">Наркологическая помощь</button><button type="button">Лечение наркомании</button><button type="button">Прокапаться от алкоголя в стационаре</button><button type="button">Срочный вывод из запоя</button><button type="button">Нарколог на дом</button><button type="button">Капельница от наркотиков</button></div>
             <div class="calc-summary" data-calc-summary hidden></div>
             <div class="form" data-calc-form hidden>
               <form data-form>
@@ -6342,9 +6393,51 @@ html, body {
     </section>
 
     <section class="offers wrap">
-      <h2 class="section-title split is-in">Помощь, которую ищут<br>в первую ночь</h2>
+      <h2 class="section-title split is-in">Помощь, которую ищут<br>сейчас</h2>
       <div class="offer-grid">
-        <a class="offer is-in" href="service-visit.html" data-reveal data-tilt>
+        <a class="offer is-in" href="service-zapoy.html" data-reveal data-tilt>
+          <span>Срочно · на дом</span>
+          <h3>Срочный вывод из запоя на дому</h3>
+          <p>Инфузия и стабилизация дома под контролем давления, сна и сердечного ритма.</p>
+          <ul class="offer__feats">
+            <li>Круглосуточный выезд</li>
+            <li>Контроль давления и ЭКГ-рисков</li>
+            <li>Сон и восстановление за сутки</li>
+          </ul>
+          <div class="offer__foot">
+            <b>от 1 450 ₽</b>
+            <span class="offer__cta">Вызвать врача</span>
+          </div>
+        </a>
+        <a class="offer is-in" href="service-alcohol.html" data-reveal data-tilt data-delay="60">
+          <span>Алкоголь</span>
+          <h3>Лечение алкогольной зависимости</h3>
+          <p>Не «капельница и всё». Детокс, психиатр и план, который человек принимает осознанно.</p>
+          <ul class="offer__feats">
+            <li>Индивидуальный протокол</li>
+            <li>Стационар или дом</li>
+            <li>Сопровождение семьи</li>
+          </ul>
+          <div class="offer__foot">
+            <b>от 1 380 ₽</b>
+            <span class="offer__cta">Узнать стоимость</span>
+          </div>
+        </a>
+        <a class="offer is-in" href="service-code.html" data-reveal data-tilt data-delay="80">
+          <span>После стабилизации</span>
+          <h3>Кодирование от алкоголя</h3>
+          <p>Методы называем вслух. Наблюдение 30 дней — без кодирования «с порога».</p>
+          <ul class="offer__feats">
+            <li>Подбор метода после осмотра</li>
+            <li>Письменный протокол</li>
+            <li>Контроль в течение месяца</li>
+          </ul>
+          <div class="offer__foot">
+            <b>от 1 720 ₽</b>
+            <span class="offer__cta">Записаться</span>
+          </div>
+        </a>
+        <a class="offer is-in" href="service-visit.html" data-reveal data-tilt data-delay="100">
           <span>На дом</span>
           <h3>Вызов нарколога</h3>
           <p>Врач приезжает с набором для стабилизации. Решаем на месте: остаётесь дома или едете в палату.</p>
@@ -6356,48 +6449,6 @@ html, body {
           <div class="offer__foot">
             <b>от 15 000 ₽</b>
             <span class="offer__cta">Оставить заявку</span>
-          </div>
-        </a>
-        <a class="offer is-in" href="service-alcohol.html" data-reveal data-tilt data-delay="60">
-          <span>Алкоголь</span>
-          <h3>Лечение зависимости</h3>
-          <p>Не «капельница и всё». Детокс, психиатр и план, который человек принимает осознанно.</p>
-          <ul class="offer__feats">
-            <li>Индивидуальный протокол</li>
-            <li>Стационар или дом</li>
-            <li>Сопровождение семьи</li>
-          </ul>
-          <div class="offer__foot">
-            <b>от 18 900 ₽</b>
-            <span class="offer__cta">Узнать стоимость</span>
-          </div>
-        </a>
-        <a class="offer is-in" href="service-zapoy.html" data-reveal data-tilt data-delay="80">
-          <span>Срочно</span>
-          <h3>Купирование запоя</h3>
-          <p>Инфузия дома или вывод под контролем давления, сна и сердечного ритма.</p>
-          <ul class="offer__feats">
-            <li>Круглосуточный выезд</li>
-            <li>Контроль давления и ЭКГ-рисков</li>
-            <li>Сон и восстановление за сутки</li>
-          </ul>
-          <div class="offer__foot">
-            <b>от 9 900 ₽</b>
-            <span class="offer__cta">Вызвать врача</span>
-          </div>
-        </a>
-        <a class="offer is-in" href="service-code.html" data-reveal data-tilt data-delay="100">
-          <span>После стабилизации</span>
-          <h3>Кодирование</h3>
-          <p>Методы называем вслух. Наблюдение 30 дней — без кодирования «с порога».</p>
-          <ul class="offer__feats">
-            <li>Подбор метода после осмотра</li>
-            <li>Письменный протокол</li>
-            <li>Контроль в течение месяца</li>
-          </ul>
-          <div class="offer__foot">
-            <b>от 9 800 ₽</b>
-            <span class="offer__cta">Записаться</span>
           </div>
         </a>
         <a class="offer is-in" href="service-drugs.html" data-reveal data-tilt>

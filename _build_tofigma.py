@@ -281,10 +281,10 @@ CALC_CATS = (
     '<button type="button" role="tab" data-cat="1" aria-selected="false">Лечение алкоголизма</button>'
     '<button type="button" role="tab" data-cat="2" aria-selected="false">Наркологическая помощь</button>'
     '<button type="button" role="tab" data-cat="3" aria-selected="false">Лечение наркомании</button>'
-    '<button type="button" role="tab" data-cat="4" aria-selected="false">Прокапаться от алкоголя</button>'
+    '<button type="button" role="tab" data-cat="4" aria-selected="false">Прокапаться от алкоголя в стационаре</button>'
     '<button type="button" role="tab" data-cat="5" aria-selected="false">Срочный вывод из запоя</button>'
     '<button type="button" role="tab" data-cat="6" aria-selected="false">Нарколог на дом</button>'
-    '<button type="button" role="tab" data-cat="7" aria-selected="false">Капельницы от алкоголя</button>'
+    '<button type="button" role="tab" data-cat="7" aria-selected="false">Капельница от наркотиков</button>'
 )
 
 CALC_QUIZ_OPTS = (
@@ -292,10 +292,10 @@ CALC_QUIZ_OPTS = (
     "<button type=\"button\">Лечение алкоголизма</button>"
     "<button type=\"button\">Наркологическая помощь</button>"
     "<button type=\"button\">Лечение наркомании</button>"
-    "<button type=\"button\">Прокапаться от алкоголя</button>"
+    "<button type=\"button\">Прокапаться от алкоголя в стационаре</button>"
     "<button type=\"button\">Срочный вывод из запоя</button>"
     "<button type=\"button\">Нарколог на дом</button>"
-    "<button type=\"button\">Капельницы от алкоголя</button>"
+    "<button type=\"button\">Капельница от наркотиков</button>"
 )
 
 CALC_SERVICES = CALC_QUIZ_OPTS

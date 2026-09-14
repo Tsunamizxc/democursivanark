@@ -94,14 +94,17 @@
           <h1 class="split">Альба — клиника анонимной наркологической помощи <span data-city-prep>в Омске</span></h1>
           <p class="hero__lead" data-reveal>7 мобильных бригад сертифицированных врачей. Капельница от алкоголя на дому.<br>Наркологическая помощь. Круглосуточный стационар</p>
           <p class="hero__paylater" data-reveal data-delay="40">Лечитесь сейчас — платите потом</p>
+          <a class="btn btn--light hero__call-mobile" href="tel:+73812901212" data-city-tel data-reveal data-delay="50">Вызвать врача <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
           <div class="hero-lead-form form" data-reveal data-delay="60">
+            <h3 class="hero-lead-form__title">Отправить заявку на отсрочку оплаты за лечение</h3>
             <form data-form>
               <div class="form__fields">
                 <label for="hero-phone">Телефон</label>
                 <input id="hero-phone" name="phone" type="tel" placeholder="+7 (" required autocomplete="tel">
+                <p class="hero-lead-form__note">Мы понимаем Ваше состояние и готовы помочь прямо сейчас без оплаты. Отправьте заявку и наш врач перезвонит Вам через 2 минуты</p>
                 <div class="hero-lead-form__actions">
                   <button class="btn btn--blue" type="submit">Оставить заявку</button>
-                  <a class="btn btn--ghost" href="#calc">Рассчитать лечение</a>
+                  <a class="btn btn--ghost" href="#calc">Рассчитать стоимость</a>
                 </div>
               </div>
               <div class="form__ok">
@@ -111,7 +114,7 @@
             </form>
           </div>
           <div class="hero__cta" data-reveal data-delay="80">
-            <a class="btn btn--light" href="tel:+73812901212" data-city-tel>Вызвать врача <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+            <a class="btn btn--light hero__call-desktop" href="tel:+73812901212" data-city-tel>Вызвать врача <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
             <a class="btn btn--ghost" href="#" data-open-modal>Получить бесплатную консультацию</a>
           </div>
           <div class="hero__rating" data-reveal data-delay="160">
@@ -219,9 +222,51 @@
     </section>
 
     <section class="offers wrap">
-      <h2 class="section-title split">Помощь, которую ищут<br>в первую ночь</h2>
+      <h2 class="section-title split">Помощь, которую ищут<br>сейчас</h2>
       <div class="offer-grid">
-        <a class="offer" href="service-visit.html" data-reveal data-tilt>
+        <a class="offer" href="service-zapoy.html" data-reveal data-tilt>
+          <span>Срочно · на дом</span>
+          <h3>Срочный вывод из запоя на дому</h3>
+          <p>Инфузия и стабилизация дома под контролем давления, сна и сердечного ритма.</p>
+          <ul class="offer__feats">
+            <li>Круглосуточный выезд</li>
+            <li>Контроль давления и ЭКГ-рисков</li>
+            <li>Сон и восстановление за сутки</li>
+          </ul>
+          <div class="offer__foot">
+            <b>от 1 450 ₽</b>
+            <span class="offer__cta">Вызвать врача</span>
+          </div>
+        </a>
+        <a class="offer" href="service-alcohol.html" data-reveal data-tilt data-delay="60">
+          <span>Алкоголь</span>
+          <h3>Лечение алкогольной зависимости</h3>
+          <p>Не «капельница и всё». Детокс, психиатр и план, который человек принимает осознанно.</p>
+          <ul class="offer__feats">
+            <li>Индивидуальный протокол</li>
+            <li>Стационар или дом</li>
+            <li>Сопровождение семьи</li>
+          </ul>
+          <div class="offer__foot">
+            <b>от 1 380 ₽</b>
+            <span class="offer__cta">Узнать стоимость</span>
+          </div>
+        </a>
+        <a class="offer" href="service-code.html" data-reveal data-tilt data-delay="80">
+          <span>После стабилизации</span>
+          <h3>Кодирование от алкоголя</h3>
+          <p>Методы называем вслух. Наблюдение 30 дней — без кодирования «с порога».</p>
+          <ul class="offer__feats">
+            <li>Подбор метода после осмотра</li>
+            <li>Письменный протокол</li>
+            <li>Контроль в течение месяца</li>
+          </ul>
+          <div class="offer__foot">
+            <b>от 1 720 ₽</b>
+            <span class="offer__cta">Записаться</span>
+          </div>
+        </a>
+        <a class="offer" href="service-visit.html" data-reveal data-tilt data-delay="100">
           <span>На дом</span>
           <h3>Вызов нарколога</h3>
           <p>Врач приезжает с набором для стабилизации. Решаем на месте: остаётесь дома или едете в палату.</p>
@@ -233,48 +278,6 @@
           <div class="offer__foot">
             <b>от 15 000 ₽</b>
             <span class="offer__cta">Оставить заявку</span>
-          </div>
-        </a>
-        <a class="offer" href="service-alcohol.html" data-reveal data-tilt data-delay="60">
-          <span>Алкоголь</span>
-          <h3>Лечение зависимости</h3>
-          <p>Не «капельница и всё». Детокс, психиатр и план, который человек принимает осознанно.</p>
-          <ul class="offer__feats">
-            <li>Индивидуальный протокол</li>
-            <li>Стационар или дом</li>
-            <li>Сопровождение семьи</li>
-          </ul>
-          <div class="offer__foot">
-            <b>от 18 900 ₽</b>
-            <span class="offer__cta">Узнать стоимость</span>
-          </div>
-        </a>
-        <a class="offer" href="service-zapoy.html" data-reveal data-tilt data-delay="80">
-          <span>Срочно</span>
-          <h3>Купирование запоя</h3>
-          <p>Инфузия дома или вывод под контролем давления, сна и сердечного ритма.</p>
-          <ul class="offer__feats">
-            <li>Круглосуточный выезд</li>
-            <li>Контроль давления и ЭКГ-рисков</li>
-            <li>Сон и восстановление за сутки</li>
-          </ul>
-          <div class="offer__foot">
-            <b>от 9 900 ₽</b>
-            <span class="offer__cta">Вызвать врача</span>
-          </div>
-        </a>
-        <a class="offer" href="service-code.html" data-reveal data-tilt data-delay="100">
-          <span>После стабилизации</span>
-          <h3>Кодирование</h3>
-          <p>Методы называем вслух. Наблюдение 30 дней — без кодирования «с порога».</p>
-          <ul class="offer__feats">
-            <li>Подбор метода после осмотра</li>
-            <li>Письменный протокол</li>
-            <li>Контроль в течение месяца</li>
-          </ul>
-          <div class="offer__foot">
-            <b>от 9 800 ₽</b>
-            <span class="offer__cta">Записаться</span>
           </div>
         </a>
         <a class="offer" href="service-drugs.html" data-reveal data-tilt>

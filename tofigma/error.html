@@ -728,13 +728,27 @@ ul {
   box-sizing: border-box;
 }
 
+.hero__call-mobile {
+  display: none;
+}
+
 .hero-lead-form {
-  max-width: 420px;
+  max-width: 440px;
   margin-bottom: 18px;
-  padding: 18px;
+  padding: 20px 20px 18px;
   background: rgba(255, 255, 255, 0.96);
   border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 22px;
+  border-radius: 24px;
+  color: var(--ink);
+  box-shadow: 0 18px 40px rgba(20, 40, 100, 0.12);
+}
+
+.hero-lead-form__title {
+  margin: 0 0 14px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
   color: var(--ink);
 }
 
@@ -744,7 +758,16 @@ ul {
 
 .hero-lead-form input {
   background: var(--bg);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
+}
+
+.hero-lead-form__note {
+  margin: 0 0 14px;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--muted);
+  letter-spacing: -0.01em;
 }
 
 .hero-lead-form__actions {
@@ -762,9 +785,19 @@ ul {
 }
 
 .hero-lead-form .btn--ghost {
-  background: transparent;
+  background: var(--blue-pale);
   color: var(--blue-deep);
-  border: 1.5px solid rgba(79, 132, 255, 0.35);
+  border: 1.5px solid rgba(79, 132, 255, 0.28);
+  animation: none;
+  box-shadow: none;
+  filter: none;
+}
+
+.hero-lead-form .btn--ghost:hover {
+  background: var(--blue);
+  color: var(--white);
+  border-color: var(--blue);
+  box-shadow: 0 10px 22px rgba(63, 112, 245, 0.22);
 }
 
 .hero-lead-form .form__ok {
@@ -3299,6 +3332,18 @@ body:has(.mnav.is-open) .sticky-lead {
   }
   .hero__content { padding: 0 18px 18px; }
   .hero__lead { font-size: 15px; margin-bottom: 20px; }
+  .hero__paylater {
+    margin-bottom: 12px;
+  }
+  .hero__call-mobile {
+    display: inline-flex;
+    width: 100%;
+    justify-content: center;
+    margin: 0 0 18px;
+  }
+  .hero__call-desktop {
+    display: none;
+  }
   .hero__cta {
     flex-direction: column;
     align-items: stretch;
@@ -3306,6 +3351,9 @@ body:has(.mnav.is-open) .sticky-lead {
   }
   .hero__cta .btn { justify-content: center; width: 100%; }
   .hero-lead-form { max-width: none; }
+  .hero-lead-form__title {
+    font-size: 16px;
+  }
   .hero-lead-form__actions {
     grid-template-columns: 1fr;
   }
