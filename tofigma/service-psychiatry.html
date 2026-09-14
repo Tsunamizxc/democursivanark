@@ -884,7 +884,7 @@ ul {
 .hero__visual {
   --hero-disk: 132%;
   --hero-disk-right: -14%;
-  --hero-disk-bottom: -30%;
+  --hero-disk-bottom: -14%;
   position: absolute;
   z-index: 1;
   top: 0;
@@ -931,7 +931,7 @@ ul {
 .hero__orbit text {
   fill: #4f84ff;
   font-family: var(--font);
-  font-size: 2.85px;
+  font-size: 3.85px;
   font-weight: 700;
   letter-spacing: 0.28px;
   text-transform: uppercase;
@@ -2881,8 +2881,7 @@ ul {
 }
 
 .mnav .city-btn {
-  margin-top: 20px;
-  width: fit-content;
+  display: none !important;
 }
 
 html.is-lock,
@@ -4299,6 +4298,8 @@ body:has(.mnav.is-open) .sticky-lead {
 .split-card {
   background: var(--white);
   box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
 }
 
 .pay-card h3,
@@ -4337,6 +4338,7 @@ body:has(.mnav.is-open) .sticky-lead {
   display: grid;
   gap: 8px;
   margin-top: 14px;
+  margin-bottom: 0;
 }
 
 .split-card li {
@@ -4348,6 +4350,57 @@ body:has(.mnav.is-open) .sticky-lead {
 .split-card li::before {
   content: "— ";
   color: var(--blue);
+}
+
+.split-card .more {
+  align-self: flex-start;
+  margin-top: 22px;
+  height: 44px;
+  padding: 0 18px 0 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #6a96ff 0%, var(--blue) 52%, #3563e8 100%);
+  color: var(--white);
+  border: 0;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  gap: 10px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 12px 28px rgba(63, 112, 245, 0.28);
+  transition:
+    transform 0.35s var(--ease),
+    box-shadow 0.35s var(--ease),
+    filter 0.35s var(--ease);
+  animation: sticky-call-pulse 3.6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.split-card .more::after {
+  content: "";
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' fill='none'%3E%3Cpath d='M3 7h8M8 3l4 4-4 4' stroke='white' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 12px;
+  transition: transform 0.35s var(--ease), background-color 0.35s var(--ease);
+}
+
+.split-card .more:hover {
+  color: var(--white);
+  transform: translateY(-2px);
+  filter: brightness(1.04);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 16px 34px rgba(63, 112, 245, 0.36);
+  animation-play-state: paused;
+}
+
+.split-card .more:hover::after {
+  transform: translateX(3px);
+  background-color: rgba(255, 255, 255, 0.28);
 }
 
 /* Rooms slider */
@@ -6239,8 +6292,6 @@ html, body {
     <a href="contacts.html">Контакты</a>
     <a href="https://max.ru/" data-city-max target="_blank" rel="noopener">Max</a>
     <a href="https://t.me/+73812901212" data-city-tg target="_blank" rel="noopener">Telegram</a>
-  
-    <button type="button" class="city-btn" data-open-city><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 18s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10Z" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="8" r="2.1" stroke="currentColor" stroke-width="1.6"/></svg><span data-city-name>Омск</span></button>
   </nav>
   <main>
     <section class="page-hero wrap">

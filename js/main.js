@@ -79,18 +79,11 @@
         const contact = mnav.querySelector("[data-mnav-contact]");
         if (contact && mnav.firstElementChild !== contact) mnav.insertBefore(contact, mnav.firstChild);
       }
-      // Keep only page links in burger: strip service/extra/messenger entries
+      // Keep only page links in burger: strip service/extra/messenger/city entries
       mnav.querySelectorAll("[data-extra-mnav]").forEach((n) => n.remove());
       mnav.querySelectorAll("a[data-city-max], a[data-city-tg]").forEach((n) => n.remove());
       mnav.querySelectorAll('a[href^="service-"]').forEach((n) => n.remove());
-    }
-    if (mnav && !mnav.querySelector("[data-open-city]")) {
-      const mb = doc.createElement("button");
-      mb.type = "button";
-      mb.className = "city-btn";
-      mb.setAttribute("data-open-city", "");
-      mb.innerHTML = '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 18s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10Z" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="8" r="2.1" stroke="currentColor" stroke-width="1.6"/></svg><span data-city-name>Омск</span>';
-      mnav.appendChild(mb);
+      mnav.querySelectorAll(".city-btn, [data-open-city]").forEach((n) => n.remove());
     }
 
     const wrap = doc.createElement("div");

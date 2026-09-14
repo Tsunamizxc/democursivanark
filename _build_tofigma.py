@@ -760,28 +760,32 @@ def inline_css(html: str) -> str:
 
 
 def inject_city_btn(html: str) -> str:
-    if 'class="city-btn"' in html:
-        return html
-    # after logo link inside header__bar
-    def after_logo(m):
-        return m.group(0) + "\n      " + CITY_BTN
+    if 'class="city-btn"' not in html:
+        # after logo link inside header__bar
+        def after_logo(m):
+            return m.group(0) + "\n      " + CITY_BTN
 
-    html2, n = re.subn(
-        r'(<header[^>]*>[\s\S]*?<div class="header__bar[^"]*"[^>]*>[\s\S]*?<a class="logo"[^>]*>[\s\S]*?</a>)',
-        after_logo,
-        html,
-        count=1,
-    )
-    if n:
-        html = html2
-    # mnav city button at end before </nav>
-    if 'data-mnav' in html and 'data-open-city' not in html.split('data-mnav', 1)[-1].split('</nav>', 1)[0]:
-        html = re.sub(
-            r'(<nav class="mnav"[^>]*>)([\s\S]*?)(</nav>)',
-            lambda m: m.group(1) + m.group(2) + "\n    " + CITY_BTN + "\n  " + m.group(3),
+        html2, n = re.subn(
+            r'(<header[^>]*>[\s\S]*?<div class="header__bar[^"]*"[^>]*>[\s\S]*?<a class="logo"[^>]*>[\s\S]*?</a>)',
+            after_logo,
             html,
             count=1,
         )
+        if n:
+            html = html2
+    # never keep city button inside burger menu
+    html = re.sub(
+        r'(<nav class="mnav"[^>]*>)([\s\S]*?)(</nav>)',
+        lambda m: m.group(1)
+        + re.sub(
+            r'\s*<button[^>]*class="city-btn"[^>]*>[\s\S]*?</button>',
+            "",
+            m.group(2),
+        )
+        + m.group(3),
+        html,
+        count=1,
+    )
     return html
 
 
