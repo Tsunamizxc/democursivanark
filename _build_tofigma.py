@@ -368,18 +368,18 @@ TG_SVG_SM = (
 STICKY_LEAD_HTML = f'''
   <div class="sticky-lead" data-sticky-lead data-tofigma-hard>
     <div class="sticky-lead__inner">
-      <a class="sticky-lead__call" href="tel:+73812901212" data-city-tel>
+      <a class="sticky-lead__call" href="tel:+78001001212" data-city-tel>
         <span class="sticky-lead__label">Вызвать нарколога на дом</span>
-        <strong class="sticky-lead__phone" data-city-phone>+7 (3812) 90-12-12</strong>
+        <strong class="sticky-lead__phone" data-city-phone>8 800 100-12-12</strong>
       </a>
       <div class="sticky-lead__actions">
         <a class="sticky-lead__btn sticky-lead__btn--max" href="https://max.ru/" data-city-max target="_blank" rel="noopener" aria-label="Max">
           <span class="sticky-lead__ico">{MAX_SVG_BLUE_SM}</span>
         </a>
-        <a class="sticky-lead__btn sticky-lead__btn--tg" href="https://t.me/+73812901212" data-city-tg target="_blank" rel="noopener" aria-label="Telegram">
+        <a class="sticky-lead__btn sticky-lead__btn--tg" href="https://t.me/+78001001212" data-city-tg target="_blank" rel="noopener" aria-label="Telegram">
           <span class="sticky-lead__ico">{TG_SVG_SM}</span>
         </a>
-        <a class="sticky-lead__btn sticky-lead__btn--phone" href="tel:+73812901212" data-city-tel aria-label="Позвонить">
+        <a class="sticky-lead__btn sticky-lead__btn--phone" href="tel:+78001001212" data-city-tel aria-label="Позвонить">
           <span class="sticky-lead__ico">{PHONE_SVG_SM}</span>
         </a>
       </div>
