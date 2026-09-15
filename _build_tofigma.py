@@ -311,7 +311,10 @@ MNAV_CONTACT = (
 PD_REC = (
     '<div class="pd-rec" data-pd-rec data-tofigma-hard>'
     '<div class="pd-rec__top">'
+    '<span class="pd-rec__brand-wrap">'
+    '<img class="pd-rec__logo" src="images/prodoctorov-logo.png" alt="" width="88" height="20" decoding="async">'
     '<span class="pd-rec__brand">ПроДокторов</span>'
+    "</span>"
     '<span class="pd-rec__score">4.8 <i>★</i></span>'
     "</div>"
     "<p>Рекомендация пациентов на ПроДокторов: клиника Альба — анонимная наркологическая помощь с выездом и стационаром.</p>"

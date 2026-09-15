@@ -885,7 +885,7 @@
     const next = root.querySelector("[data-docs-next]");
     if (!track || !cards.length) return;
 
-    let filter = "all";
+    let filter = "field";
     let i = 0;
 
     const visible = () => cards.filter((c) => !c.classList.contains("is-off"));
@@ -966,7 +966,7 @@
       switcher.addEventListener("click", (e) => {
         const b = e.target.closest("[data-docs-filter]");
         if (!b) return;
-        applyFilter(b.getAttribute("data-docs-filter") || "all");
+        applyFilter(b.getAttribute("data-docs-filter") || "field");
       });
     }
     if (prev) prev.addEventListener("click", () => { i = Math.max(0, i - 1); paint(); });
@@ -987,7 +987,8 @@
       resizeTimer = window.setTimeout(paint, 120);
     });
 
-    applyFilter("all");
+    const onTab = switcher && switcher.querySelector(".is-on");
+    applyFilter((onTab && onTab.getAttribute("data-docs-filter")) || "field");
   };
 
   const stickyLead = () => {
@@ -1038,7 +1039,7 @@
     box.setAttribute("data-pd-rec", "");
     box.innerHTML =
       '<div class="pd-rec__top">' +
-        '<span class="pd-rec__brand">ПроДокторов</span>' +
+        '<span class="pd-rec__brand"><img class="pd-rec__logo" src="images/prodoctorov-logo.png" alt="ПроДокторов" width="120" height="24"></span>' +
         '<span class="pd-rec__score">4.8 <i>★</i></span>' +
       "</div>" +
       "<p>Рекомендация пациентов на ПроДокторов: клиника Альба — анонимная наркологическая помощь с выездом и стационаром.</p>" +
@@ -1046,8 +1047,66 @@
     side.appendChild(box);
   };
 
+  const pageFunnels = () => {
+    const file = ((location.pathname || "").split("/").pop() || "index.html").toLowerCase();
+    if (!file || file === "index.html" || file === "/") return;
+    if (!doc.querySelector(".page-hero")) return;
+    if (doc.querySelector("section.doctor, .doctor") || /^doctor-/i.test(file)) return;
+
+    const main = doc.querySelector("main");
+    if (!main) return;
+
+    if (!doc.querySelector("[data-page-funnel]")) {
+      const section = doc.createElement("section");
+      section.className = "page-funnel wrap";
+      section.setAttribute("data-page-funnel", "");
+      section.innerHTML =
+        '<div class="page-funnel__box">' +
+          "<div>" +
+            "<h2>Нужна помощь сегодня?</h2>" +
+            "<p>Оставьте номер — перезвоним за несколько минут. Анонимно.</p>" +
+          "</div>" +
+          '<div class="page-funnel__actions">' +
+            '<a class="btn btn--blue" href="#" data-open-modal>Оставить заявку</a>' +
+            '<a class="btn btn--line" href="tel:+78001001212" data-city-tel>Позвонить 8 800</a>' +
+          "</div>" +
+        "</div>";
+      main.appendChild(section);
+    }
+
+    if (/^service-/i.test(file) && doc.querySelector(".svc") && !doc.querySelector("[data-page-funnel-mid]")) {
+      const mid = doc.createElement("section");
+      mid.className = "page-funnel page-funnel--mid wrap";
+      mid.setAttribute("data-page-funnel-mid", "");
+      mid.innerHTML =
+        '<div class="page-funnel__box">' +
+          "<div>" +
+            "<h2>Готовы обсудить этот формат?</h2>" +
+            "<p>Врач уточнит показания и назовёт ориентир по стоимости.</p>" +
+          "</div>" +
+          '<div class="page-funnel__actions">' +
+            '<a class="btn btn--blue" href="#" data-open-modal>Оставить заявку</a>' +
+            '<a class="btn btn--line" href="tel:+78001001212" data-city-tel>Позвонить</a>' +
+          "</div>" +
+        "</div>";
+      const svc = doc.querySelector("section.svc, .svc");
+      const faq = doc.querySelector("section.faq");
+      if (svc && svc.parentNode) {
+        if (svc.nextSibling) svc.parentNode.insertBefore(mid, svc.nextSibling);
+        else svc.parentNode.appendChild(mid);
+      } else if (faq && faq.parentNode) {
+        faq.parentNode.insertBefore(mid, faq);
+      } else {
+        const endFunnel = doc.querySelector("[data-page-funnel]");
+        if (endFunnel) endFunnel.parentNode.insertBefore(mid, endFunnel);
+        else main.appendChild(mid);
+      }
+    }
+  };
+
   stickyLead();
   prodoctorov();
+  pageFunnels();
   splitHeadings();
   geo();
   catalogNav();

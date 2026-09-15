@@ -501,11 +501,65 @@
       </div>
     </section>
 
+    <section class="dirs wrap">
+      <h2 class="section-title" data-reveal>Направления деятельности</h2>
+      <div class="dirs__grid" data-reveal>
+        <div class="dirs__col">
+          <h3>Наркология — Помощь при алкоголизме</h3>
+          <div class="dirs__list">
+            <a href="service-consult.html">Консультация психиатра-нарколога <span>›</span></a>
+            <a href="service-help.html">Наркологическая помощь на дому <span>›</span></a>
+            <a href="service-zapoy.html">Срочный вывод из запоя на дому <span>›</span></a>
+            <a href="service-visit.html">Нарколог на дом <span>›</span></a>
+            <a href="service-code-home.html">Кодирование на дому <span>›</span></a>
+            <a href="service-alcohol.html">Лечение алкоголизма <span>›</span></a>
+            <a href="service-alcohol-hangover.html">Капельница от алкоголя <span>›</span></a>
+            <a href="service-detox.html">Прокапаться от алкоголя в стационаре <span>›</span></a>
+            <a href="service-rehab-alcohol.html">Курс реабилитации при алкоголизме <span>›</span></a>
+          </div>
+        </div>
+        <div class="dirs__col">
+          <h3>Помощь при наркомании</h3>
+          <div class="dirs__list">
+            <a href="service-drugs.html">Капельница от наркотиков <span>›</span></a>
+            <a href="service-drugs.html">Лечение наркомании <span>›</span></a>
+            <a href="service-detox.html">Прокапаться от наркотиков в стационаре <span>›</span></a>
+            <a href="service-withdrawal.html">Снятие ломки <span>›</span></a>
+            <a href="service-rehab.html">Курс реабилитации при наркомании <span>›</span></a>
+          </div>
+        </div>
+        <div class="dirs__col">
+          <h3>Психотерапия</h3>
+          <div class="dirs__list">
+            <a href="service-psy-therapist.html">Консультация психотерапевта <span>›</span></a>
+            <a href="service-psy-psychologist.html">Консультация психолога <span>›</span></a>
+            <a href="service-code.html">Лечение от курения <span>›</span></a>
+            <a href="service-gambling.html">Лечение игромании <span>›</span></a>
+            <a href="service-psy-depression.html">Лечение депрессии <span>›</span></a>
+            <a href="service-psy-anxiety.html">Лечение тревожности <span>›</span></a>
+            <a href="service-psy-neurosis.html">Лечение нервозности <span>›</span></a>
+            <a href="service-psy-panic.html">Лечение панических атак <span>›</span></a>
+            <a href="service-psy-insomnia.html">Лечение бессонницы <span>›</span></a>
+            <a href="service-psy-dementia.html">Восстановление памяти <span>›</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="dirs__cta" data-reveal>
+        <a class="btn btn--blue" href="#" data-open-modal>Оставить заявку</a>
+        <p>Анонимная наркологическая и психотерапевтическая помощь: выезд, амбулатория и стационар — подберите направление и оставьте заявку.</p>
+      </div>
+    </section>
+
     <section class="people wrap" data-doctors>
       <div class="people__head">
         <div class="people__intro">
-          <h2 class="section-title" data-reveal>Наши врачи</h2>
-          <p class="people__lead" data-reveal>Наркологи, психиатры и психотерапевты работают в одной смене. Можно выбрать специалиста ещё до заезда — администратор подскажет, кто дежурит сегодня.</p>
+          <h2 class="section-title" data-reveal>Наши специалисты</h2>
+          <p class="people__lead" data-reveal>Выездные бригады, амбулаторный приём и стационарное отделение — три контура помощи. Можно выбрать специалиста ещё до визита.</p>
+          <a class="pd-badge" href="https://prodoctorov.ru/" target="_blank" rel="noopener" data-reveal>
+            <img src="images/prodoctorov-logo.png" alt="ПроДокторов" width="120" height="24">
+            <span class="pd-badge__score">4.8 <i>★</i></span>
+            <span class="pd-badge__text">Рекомендуют пациенты</span>
+          </a>
         </div>
         <div class="people__tools">
           <div class="people__nav">
@@ -516,19 +570,45 @@
         </div>
       </div>
       <div class="people__switch" data-docs-switch role="tablist" aria-label="Тип приёма" data-reveal>
-        <button type="button" class="is-on" data-docs-filter="all" role="tab" aria-selected="true">Все</button>
-        <button type="button" data-docs-filter="ambulatory" role="tab" aria-selected="false">Амбулаторные врачи</button>
-        <button type="button" data-docs-filter="stationary" role="tab" aria-selected="false">Стационарные врачи</button>
+        <button type="button" class="is-on" data-docs-filter="field" role="tab" aria-selected="true">Выездные врачи / фельдшера</button>
+        <button type="button" data-docs-filter="ambulatory" role="tab" aria-selected="false">Амбулаторная служба</button>
+        <button type="button" data-docs-filter="stationary" role="tab" aria-selected="false">Стационарное отделение</button>
       </div>
       <div class="people__viewport" data-reveal>
         <div class="people__track" data-docs-track>
-          <article class="person" data-docs-card data-spec="stationary">
+          <article class="person" data-docs-card data-spec="field">
+            <div class="person__photo"><img src="images/staff-5.jpg" alt="Морозов Павел Игоревич" loading="lazy" decoding="async"></div>
+            <div class="person__meta">
+              <h3>Морозов Павел Игоревич</h3>
+              <p class="person__spec">Врач-нарколог выездной бригады</p>
+              <p class="person__exp">Стаж 11 лет</p>
+              <p class="person__desc">Срочный выезд, вывод из запоя и стабилизация на дому до решения о госпитализации.</p>
+              <div class="person__actions">
+                <a class="person__more" href="#" data-open-modal>Подробнее</a>
+                <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+              </div>
+            </div>
+          </article>
+          <article class="person" data-docs-card data-spec="field">
+            <div class="person__photo"><img src="images/staff-6.jpg" alt="Кузнецова Анна Сергеевна" loading="lazy" decoding="async"></div>
+            <div class="person__meta">
+              <h3>Кузнецова Анна Сергеевна</h3>
+              <p class="person__spec">Фельдшер выездной бригады</p>
+              <p class="person__exp">Стаж 9 лет</p>
+              <p class="person__desc">Капельницы, мониторинг состояния и сопровождение врача на выезде.</p>
+              <div class="person__actions">
+                <a class="person__more" href="#" data-open-modal>Подробнее</a>
+                <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+              </div>
+            </div>
+          </article>
+          <article class="person" data-docs-card data-spec="field">
             <div class="person__photo"><img src="images/doctor-1.jpg" alt="Волков Андрей Сергеевич" loading="lazy" decoding="async"></div>
             <div class="person__meta">
               <h3>Волков Андрей Сергеевич</h3>
-              <p class="person__spec">Главный врач, врач-нарколог</p>
+              <p class="person__spec">Главный врач, куратор выездов</p>
               <p class="person__exp">Стаж 18 лет</p>
-              <p class="person__desc">Протоколы тяжёлого абстинентного синдрома и маршрутизация в первые часы обращения.</p>
+              <p class="person__desc">Маршрутизация сложных вызовов и протоколы тяжёлого абстинентного синдрома.</p>
               <div class="person__actions">
                 <a class="person__more" href="doctor-volkov.html">Подробнее</a>
                 <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
@@ -548,6 +628,45 @@
               </div>
             </div>
           </article>
+          <article class="person" data-docs-card data-spec="ambulatory">
+            <div class="person__photo"><img src="images/doctor-4.jpg" alt="Орлова Мария Дмитриевна" loading="lazy" decoding="async"></div>
+            <div class="person__meta">
+              <h3>Орлова Мария Дмитриевна</h3>
+              <p class="person__spec">Клинический психолог</p>
+              <p class="person__exp">Стаж 12 лет</p>
+              <p class="person__desc">Реабилитация, созависимость и поддержка семьи после острого этапа.</p>
+              <div class="person__actions">
+                <a class="person__more" href="doctor-orlova.html">Подробнее</a>
+                <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+              </div>
+            </div>
+          </article>
+          <article class="person" data-docs-card data-spec="ambulatory">
+            <div class="person__photo"><img src="images/staff-9.jpg" alt="Белова Наталья Юрьевна" loading="lazy" decoding="async"></div>
+            <div class="person__meta">
+              <h3>Белова Наталья Юрьевна</h3>
+              <p class="person__spec">Психотерапевт</p>
+              <p class="person__exp">Стаж 13 лет</p>
+              <p class="person__desc">Индивидуальная и семейная психотерапия при зависимостях и тревожных расстройствах.</p>
+              <div class="person__actions">
+                <a class="person__more" href="#" data-open-modal>Подробнее</a>
+                <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+              </div>
+            </div>
+          </article>
+          <article class="person" data-docs-card data-spec="ambulatory">
+            <div class="person__photo"><img src="images/staff-2.jpg" alt="Ермолаева Ольга Викторовна" loading="lazy" decoding="async"></div>
+            <div class="person__meta">
+              <h3>Ермолаева Ольга Викторовна</h3>
+              <p class="person__spec">Медсестра амбулаторного приёма</p>
+              <p class="person__exp">Стаж 8 лет</p>
+              <p class="person__desc">Подготовка к процедурам, сопровождение приёма и контроль самочувствия.</p>
+              <div class="person__actions">
+                <a class="person__more" href="#" data-open-modal>Подробнее</a>
+                <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+              </div>
+            </div>
+          </article>
           <article class="person" data-docs-card data-spec="stationary">
             <div class="person__photo"><img src="images/doctor-3.jpg" alt="Лебедев Игорь Алексеевич" loading="lazy" decoding="async"></div>
             <div class="person__meta">
@@ -561,15 +680,28 @@
               </div>
             </div>
           </article>
-          <article class="person" data-docs-card data-spec="ambulatory">
-            <div class="person__photo"><img src="images/doctor-4.jpg" alt="Орлова Мария Дмитриевна" loading="lazy" decoding="async"></div>
+          <article class="person" data-docs-card data-spec="stationary">
+            <div class="person__photo"><img src="images/staff-8.jpg" alt="Соколов Дмитрий Алексеевич" loading="lazy" decoding="async"></div>
             <div class="person__meta">
-              <h3>Орлова Мария Дмитриевна</h3>
-              <p class="person__spec">Клинический психолог, семейный терапевт</p>
-              <p class="person__exp">Стаж 12 лет</p>
-              <p class="person__desc">Реабилитация, созависимость и поддержка семьи после острого этапа.</p>
+              <h3>Соколов Дмитрий Алексеевич</h3>
+              <p class="person__spec">Врач-нарколог стационара</p>
+              <p class="person__exp">Стаж 16 лет</p>
+              <p class="person__desc">Ведение курса в отделении, коррекция терапии и план выписки.</p>
               <div class="person__actions">
-                <a class="person__more" href="doctor-orlova.html">Подробнее</a>
+                <a class="person__more" href="#" data-open-modal>Подробнее</a>
+                <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+              </div>
+            </div>
+          </article>
+          <article class="person" data-docs-card data-spec="stationary">
+            <div class="person__photo"><img src="images/staff-7.jpg" alt="Петрова Ирина Валентиновна" loading="lazy" decoding="async"></div>
+            <div class="person__meta">
+              <h3>Петрова Ирина Валентиновна</h3>
+              <p class="person__spec">Старшая медсестра стационара</p>
+              <p class="person__exp">Стаж 17 лет</p>
+              <p class="person__desc">Организация ухода, круглосуточный контроль и комфорт пациентов в палате.</p>
+              <div class="person__actions">
+                <a class="person__more" href="#" data-open-modal>Подробнее</a>
                 <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
               </div>
             </div>
@@ -577,6 +709,25 @@
         </div>
       </div>
       <div class="people__dots" data-docs-dots role="tablist" aria-label="Врачи"></div>
+    </section>
+
+    <section class="funnel wrap">
+      <div class="funnel__box" data-reveal>
+        <div>
+          <h2>Не знаете, с чего начать?</h2>
+          <p>Опишите ситуацию за 1 минуту — дежурный врач подскажет формат: дом, стационар или консультация. Без обязательств.</p>
+          <ul class="funnel__checks">
+            <li>Отвечает врач, не колл-центр</li>
+            <li>Анонимно — можно без фамилии</li>
+            <li>План помощи за несколько минут</li>
+          </ul>
+        </div>
+        <div class="funnel__actions">
+          <a class="btn btn--blue" href="#" data-open-modal>Получить план помощи</a>
+          <a class="btn btn--line" href="tel:+78001001212" data-city-tel>8 800 100-12-12</a>
+          <a class="btn btn--ghost funnel__ghost" href="#calc">Рассчитать стоимость</a>
+        </div>
+      </div>
     </section>
 
     <section class="guarantee wrap">
@@ -692,6 +843,33 @@
         <p><b>Индивидуальный план.</b> Два человека с «одинаковым запоем» получают разный протокол. Сначала осмотр, потом дом или стационар.</p>
         <p><b>Результат, не шоу.</b> Не кодируем на фоне ломки и не обещаем «навсегда за укол».</p>
         <div class="note">Принудительное лечение и госпитализацию «по заявлению родственников» не проводим. Подростков до 18 не принимаем.</div>
+      </div>
+    </section>
+
+    <section class="seo-funnel wrap">
+      <div class="seo-funnel__head" data-reveal>
+        <h2 class="section-title">Частые запросы</h2>
+        <p>Три направления, с которых чаще всего начинают путь к помощи.</p>
+      </div>
+      <div class="seo-funnel__grid">
+        <a class="seo-funnel__card" href="service-zapoy.html" data-reveal>
+          <span>Срочно</span>
+          <h3>Вывод из запоя</h3>
+          <p>Капельница дома или стабилизация с выездом — врач подскажет формат.</p>
+          <em>Получить помощь</em>
+        </a>
+        <a class="seo-funnel__card" href="service-alcohol.html" data-reveal data-delay="60">
+          <span>Алкоголь</span>
+          <h3>Лечение зависимости</h3>
+          <p>Детокс, психиатр и план без «капельница и всё».</p>
+          <em>Узнать маршрут</em>
+        </a>
+        <a class="seo-funnel__card" href="service-code.html" data-reveal data-delay="120">
+          <span>После стабилизации</span>
+          <h3>Кодирование</h3>
+          <p>Метод после осмотра, наблюдение 30 дней — без кодирования «с порога».</p>
+          <em>Записаться</em>
+        </a>
       </div>
     </section>
 
