@@ -401,6 +401,72 @@ ul {
   transform: translateY(-2px);
 }
 
+.header__actions a[data-city-max].icon-btn {
+  color: #6b5cff;
+  border-color: rgba(107, 92, 255, 0.35);
+  background: rgba(107, 92, 255, 0.08);
+}
+
+.header__actions a[data-city-max].icon-btn:hover {
+  background: rgba(107, 92, 255, 0.16);
+  border-color: #6b5cff;
+  color: #5848f0;
+}
+
+.header__actions a[data-city-max] .icon-max {
+  filter: invert(38%) sepia(78%) saturate(2800%) hue-rotate(230deg) brightness(98%) contrast(104%);
+}
+
+.header__actions a[data-city-max] .icon-max-svg,
+.header__actions a[data-city-max] .icon-max-svg path {
+  fill: #6b5cff;
+  color: #6b5cff;
+}
+
+.header__actions a[data-city-tg].icon-btn {
+  color: #2aabee;
+  border-color: rgba(42, 171, 238, 0.35);
+  background: rgba(42, 171, 238, 0.08);
+}
+
+.header__actions a[data-city-tg].icon-btn:hover {
+  background: rgba(42, 171, 238, 0.16);
+  border-color: #2aabee;
+  color: #1494d4;
+}
+
+.header__actions a[data-city-tg] svg {
+  fill: #2aabee;
+  color: #2aabee;
+}
+
+.nav__catalog {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  margin-top: 6px;
+  padding: 9px 14px !important;
+  border-radius: 99px !important;
+  background: linear-gradient(135deg, #6a96ff 0%, var(--blue) 55%, #3563e8 100%);
+  color: #fff !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em;
+  box-shadow: 0 8px 18px rgba(63, 112, 245, 0.22);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), filter 0.25s var(--ease);
+}
+
+.nav__catalog:hover {
+  color: #fff !important;
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(63, 112, 245, 0.3);
+}
+
+.nav a.nav__catalog,
+.nav__mega a.nav__catalog {
+  color: #fff !important;
+}
+
 .icon-btn svg,
 .icon-phone,
 .icon-max {
@@ -6698,7 +6764,7 @@ html, body {
           <a href="service-help.html">Наркологическая помощь</a>
           <a href="methods.html">Методы</a>
           <a href="prices.html">Цены</a>
-          <a href="programs.html">Весь каталог</a></div>
+          <a href="programs.html" class="nav__catalog">Весь каталог</a></div>
 
           </div>
         </div>

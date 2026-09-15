@@ -123,7 +123,7 @@ PROGRAMS_MEGA = '''
           <a href="service-help.html">Наркологическая помощь</a>
           <a href="methods.html">Методы</a>
           <a href="prices.html">Цены</a>
-          <a href="programs.html">Весь каталог</a></div>
+          <a href="programs.html" class="nav__catalog">Весь каталог</a></div>
 '''
 
 MNAV_EXTRA = "".join(
