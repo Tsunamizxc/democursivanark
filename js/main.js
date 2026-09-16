@@ -1105,6 +1105,146 @@
     }
   };
 
+  const ARR_SVG =
+    '<svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  const ensureBtnArrows = () => {
+    doc.querySelectorAll("a.btn, button.btn").forEach((btn) => {
+      if (btn.querySelector(".arr")) return;
+      const arr = doc.createElement("span");
+      arr.className = "arr";
+      arr.setAttribute("aria-hidden", "true");
+      arr.innerHTML = ARR_SVG;
+      btn.appendChild(arr);
+    });
+  };
+
+  const exitModal = () => {
+    if (doc.querySelector("[data-exit-modal]")) return;
+    const KEY = "alba-exit-modal-shown";
+    try {
+      if (sessionStorage.getItem(KEY) === "1") return;
+    } catch (e) {}
+
+    const el = doc.createElement("div");
+    el.className = "exit-modal";
+    el.setAttribute("data-exit-modal", "");
+    el.setAttribute("role", "dialog");
+    el.setAttribute("aria-modal", "true");
+    el.setAttribute("aria-label", "Консультация");
+    el.innerHTML =
+      '<div class="exit-modal__body">' +
+        '<div class="exit-modal__top">' +
+          '<a class="exit-modal__logo" href="index.html" aria-label="Альба">' +
+            '<svg class="logo__mark" viewBox="0 0 32 32"><path fill="currentColor" d="M16 1.8c1.7 5.6 5.8 9.7 11.4 11.4C21.8 15 17.7 19.1 16 24.7 14.3 19.1 10.2 15 4.6 13.2 10.2 11.5 14.3 7.4 16 1.8Z"/></svg>' +
+            "<span>Альба</span>" +
+          "</a>" +
+          '<div class="exit-modal__top-right">' +
+            '<ul class="exit-modal__tags">' +
+              "<li>Бесплатная консультация</li>" +
+              "<li>24/7</li>" +
+              '<li><a href="tel:+78001001212" data-city-tel><span data-city-phone>8 800 100-12-12</span></a></li>' +
+            "</ul>" +
+            '<button class="exit-modal__close" type="button" data-exit-close aria-label="Закрыть">×</button>' +
+          "</div>" +
+        "</div>" +
+        '<div class="exit-modal__wrap">' +
+          '<div class="exit-modal__card">' +
+            '<div class="exit-modal__text">' +
+              '<p class="exit-modal__title">Подскажем, какой формат помощи вам подойдёт</p>' +
+              '<p class="exit-modal__subtitle">Можно уточнить выезд врача на дом, стоимость, условия стационара или порядок обращения. 18+, добровольно.</p>' +
+              '<div class="exit-modal__btns">' +
+                '<a class="btn btn--blue" href="tel:+78001001212" data-city-tel>Вызвать врача</a>' +
+                '<a class="btn btn--line" href="index.html#calc">Калькулятор</a>' +
+              "</div>" +
+            "</div>" +
+            '<ul class="exit-modal__items">' +
+              "<li>Поможем понять, нужен ли выезд врача</li>" +
+              "<li>Сориентируем по цене</li>" +
+              "<li>Обращение остаётся анонимным</li>" +
+            "</ul>" +
+          "</div>" +
+          '<div class="exit-modal__card exit-modal__card--form">' +
+            '<form class="exit-modal__form" data-exit-form>' +
+              '<p class="exit-modal__form-title">Оставьте номер</p>' +
+              '<p class="exit-modal__form-subtitle">Администратор свяжется и подскажет ближайший вариант помощи</p>' +
+              '<label class="visually-hidden" for="exit-phone">Телефон</label>' +
+              '<input id="exit-phone" class="exit-modal__form-input" type="tel" name="phone" required placeholder="+7 (" autocomplete="tel">' +
+              '<p class="exit-modal__form-politic">Нажимая на кнопку, вы даёте <a href="consent.html">согласие на обработку персональных данных</a> и соглашаетесь с <a href="privacy.html">политикой конфиденциальности</a></p>' +
+              '<button class="btn btn--blue exit-modal__form-btn" type="submit">Получить консультацию</button>' +
+              '<div class="exit-modal__thanks" hidden><strong>Спасибо!</strong><p>Мы перезвоним в ближайшие минуты.</p></div>' +
+            "</form>" +
+            '<div class="exit-modal__networks">' +
+              '<p class="exit-modal__networks-text">Или напишите без звонка:</p>' +
+              '<div class="exit-modal__networks-wrap">' +
+                '<a class="exit-modal__networks-item" href="https://t.me/+78001001212" data-city-tg target="_blank" rel="noopener">Telegram</a>' +
+                '<a class="exit-modal__networks-item" href="https://max.ru/" data-city-max target="_blank" rel="noopener">Max</a>' +
+              "</div>" +
+            "</div>" +
+          "</div>" +
+        "</div>" +
+      "</div>";
+    body.appendChild(el);
+
+    const markShown = () => {
+      try { sessionStorage.setItem(KEY, "1"); } catch (e) {}
+    };
+
+    const open = () => {
+      if (el.classList.contains("is-open")) return;
+      if (doc.querySelector(".modal.is-open, .geo.is-open, .mnav.is-open")) return;
+      el.classList.add("is-open");
+      lockScroll();
+      markShown();
+      ensureBtnArrows();
+    };
+
+    const close = () => {
+      if (!el.classList.contains("is-open")) return;
+      el.classList.remove("is-open");
+      unlockScroll();
+      markShown();
+    };
+
+    el.querySelectorAll("[data-exit-close]").forEach((b) => b.addEventListener("click", close));
+    el.addEventListener("click", (e) => { if (e.target === el) close(); });
+    doc.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && el.classList.contains("is-open")) close();
+    });
+
+    const form = el.querySelector("[data-exit-form]");
+    if (form) {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        form.classList.add("is-sent");
+        const thanks = form.querySelector(".exit-modal__thanks");
+        if (thanks) thanks.hidden = false;
+      });
+    }
+
+    let armed = false;
+    window.setTimeout(() => { armed = true; }, 4500);
+
+    doc.addEventListener("mouseout", (e) => {
+      if (!armed) return;
+      try {
+        if (sessionStorage.getItem(KEY) === "1") return;
+      } catch (err) {}
+      if (e.clientY > 12) return;
+      if (e.relatedTarget || e.toElement) return;
+      if (matchMedia("(pointer: coarse)").matches) return;
+      open();
+    });
+
+    // Soft fallback for mobile / no mouse: once after long dwell
+    window.setTimeout(() => {
+      try {
+        if (sessionStorage.getItem(KEY) === "1") return;
+      } catch (err) {}
+      if (matchMedia("(pointer: coarse)").matches && armed) open();
+    }, 28000);
+  };
+
   stickyLead();
   prodoctorov();
   pageFunnels();
@@ -1126,6 +1266,8 @@
   calc();
   roomsSlider();
   doctorsSlider();
+  ensureBtnArrows();
+  exitModal();
 
   doc.addEventListener("visibilitychange", () => {
     body.classList.toggle("is-hidden-tab", doc.hidden);
