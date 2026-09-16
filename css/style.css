@@ -693,7 +693,7 @@ ul {
   background: transparent;
   color: var(--ink);
   border: 1.5px solid var(--line);
-  padding: 0 22px;
+  padding: 0 8px 0 22px;
   animation-name: btn-breathe-line;
 }
 
