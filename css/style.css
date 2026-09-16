@@ -4986,6 +4986,70 @@ body:has(.mnav.is-open) .sticky-lead {
   color: var(--blue-deep) !important;
 }
 
+.funnel__side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.funnel__fields {
+  display: grid !important;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin: 0 !important;
+}
+
+.funnel__fields input {
+  margin: 0 !important;
+  height: 48px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  padding: 0 18px;
+  font: inherit;
+  background: var(--bg);
+}
+
+.funnel__fields input:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px rgba(79, 132, 255, 0.12);
+}
+
+.funnel__fields .btn {
+  width: 100%;
+  justify-content: center;
+  height: 48px;
+}
+
+.funnel__legal {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.funnel__legal a {
+  color: var(--blue-deep);
+  text-decoration: underline;
+}
+
+.funnel__side.is-sent .funnel__fields,
+.funnel__side.is-sent .funnel__legal,
+.funnel__side.is-sent .funnel__actions {
+  display: none !important;
+}
+
+.funnel__side .form__ok {
+  display: none;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(46, 180, 120, 0.1);
+  font-size: 14.5px;
+}
+
+.funnel__side.is-sent .form__ok {
+  display: block;
+}
+
 /* SEO mini-cards before FAQ */
 .seo-funnel {
   padding: 28px 0 12px;
@@ -5149,6 +5213,134 @@ body:has(.mnav.is-open) .sticky-lead {
   font-size: clamp(17px, 2.2vw, 20px);
 }
 
+.page-funnel--form {
+  padding: 18px 0 30px;
+}
+
+.page-funnel__box--form {
+  align-items: stretch;
+  gap: 28px;
+  background:
+    linear-gradient(135deg, rgba(79, 132, 255, 0.08) 0%, rgba(255, 255, 255, 0.96) 42%, #fff 100%);
+  border-color: rgba(79, 132, 255, 0.18);
+}
+
+.page-funnel--top .page-funnel__box--form {
+  background: var(--white);
+}
+
+.page-funnel--ask .page-funnel__box--form {
+  background: linear-gradient(135deg, #eef4ff 0%, #fff 55%);
+}
+
+.page-funnel__copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.page-funnel__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.page-funnel__chips li {
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  background: rgba(79, 132, 255, 0.1);
+  color: var(--blue-deep);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.page-funnel__form {
+  flex: 0 1 360px;
+  min-width: min(100%, 280px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.page-funnel__fields {
+  display: grid !important;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+  margin: 0 !important;
+}
+
+.page-funnel__fields input {
+  margin: 0 !important;
+  height: 48px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  padding: 0 18px;
+  font: inherit;
+  background: var(--white);
+}
+
+.page-funnel__fields input:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px rgba(79, 132, 255, 0.12);
+}
+
+.page-funnel__fields .btn {
+  height: 48px;
+  white-space: nowrap;
+}
+
+.page-funnel__legal {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.page-funnel__legal a {
+  color: var(--blue-deep);
+  text-decoration: underline;
+}
+
+.page-funnel__box--form.is-sent .page-funnel__fields,
+.page-funnel__box--form.is-sent .page-funnel__legal {
+  display: none !important;
+}
+
+.page-funnel__box--form .form__ok {
+  display: none;
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(46, 180, 120, 0.1);
+  color: var(--ink);
+  font-size: 14.5px;
+  line-height: 1.45;
+}
+
+.page-funnel__box--form.is-sent .form__ok {
+  display: block;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 @media (max-width: 900px) {
   .funnel__box {
     grid-template-columns: 1fr;
@@ -5167,6 +5359,20 @@ body:has(.mnav.is-open) .sticky-lead {
 
   .page-funnel__actions .btn,
   .hub-lead__box .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .page-funnel__form {
+    flex-basis: auto;
+    width: 100%;
+  }
+
+  .page-funnel__fields {
+    grid-template-columns: 1fr;
+  }
+
+  .page-funnel__fields .btn {
     width: 100%;
     justify-content: center;
   }
@@ -7113,18 +7319,6 @@ body.is-hidden-tab .marquee__track {
   color: var(--blue-deep);
   font-size: 13px;
   font-weight: 700;
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
 }
 
 @media (max-width: 800px) {

@@ -335,13 +335,12 @@
   };
 
   const forms = () => {
-    doc.querySelectorAll("form[data-form]").forEach((form) => {
-      if (form.closest("[data-calc-form]")) return;
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const wrap = form.closest(".form") || form;
-        wrap.classList.add("is-sent");
-      });
+    doc.addEventListener("submit", (e) => {
+      const form = e.target && e.target.closest && e.target.closest("form[data-form]");
+      if (!form || form.closest("[data-calc-form]") || form.closest("[data-exit-form]")) return;
+      e.preventDefault();
+      const wrap = form.closest(".form") || form;
+      wrap.classList.add("is-sent");
     });
   };
 
@@ -986,59 +985,244 @@
 
   const pageFunnels = () => {
     const file = ((location.pathname || "").split("/").pop() || "index.html").toLowerCase();
-    if (!file || file === "index.html" || file === "/") return;
-    if (file === "sitemap.html" || file === "links.html") return;
-    if (!doc.querySelector(".page-hero")) return;
-    if (doc.querySelector("section.doctor, .doctor") || /^doctor-/i.test(file)) return;
+    const skip =
+      !file ||
+      file === "/" ||
+      file === "index.html" ||
+      file === "sitemap.html" ||
+      file === "links.html" ||
+      file === "privacy.html" ||
+      file === "consent.html" ||
+      file === "terms.html" ||
+      file === "legal.html" ||
+      file === "404.html" ||
+      file === "error.html";
+    if (skip) return;
 
     const main = doc.querySelector("main");
     if (!main) return;
 
-    if (!doc.querySelector("[data-page-funnel]")) {
+    const uid = () => "lf-" + Math.random().toString(36).slice(2, 9);
+
+    const makeCta = (opts) => {
       const section = doc.createElement("section");
-      section.className = "page-funnel wrap";
-      section.setAttribute("data-page-funnel", "");
+      section.className = "page-funnel wrap" + (opts.mod ? " " + opts.mod : "");
+      if (opts.mark) section.setAttribute(opts.mark, "");
       section.innerHTML =
         '<div class="page-funnel__box">' +
           "<div>" +
-            "<h2>Нужна помощь сегодня?</h2>" +
-            "<p>Оставьте номер — перезвоним за несколько минут. Анонимно.</p>" +
+            "<h2>" + opts.title + "</h2>" +
+            "<p>" + opts.text + "</p>" +
           "</div>" +
           '<div class="page-funnel__actions">' +
-            '<a class="btn btn--blue" href="#" data-open-modal>Оставить заявку</a>' +
+            '<a class="btn btn--blue" href="#" data-open-modal>' + (opts.cta || "Оставить заявку") + "</a>" +
             '<a class="btn btn--line" href="tel:+78001001212" data-city-tel data-no-arr>Позвонить <span data-city-phone>8 800 100-12-12</span></a>' +
           "</div>" +
         "</div>";
-      main.appendChild(section);
+      return section;
+    };
+
+    const makeForm = (opts) => {
+      const id = uid();
+      const section = doc.createElement("section");
+      section.className = "page-funnel page-funnel--form wrap" + (opts.mod ? " " + opts.mod : "");
+      if (opts.mark) section.setAttribute(opts.mark, "");
+      section.innerHTML =
+        '<div class="page-funnel__box page-funnel__box--form form">' +
+          '<div class="page-funnel__copy">' +
+            "<h2>" + opts.title + "</h2>" +
+            "<p>" + opts.text + "</p>" +
+            '<ul class="page-funnel__chips"><li>24/7</li><li>Анонимно</li><li>18+</li></ul>' +
+          "</div>" +
+          '<form data-form class="page-funnel__form">' +
+            '<div class="form__fields page-funnel__fields">' +
+              '<label class="visually-hidden" for="' + id + '">Телефон</label>' +
+              '<input id="' + id + '" name="phone" type="tel" placeholder="+7 (" required autocomplete="tel">' +
+              '<button class="btn btn--blue" type="submit">' + (opts.cta || "Жду звонка") + "</button>" +
+            "</div>" +
+            '<p class="page-funnel__legal">Нажимая кнопку, вы соглашаетесь с <a href="consent.html">обработкой ПДн</a>.</p>' +
+            '<div class="form__ok"><strong>Заявка принята.</strong> Дежурный врач перезвонит с номера клиники.</div>' +
+          "</form>" +
+        "</div>";
+      return section;
+    };
+
+    const insertAfter = (ref, node) => {
+      if (!ref || !ref.parentNode || !node) return false;
+      if (ref.nextSibling) ref.parentNode.insertBefore(node, ref.nextSibling);
+      else ref.parentNode.appendChild(node);
+      return true;
+    };
+
+    const insertBefore = (ref, node) => {
+      if (!ref || !ref.parentNode || !node) return false;
+      ref.parentNode.insertBefore(node, ref);
+      return true;
+    };
+
+    const isService = /^service-/i.test(file);
+    const isDoctor = /^doctor-/i.test(file) || !!doc.querySelector("section.doctor, .doctor");
+    const isArticle = /^article-/i.test(file);
+    const hasHero = !!doc.querySelector(".page-hero, .page-intro, .doc-hero");
+
+    if (!hasHero && !isDoctor) return;
+
+    // 1) Top form — right after hero/intro (skip if hub-lead already sits there)
+    if (!doc.querySelector("[data-page-funnel-top]") && !doc.querySelector(".hub-lead")) {
+      const top = makeForm({
+        mark: "data-page-funnel-top",
+        mod: "page-funnel--top",
+        title: isDoctor
+          ? "Записаться к специалисту"
+          : isArticle
+            ? "Нужна консультация по теме?"
+            : "Перезвоним за 5 минут",
+        text: isDoctor
+          ? "Оставьте номер — подберём окно приёма анонимно."
+          : "Дежурный врач подскажет формат: дом, стационар или консультация. Имя можно не называть.",
+        cta: "Жду звонка"
+      });
+      const hero = doc.querySelector("section.page-hero, section.page-intro, section.doc-hero, .page-hero, .page-intro");
+      if (!insertAfter(hero, top)) main.insertBefore(top, main.firstChild);
     }
 
-    if (/^service-/i.test(file) && doc.querySelector(".svc") && !doc.querySelector("[data-page-funnel-mid]")) {
-      const mid = doc.createElement("section");
-      mid.className = "page-funnel page-funnel--mid wrap";
-      mid.setAttribute("data-page-funnel-mid", "");
-      mid.innerHTML =
+    // 2) Mid CTA after content core
+    if (!doc.querySelector("[data-page-funnel-mid]")) {
+      const mid = makeCta({
+        mark: "data-page-funnel-mid",
+        mod: "page-funnel--mid",
+        title: isService
+          ? "Готовы обсудить этот формат?"
+          : isDoctor
+            ? "Нужна именно эта смена?"
+            : "Не уверены, куда обращаться?",
+        text: isService
+          ? "Врач уточнит показания и назовёт ориентир по стоимости."
+          : "Коротко опишите ситуацию — подскажем следующий шаг без давления.",
+        cta: "Оставить заявку"
+      });
+      const after =
+        doc.querySelector("[data-svc-upgrade]") ||
+        doc.querySelector("section.svc, .svc") ||
+        doc.querySelector("section.doctor, .doctor") ||
+        doc.querySelector("section.article, .article-body, .essay") ||
+        doc.querySelector("section.people, [data-doctors]") ||
+        doc.querySelector("section.gallery, .gallery-grid, .licenses, .price-wrap") ||
+        doc.querySelector("[data-page-funnel-top]");
+      if (!insertAfter(after, mid)) main.appendChild(mid);
+    }
+
+    // 3) Form before FAQ / after steps
+    if (!doc.querySelector("[data-page-funnel-ask]")) {
+      const ask = makeForm({
+        mark: "data-page-funnel-ask",
+        mod: "page-funnel--ask",
+        title: "Остались вопросы?",
+        text: "Оставьте телефон — ответим по существу, без скрипта и без навязывания программы.",
+        cta: "Получить ответ"
+      });
+      const before =
+        doc.querySelector("section.faq") ||
+        doc.querySelector("section.cta") ||
+        doc.querySelector("[data-page-funnel]");
+      if (!insertBefore(before, ask)) {
+        const steps = doc.querySelector("section.steps");
+        if (!insertAfter(steps, ask)) main.appendChild(ask);
+      }
+    }
+
+    // 4) End CTA before final CTA or at end of main
+    if (!doc.querySelector("[data-page-funnel]")) {
+      const end = makeCta({
+        mark: "data-page-funnel",
+        title: "Нужна помощь сегодня?",
+        text: "Оставьте номер — перезвоним за несколько минут. Анонимно. 18+, добровольно.",
+        cta: "Оставить заявку"
+      });
+      const finalCta = doc.querySelector("section.cta");
+      if (!insertBefore(finalCta, end)) main.appendChild(end);
+    }
+  };
+
+  const homeFunnels = () => {
+    const file = ((location.pathname || "").split("/").pop() || "index.html").toLowerCase();
+    if (file && file !== "index.html" && file !== "/") return;
+    const main = doc.querySelector("main");
+    if (!main || doc.querySelector("[data-home-funnel]")) return;
+
+    const uid = () => "hf-" + Math.random().toString(36).slice(2, 9);
+
+    const strip = (opts) => {
+      const id = uid();
+      const section = doc.createElement("section");
+      section.className = "page-funnel page-funnel--form wrap" + (opts.mod ? " " + opts.mod : "");
+      section.setAttribute(opts.mark, "");
+      section.innerHTML =
+        '<div class="page-funnel__box page-funnel__box--form form">' +
+          '<div class="page-funnel__copy">' +
+            "<h2>" + opts.title + "</h2>" +
+            "<p>" + opts.text + "</p>" +
+            '<ul class="page-funnel__chips"><li>Отвечает врач</li><li>Анонимно</li><li>24/7</li></ul>' +
+          "</div>" +
+          '<form data-form class="page-funnel__form">' +
+            '<div class="form__fields page-funnel__fields">' +
+              '<label class="visually-hidden" for="' + id + '">Телефон</label>' +
+              '<input id="' + id + '" name="phone" type="tel" placeholder="+7 (" required autocomplete="tel">' +
+              '<button class="btn btn--blue" type="submit">' + opts.cta + "</button>" +
+            "</div>" +
+            '<p class="page-funnel__legal">Согласие на <a href="consent.html">обработку ПДн</a>.</p>' +
+            '<div class="form__ok"><strong>Спасибо!</strong> Дежурный врач скоро перезвонит.</div>' +
+          "</form>" +
+        "</div>";
+      return section;
+    };
+
+    const insertAfter = (ref, node) => {
+      if (!ref || !ref.parentNode) return;
+      if (ref.nextSibling) ref.parentNode.insertBefore(node, ref.nextSibling);
+      else ref.parentNode.appendChild(node);
+    };
+
+    const afterPeople = doc.querySelector("section.people[data-doctors], section.people");
+    if (afterPeople && !doc.querySelector("[data-home-funnel-docs]")) {
+      insertAfter(afterPeople, strip({
+        mark: "data-home-funnel-docs",
+        mod: "page-funnel--top",
+        title: "Выберите врача или просто оставьте номер",
+        text: "Подскажем, кто дежурит сегодня и какой формат подойдёт: выезд, амбулатория или стационар.",
+        cta: "Жду звонка"
+      }));
+    }
+
+    const afterReviews = doc.querySelector("section.reviews");
+    if (afterReviews && !doc.querySelector("[data-home-funnel-reviews]")) {
+      insertAfter(afterReviews, strip({
+        mark: "data-home-funnel-reviews",
+        mod: "page-funnel--ask",
+        title: "Хотите такой же спокойный старт?",
+        text: "Один звонок — и дежурный врач предложит план без давления и без ярлыков.",
+        cta: "Получить план"
+      }));
+    }
+
+    const afterPrice = doc.querySelector("section.home-price");
+    if (afterPrice && !doc.querySelector("[data-home-funnel-price]")) {
+      const section = doc.createElement("section");
+      section.className = "page-funnel page-funnel--mid wrap";
+      section.setAttribute("data-home-funnel-price", "");
+      section.setAttribute("data-home-funnel", "");
+      section.innerHTML =
         '<div class="page-funnel__box">' +
           "<div>" +
-            "<h2>Готовы обсудить этот формат?</h2>" +
-            "<p>Врач уточнит показания и назовёт ориентир по стоимости.</p>" +
+            "<h2>Нужен ориентир по стоимости именно вашего случая?</h2>" +
+            "<p>После короткого разговора назовём вилку цены и доступные окна на сегодня.</p>" +
           "</div>" +
           '<div class="page-funnel__actions">' +
-            '<a class="btn btn--blue" href="#" data-open-modal>Оставить заявку</a>' +
-            '<a class="btn btn--line" href="tel:+78001001212" data-city-tel data-no-arr>Позвонить <span data-city-phone>8 800 100-12-12</span></a>' +
+            '<a class="btn btn--blue" href="#" data-open-modal>Узнать стоимость</a>' +
+            '<a class="btn btn--line" href="#calc">Открыть калькулятор</a>' +
           "</div>" +
         "</div>";
-      const svc = doc.querySelector("section.svc, .svc");
-      const faq = doc.querySelector("section.faq");
-      if (svc && svc.parentNode) {
-        if (svc.nextSibling) svc.parentNode.insertBefore(mid, svc.nextSibling);
-        else svc.parentNode.appendChild(mid);
-      } else if (faq && faq.parentNode) {
-        faq.parentNode.insertBefore(mid, faq);
-      } else {
-        const endFunnel = doc.querySelector("[data-page-funnel]");
-        if (endFunnel) endFunnel.parentNode.insertBefore(mid, endFunnel);
-        else main.appendChild(mid);
-      }
+      insertAfter(afterPrice, section);
     }
   };
 
@@ -1195,6 +1379,7 @@
   stickyLead();
   prodoctorov();
   pageFunnels();
+  homeFunnels();
   splitHeadings();
   geo();
   catalogNav();
