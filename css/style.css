@@ -1608,11 +1608,14 @@ ul {
   padding: 4px;
 }
 
-.people__track {
+.people__viewport.swiper {
+  overflow: hidden;
+}
+
+.people__track,
+.people__viewport .swiper-wrapper {
   display: flex;
-  gap: 18px;
-  transition: transform 0.45s var(--ease);
-  will-change: transform;
+  box-sizing: border-box;
 }
 
 .people__grid {
@@ -1622,8 +1625,8 @@ ul {
 }
 
 .person {
-  flex: 0 0 calc((100% - 36px) / 3);
   min-width: 0;
+  height: auto;
   border-radius: 28px;
   overflow: hidden;
   background: var(--bg);
@@ -1737,7 +1740,7 @@ ul {
 
 .person__book {
   height: 40px;
-  padding: 0 14px 0 16px;
+  padding: 0 8px 0 16px;
   font-size: 13.5px;
   flex-shrink: 0;
 }
@@ -1752,27 +1755,12 @@ ul {
   justify-content: center;
   gap: 8px;
   margin-top: 16px;
+  position: relative;
 }
 
 .people__dots[hidden],
 .people__btn[hidden] {
   display: none !important;
-}
-
-.people__dots button {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 0;
-  background: var(--line);
-  cursor: pointer;
-  padding: 0;
-  transition: 0.25s var(--ease);
-}
-
-.people__dots button.is-on {
-  background: var(--blue);
-  transform: scale(1.2);
 }
 
 .people--roster {
@@ -4576,7 +4564,7 @@ body:has(.mnav.is-open) .sticky-lead {
   align-self: flex-start;
   margin-top: 22px;
   height: 44px;
-  padding: 0 18px 0 18px;
+  padding: 0 8px 0 18px;
   border-radius: 999px;
   background: linear-gradient(135deg, #6a96ff 0%, var(--blue) 52%, #3563e8 100%);
   color: var(--white);
@@ -4670,27 +4658,16 @@ body:has(.mnav.is-open) .sticky-lead {
   background: var(--bg);
 }
 
-.rooms__track {
-  display: grid;
-  grid-template-columns: 1fr;
+.rooms__viewport.swiper {
+  overflow: hidden;
 }
 
 .rooms__slide {
-  grid-area: 1 / 1;
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
   min-height: 360px;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.rooms__slide.is-on {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  z-index: 1;
+  height: auto;
+  box-sizing: border-box;
 }
 
 .rooms__slide img {
@@ -4729,24 +4706,35 @@ body:has(.mnav.is-open) .sticky-lead {
   color: var(--blue-deep);
 }
 
-.rooms__dots {
+.rooms__dots,
+.people__dots {
   display: flex;
   justify-content: center;
   gap: 8px;
   margin-top: 16px;
+  position: relative;
 }
 
-.rooms__dots button {
+.rooms__dots .swiper-pagination-bullet,
+.people__dots .swiper-pagination-bullet,
+.rooms__dots button,
+.people__dots button {
   width: 10px;
   height: 10px;
   border-radius: 50%;
   border: 0;
   background: var(--line);
+  opacity: 1;
   cursor: pointer;
   padding: 0;
+  margin: 0 !important;
+  transition: 0.25s var(--ease);
 }
 
-.rooms__dots button.is-on {
+.rooms__dots .swiper-pagination-bullet-active,
+.people__dots .swiper-pagination-bullet-active,
+.rooms__dots button.is-on,
+.people__dots button.is-on {
   background: var(--blue);
   transform: scale(1.2);
 }

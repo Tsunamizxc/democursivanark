@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path fill='%234f84ff' d='M16 1.8c1.7 5.6 5.8 9.7 11.4 11.4C21.8 15 17.7 19.1 16 24.7 14.3 19.1 10.2 15 4.6 13.2 10.2 11.5 14.3 7.4 16 1.8Z'/></svg>">
 </head>
 <body>
@@ -440,9 +441,9 @@
           <button type="button" class="rooms__btn" data-rooms-next aria-label="Следующая">→</button>
         </div>
       </div>
-      <div class="rooms__viewport" data-reveal>
-        <div class="rooms__track" data-rooms-track>
-          <article class="rooms__slide is-on">
+      <div class="rooms__viewport swiper" data-reveal data-rooms-swiper>
+        <div class="swiper-wrapper">
+          <article class="swiper-slide rooms__slide">
             <img src="images/room-single.jpg" alt="Одноместная палата" loading="lazy" decoding="async">
             <div class="rooms__meta">
               <h3>Одноместная</h3>
@@ -450,7 +451,7 @@
               <span>от 8 900 ₽ / сутки</span>
             </div>
           </article>
-          <article class="rooms__slide">
+          <article class="swiper-slide rooms__slide">
             <img src="images/room-double.jpg" alt="Двухместная палата" loading="lazy" decoding="async">
             <div class="rooms__meta">
               <h3>Двухместная</h3>
@@ -458,7 +459,7 @@
               <span>от 6 900 ₽ / сутки</span>
             </div>
           </article>
-          <article class="rooms__slide">
+          <article class="swiper-slide rooms__slide">
             <img src="images/room-vip.jpg" alt="VIP-палата" loading="lazy" decoding="async">
             <div class="rooms__meta">
               <h3>VIP-сьют</h3>
@@ -466,7 +467,7 @@
               <span>от 14 900 ₽ / сутки</span>
             </div>
           </article>
-          <article class="rooms__slide">
+          <article class="swiper-slide rooms__slide">
             <img src="images/room-stabilize.jpg" alt="Палата со стабилизацией" loading="lazy" decoding="async">
             <div class="rooms__meta">
               <h3>Стабилизация</h3>
@@ -476,7 +477,7 @@
           </article>
         </div>
       </div>
-      <div class="rooms__dots" data-rooms-dots role="tablist" aria-label="Палаты"></div>
+      <div class="rooms__dots swiper-pagination" data-rooms-dots aria-label="Палаты"></div>
     </section>
 
     <section class="home-licenses wrap">
@@ -574,9 +575,9 @@
         <button type="button" data-docs-filter="ambulatory" role="tab" aria-selected="false">Амбулаторная служба</button>
         <button type="button" data-docs-filter="stationary" role="tab" aria-selected="false">Стационарное отделение</button>
       </div>
-      <div class="people__viewport" data-reveal>
-        <div class="people__track" data-docs-track>
-          <article class="person" data-docs-card data-spec="field">
+      <div class="people__viewport swiper" data-reveal data-docs-swiper>
+        <div class="swiper-wrapper" data-docs-track>
+          <article class="swiper-slide person" data-docs-card data-spec="field">
             <div class="person__photo"><img src="images/staff-5.jpg" alt="Морозов Павел Игоревич" loading="lazy" decoding="async"></div>
             <div class="person__meta">
               <h3>Морозов Павел Игоревич</h3>
@@ -584,12 +585,12 @@
               <p class="person__exp">Стаж 11 лет</p>
               <p class="person__desc">Срочный выезд, вывод из запоя и стабилизация на дому до решения о госпитализации.</p>
               <div class="person__actions">
-                <a class="person__more" href="#" data-open-modal>Подробнее</a>
+                <a class="person__more" href="doctor-morozov.html">Подробнее</a>
                 <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
               </div>
             </div>
           </article>
-          <article class="person" data-docs-card data-spec="field">
+          <article class="swiper-slide person" data-docs-card data-spec="field">
             <div class="person__photo"><img src="images/staff-6.jpg" alt="Кузнецова Анна Сергеевна" loading="lazy" decoding="async"></div>
             <div class="person__meta">
               <h3>Кузнецова Анна Сергеевна</h3>
@@ -597,12 +598,12 @@
               <p class="person__exp">Стаж 9 лет</p>
               <p class="person__desc">Капельницы, мониторинг состояния и сопровождение врача на выезде.</p>
               <div class="person__actions">
-                <a class="person__more" href="#" data-open-modal>Подробнее</a>
+                <a class="person__more" href="doctor-kuznetsova.html">Подробнее</a>
                 <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
               </div>
             </div>
           </article>
-          <article class="person" data-docs-card data-spec="field">
+          <article class="swiper-slide person" data-docs-card data-spec="field">
             <div class="person__photo"><img src="images/doctor-1.jpg" alt="Волков Андрей Сергеевич" loading="lazy" decoding="async"></div>
             <div class="person__meta">
               <h3>Волков Андрей Сергеевич</h3>
@@ -615,7 +616,7 @@
               </div>
             </div>
           </article>
-          <article class="person" data-docs-card data-spec="ambulatory">
+          <article class="swiper-slide person" data-docs-card data-spec="ambulatory">
             <div class="person__photo"><img src="images/doctor-2.jpg" alt="Сафонова Елена Викторовна" loading="lazy" decoding="async"></div>
             <div class="person__meta">
               <h3>Сафонова Елена Викторовна</h3>
@@ -628,7 +629,7 @@
               </div>
             </div>
           </article>
-          <article class="person" data-docs-card data-spec="ambulatory">
+          <article class="swiper-slide person" data-docs-card data-spec="ambulatory">
             <div class="person__photo"><img src="images/doctor-4.jpg" alt="Орлова Мария Дмитриевна" loading="lazy" decoding="async"></div>
             <div class="person__meta">
               <h3>Орлова Мария Дмитриевна</h3>
@@ -641,7 +642,7 @@
               </div>
             </div>
           </article>
-          <article class="person" data-docs-card data-spec="ambulatory">
+          <article class="swiper-slide person" data-docs-card data-spec="ambulatory">
             <div class="person__photo"><img src="images/staff-9.jpg" alt="Белова Наталья Юрьевна" loading="lazy" decoding="async"></div>
             <div class="person__meta">
               <h3>Белова Наталья Юрьевна</h3>
@@ -649,12 +650,12 @@
               <p class="person__exp">Стаж 13 лет</p>
               <p class="person__desc">Индивидуальная и семейная психотерапия при зависимостях и тревожных расстройствах.</p>
               <div class="person__actions">
-                <a class="person__more" href="#" data-open-modal>Подробнее</a>
+                <a class="person__more" href="doctor-belova.html">Подробнее</a>
                 <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
               </div>
             </div>
           </article>
-          <article class="person" data-docs-card data-spec="ambulatory">
+          <article class="swiper-slide person" data-docs-card data-spec="ambulatory">
             <div class="person__photo"><img src="images/staff-2.jpg" alt="Ермолаева Ольга Викторовна" loading="lazy" decoding="async"></div>
             <div class="person__meta">
               <h3>Ермолаева Ольга Викторовна</h3>
@@ -662,12 +663,12 @@
               <p class="person__exp">Стаж 8 лет</p>
               <p class="person__desc">Подготовка к процедурам, сопровождение приёма и контроль самочувствия.</p>
               <div class="person__actions">
-                <a class="person__more" href="#" data-open-modal>Подробнее</a>
+                <a class="person__more" href="doctor-ermolaeva.html">Подробнее</a>
                 <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
               </div>
             </div>
           </article>
-          <article class="person" data-docs-card data-spec="stationary">
+          <article class="swiper-slide person" data-docs-card data-spec="stationary">
             <div class="person__photo"><img src="images/doctor-3.jpg" alt="Лебедев Игорь Алексеевич" loading="lazy" decoding="async"></div>
             <div class="person__meta">
               <h3>Лебедев Игорь Алексеевич</h3>
@@ -680,7 +681,7 @@
               </div>
             </div>
           </article>
-          <article class="person" data-docs-card data-spec="stationary">
+          <article class="swiper-slide person" data-docs-card data-spec="stationary">
             <div class="person__photo"><img src="images/staff-8.jpg" alt="Соколов Дмитрий Алексеевич" loading="lazy" decoding="async"></div>
             <div class="person__meta">
               <h3>Соколов Дмитрий Алексеевич</h3>
@@ -688,12 +689,12 @@
               <p class="person__exp">Стаж 16 лет</p>
               <p class="person__desc">Ведение курса в отделении, коррекция терапии и план выписки.</p>
               <div class="person__actions">
-                <a class="person__more" href="#" data-open-modal>Подробнее</a>
+                <a class="person__more" href="doctor-sokolov.html">Подробнее</a>
                 <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
               </div>
             </div>
           </article>
-          <article class="person" data-docs-card data-spec="stationary">
+          <article class="swiper-slide person" data-docs-card data-spec="stationary">
             <div class="person__photo"><img src="images/staff-7.jpg" alt="Петрова Ирина Валентиновна" loading="lazy" decoding="async"></div>
             <div class="person__meta">
               <h3>Петрова Ирина Валентиновна</h3>
@@ -701,14 +702,14 @@
               <p class="person__exp">Стаж 17 лет</p>
               <p class="person__desc">Организация ухода, круглосуточный контроль и комфорт пациентов в палате.</p>
               <div class="person__actions">
-                <a class="person__more" href="#" data-open-modal>Подробнее</a>
+                <a class="person__more" href="doctor-petrova.html">Подробнее</a>
                 <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
               </div>
             </div>
           </article>
         </div>
       </div>
-      <div class="people__dots" data-docs-dots role="tablist" aria-label="Врачи"></div>
+      <div class="people__dots swiper-pagination" data-docs-dots aria-label="Врачи"></div>
     </section>
 
     <section class="funnel wrap">
@@ -991,6 +992,7 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

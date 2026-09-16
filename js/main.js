@@ -840,117 +840,70 @@
 
   const roomsSlider = () => {
     const root = doc.querySelector("[data-rooms]");
-    if (!root) return;
-    const slides = [...root.querySelectorAll(".rooms__slide")];
-    const dotsWrap = root.querySelector("[data-rooms-dots]");
-    const prev = root.querySelector("[data-rooms-prev]");
-    const next = root.querySelector("[data-rooms-next]");
-    if (!slides.length) return;
-    let i = 0;
-
-    const paint = () => {
-      slides.forEach((s, n) => s.classList.toggle("is-on", n === i));
-      if (dotsWrap) {
-        dotsWrap.querySelectorAll("button").forEach((b, n) => {
-          b.classList.toggle("is-on", n === i);
-          b.setAttribute("aria-selected", n === i ? "true" : "false");
-        });
+    if (!root || typeof window.Swiper === "undefined") return;
+    const el = root.querySelector("[data-rooms-swiper]");
+    if (!el) return;
+    new window.Swiper(el, {
+      slidesPerView: 1,
+      spaceBetween: 0,
+      speed: 550,
+      loop: true,
+      autoHeight: false,
+      navigation: {
+        prevEl: root.querySelector("[data-rooms-prev]"),
+        nextEl: root.querySelector("[data-rooms-next]")
+      },
+      pagination: {
+        el: root.querySelector("[data-rooms-dots]"),
+        clickable: true
       }
-    };
-
-    if (dotsWrap) {
-      dotsWrap.innerHTML = slides.map((_, n) =>
-        '<button type="button" role="tab"' + (n === 0 ? ' class="is-on" aria-selected="true"' : ' aria-selected="false"') + ' aria-label="Палата ' + (n + 1) + '"></button>'
-      ).join("");
-      dotsWrap.addEventListener("click", (e) => {
-        const b = e.target.closest("button");
-        if (!b) return;
-        i = [...dotsWrap.children].indexOf(b);
-        if (i < 0) return;
-        paint();
-      });
-    }
-    if (prev) prev.addEventListener("click", () => { i = (i - 1 + slides.length) % slides.length; paint(); });
-    if (next) next.addEventListener("click", () => { i = (i + 1) % slides.length; paint(); });
-    paint();
+    });
   };
 
   const doctorsSlider = () => {
     const root = doc.querySelector("[data-doctors]");
-    if (!root) return;
-    const track = root.querySelector("[data-docs-track]");
-    const cards = [...root.querySelectorAll("[data-docs-card]")];
+    if (!root || typeof window.Swiper === "undefined") return;
+    const el = root.querySelector("[data-docs-swiper]");
+    const wrapper = root.querySelector("[data-docs-track]") || (el && el.querySelector(".swiper-wrapper"));
     const switcher = root.querySelector("[data-docs-switch]");
-    const dotsWrap = root.querySelector("[data-docs-dots]");
-    const prev = root.querySelector("[data-docs-prev]");
-    const next = root.querySelector("[data-docs-next]");
-    if (!track || !cards.length) return;
+    const cards = [...root.querySelectorAll("[data-docs-card]")];
+    if (!el || !wrapper || !cards.length) return;
 
-    let filter = "field";
-    let i = 0;
+    let swiper = null;
+    const stash = doc.createDocumentFragment();
 
-    const visible = () => cards.filter((c) => !c.classList.contains("is-off"));
-
-    const perView = () => {
-      const w = window.innerWidth || 1200;
-      if (w <= 720) return 1;
-      if (w <= 1100) return 2;
-      return 3;
-    };
-
-    const maxIndex = () => Math.max(0, visible().length - perView());
-
-    const paint = () => {
-      const pv = perView();
-      const gap = 18;
-      const basis = "calc((100% - " + ((pv - 1) * gap) + "px) / " + pv + ")";
-      cards.forEach((c) => { c.style.flexBasis = basis; });
-
-      i = Math.min(i, maxIndex());
-      const first = visible()[0];
-      const step = first ? first.getBoundingClientRect().width + gap : 0;
-      track.style.transform = "translate3d(" + (-i * step) + "px,0,0)";
-
-      const pages = maxIndex() + 1;
-      const alone = visible().length <= 1 || pages <= 1;
-
-      if (prev) {
-        prev.disabled = alone || i <= 0;
-        prev.hidden = alone;
+    const mount = () => {
+      if (swiper) {
+        swiper.destroy(true, true);
+        swiper = null;
       }
-      if (next) {
-        next.disabled = alone || i >= maxIndex();
-        next.hidden = alone;
-      }
-
-      if (dotsWrap) {
-        if (alone) {
-          dotsWrap.innerHTML = "";
-          dotsWrap.hidden = true;
-        } else {
-          dotsWrap.hidden = false;
-          const need = pages !== dotsWrap.children.length;
-          if (need) {
-            dotsWrap.innerHTML = Array.from({ length: pages }, (_, n) =>
-              '<button type="button" role="tab"' +
-              (n === i ? ' class="is-on" aria-selected="true"' : ' aria-selected="false"') +
-              ' aria-label="Слайд ' + (n + 1) + '"></button>'
-            ).join("");
-          } else {
-            [...dotsWrap.children].forEach((b, n) => {
-              b.classList.toggle("is-on", n === i);
-              b.setAttribute("aria-selected", n === i ? "true" : "false");
-            });
-          }
+      swiper = new window.Swiper(el, {
+        slidesPerView: 1,
+        spaceBetween: 18,
+        speed: 450,
+        watchOverflow: true,
+        navigation: {
+          prevEl: root.querySelector("[data-docs-prev]"),
+          nextEl: root.querySelector("[data-docs-next]")
+        },
+        pagination: {
+          el: root.querySelector("[data-docs-dots]"),
+          clickable: true
+        },
+        breakpoints: {
+          721: { slidesPerView: 2 },
+          1101: { slidesPerView: 3 }
         }
-      }
+      });
     };
 
     const applyFilter = (nextFilter) => {
-      filter = nextFilter;
+      const filter = nextFilter || "field";
       cards.forEach((c) => {
-        const ok = filter === "all" || c.getAttribute("data-spec") === filter;
+        const ok = c.getAttribute("data-spec") === filter;
         c.classList.toggle("is-off", !ok);
+        if (ok) wrapper.appendChild(c);
+        else stash.appendChild(c);
       });
       if (switcher) {
         switcher.querySelectorAll("[data-docs-filter]").forEach((b) => {
@@ -959,8 +912,8 @@
           b.setAttribute("aria-selected", on ? "true" : "false");
         });
       }
-      i = 0;
-      paint();
+      mount();
+      if (swiper) swiper.slideTo(0, 0);
     };
 
     if (switcher) {
@@ -970,23 +923,6 @@
         applyFilter(b.getAttribute("data-docs-filter") || "field");
       });
     }
-    if (prev) prev.addEventListener("click", () => { i = Math.max(0, i - 1); paint(); });
-    if (next) next.addEventListener("click", () => { i = Math.min(maxIndex(), i + 1); paint(); });
-    if (dotsWrap) {
-      dotsWrap.addEventListener("click", (e) => {
-        const b = e.target.closest("button");
-        if (!b) return;
-        i = [...dotsWrap.children].indexOf(b);
-        if (i < 0) return;
-        paint();
-      });
-    }
-
-    let resizeTimer = 0;
-    window.addEventListener("resize", () => {
-      window.clearTimeout(resizeTimer);
-      resizeTimer = window.setTimeout(paint, 120);
-    });
 
     const onTab = switcher && switcher.querySelector(".is-on");
     applyFilter((onTab && onTab.getAttribute("data-docs-filter")) || "field");
@@ -1069,7 +1005,7 @@
           "</div>" +
           '<div class="page-funnel__actions">' +
             '<a class="btn btn--blue" href="#" data-open-modal>Оставить заявку</a>' +
-            '<a class="btn btn--line" href="tel:+78001001212" data-city-tel>Позвонить 8 800</a>' +
+            '<a class="btn btn--line" href="tel:+78001001212" data-city-tel data-no-arr>Позвонить <span data-city-phone>8 800 100-12-12</span></a>' +
           "</div>" +
         "</div>";
       main.appendChild(section);
@@ -1087,7 +1023,7 @@
           "</div>" +
           '<div class="page-funnel__actions">' +
             '<a class="btn btn--blue" href="#" data-open-modal>Оставить заявку</a>' +
-            '<a class="btn btn--line" href="tel:+78001001212" data-city-tel>Позвонить</a>' +
+            '<a class="btn btn--line" href="tel:+78001001212" data-city-tel data-no-arr>Позвонить <span data-city-phone>8 800 100-12-12</span></a>' +
           "</div>" +
         "</div>";
       const svc = doc.querySelector("section.svc, .svc");
@@ -1110,6 +1046,16 @@
 
   const ensureBtnArrows = () => {
     doc.querySelectorAll("a.btn, button.btn").forEach((btn) => {
+      const href = (btn.getAttribute("href") || "").trim().toLowerCase();
+      const skip =
+        btn.classList.contains("btn--ghost") ||
+        btn.classList.contains("btn--no-arr") ||
+        btn.hasAttribute("data-no-arr") ||
+        href.startsWith("tel:");
+      if (skip) {
+        btn.querySelectorAll(".arr").forEach((n) => n.remove());
+        return;
+      }
       if (btn.querySelector(".arr")) return;
       const arr = doc.createElement("span");
       arr.className = "arr";
