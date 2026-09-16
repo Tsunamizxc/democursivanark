@@ -60,73 +60,246 @@
     <a href="contacts.html">Контакты</a>
   </nav>
 
-  <main>
-    <section class="page-intro wrap">
-      <div class="page-intro__inner">
-        <div>
-          <div class="crumb"><a href="index.html">Главная</a> / Карта сайта</div>
-          <h1 class="split">Все страницы<br>без пряток в меню</h1>
+  <main class="map-page">
+    <section class="map-hero wrap">
+      <div class="map-hero__inner" data-reveal>
+        <div class="crumb"><a href="index.html">Главная</a> / Карта сайта</div>
+        <h1 class="split">Карта сайта</h1>
+        <p class="map-hero__lead">Все разделы Альбы в одном списке: клиника, врачи, программы и документы. Без прайса и без «этапов лечения» — это навигация.</p>
+        <nav class="map-jump" aria-label="Быстрый переход">
+          <a href="#map-clinic">Клиника</a>
+          <a href="#map-team">Команда</a>
+          <a href="#map-urgent">Срочная помощь</a>
+          <a href="#map-programs">Программы</a>
+          <a href="#map-psy">Психиатрия</a>
+          <a href="#map-articles">Статьи</a>
+          <a href="#map-docs">Документы</a>
+        </nav>
+      </div>
+    </section>
+
+    <section class="map-body wrap">
+      <article class="map-block" id="map-clinic" data-reveal>
+        <header class="map-block__head">
+          <span class="map-block__n">01</span>
+          <div>
+            <h2>Клиника</h2>
+            <p>О нас, условия, отзывы и контакты.</p>
+          </div>
+        </header>
+        <div class="map-links">
+          <a href="index.html">Главная</a>
+          <a href="about.html">О нас</a>
+          <a href="gallery.html">Галерея</a>
+          <a href="licenses.html">Лицензии</a>
+          <a href="prices.html">Цены</a>
+          <a href="programs.html">Каталог программ</a>
+          <a href="methods.html">Методы</a>
+          <a href="reviews.html">Отзывы</a>
+          <a href="articles.html">Статьи</a>
+          <a href="contacts.html">Контакты</a>
+          <a href="links.html">Полезные ссылки</a>
+          <a href="about.html#anon">Анонимность</a>
         </div>
-        <p>Каталог, направления, методы, документы.</p>
-      </div>
+      </article>
+
+      <article class="map-block" id="map-team" data-reveal>
+        <header class="map-block__head">
+          <span class="map-block__n">02</span>
+          <div>
+            <h2>Команда</h2>
+            <p>Общий список и карточки специалистов.</p>
+          </div>
+        </header>
+        <div class="map-links">
+          <a href="doctors.html">Все врачи</a>
+          <a href="doctor-volkov.html">Андрей Волков</a>
+          <a href="doctor-safonova.html">Елена Сафонова</a>
+          <a href="doctor-orlova.html">Мария Орлова</a>
+          <a href="doctor-lebedev.html">Игорь Лебедев</a>
+          <a href="doctor-morozov.html">Павел Морозов</a>
+          <a href="doctor-kuznetsova.html">Анна Кузнецова</a>
+          <a href="doctor-belova.html">Наталья Белова</a>
+          <a href="doctor-ermolaeva.html">Ольга Ермолаева</a>
+          <a href="doctor-sokolov.html">Дмитрий Соколов</a>
+          <a href="doctor-petrova.html">Ирина Петрова</a>
+        </div>
+      </article>
+
+      <article class="map-block" id="map-urgent" data-reveal>
+        <header class="map-block__head">
+          <span class="map-block__n">03</span>
+          <div>
+            <h2>Срочная помощь</h2>
+            <p>Выезд, детокс, запой и стабилизация.</p>
+          </div>
+        </header>
+        <div class="map-links">
+          <a href="service-help.html">Наркологическая помощь</a>
+          <a href="service-visit.html">Выезд нарколога</a>
+          <a href="service-ambulance.html">Наркологическая скорая</a>
+          <a href="service-zapoy.html">Запой и капельница</a>
+          <a href="service-detox.html">Детокс 24/7</a>
+          <a href="service-withdrawal.html">Снятие ломки</a>
+          <a href="service-ubod.html">УБОД</a>
+          <a href="service-sober.html">Частный вытрезвитель</a>
+          <a href="service-toxicologist.html">Токсиколог</a>
+          <a href="service-drugtest.html">Тест на наркотики</a>
+          <a href="service-consult.html">Консультация</a>
+          <a href="service-check.html">Диагностика</a>
+        </div>
+      </article>
+
+      <article class="map-block" id="map-programs" data-reveal>
+        <header class="map-block__head">
+          <span class="map-block__n">04</span>
+          <div>
+            <h2>Программы лечения</h2>
+            <p>Алкоголизм, наркомания, кодирование, реабилитация.</p>
+          </div>
+        </header>
+        <div class="map-group">
+          <h3>Алкоголизм</h3>
+          <div class="map-links">
+            <a href="service-alcohol.html">Лечение алкоголизма</a>
+            <a href="service-alcohol-women.html">Женский</a>
+            <a href="service-alcohol-men.html">Мужской</a>
+            <a href="service-alcohol-beer.html">Пивной</a>
+            <a href="service-alcohol-wine.html">Винный</a>
+            <a href="service-alcohol-elderly.html">Старческий</a>
+            <a href="service-alcohol-home.html">На дому</a>
+            <a href="service-alcohol-hangover.html">Похмелье</a>
+            <a href="service-alcohol-shot.html">Укол</a>
+            <a href="service-alcohol-shichko.html">Метод Шичко</a>
+          </div>
+        </div>
+        <div class="map-group">
+          <h3>Наркомания</h3>
+          <div class="map-links">
+            <a href="service-drugs.html">Лечение наркомании</a>
+            <a href="service-drugs-code.html">Кодировка</a>
+            <a href="service-drugs-heroin.html">Героин</a>
+            <a href="service-drugs-methadone.html">Метадон</a>
+            <a href="service-drugs-mephedrone.html">Мефедрон</a>
+            <a href="service-drugs-salts.html">Соли</a>
+            <a href="service-drugs-spice.html">Спайс</a>
+            <a href="service-drugs-cocaine.html">Кокаин</a>
+            <a href="service-drugs-amphetamine.html">Амфетамин</a>
+            <a href="service-drugs-cannabis.html">Марихуана</a>
+            <a href="service-drugs-toxico.html">Токсикомания</a>
+            <a href="service-drugs-butyrate.html">Бутират</a>
+            <a href="service-drugs-ephedrine.html">Эфедрин</a>
+          </div>
+        </div>
+        <div class="map-group">
+          <h3>Кодирование</h3>
+          <div class="map-links">
+            <a href="service-code.html">Кодирование</a>
+            <a href="service-code-dovzhenko.html">По Довженко</a>
+            <a href="service-code-hypnosis.html">Гипноз</a>
+            <a href="service-code-implant.html">Вшивание</a>
+            <a href="service-code-torpedo.html">Торпедо</a>
+            <a href="service-code-esperal.html">Эспераль</a>
+            <a href="service-code-double.html">Двойной блок</a>
+            <a href="service-code-shot.html">Укол</a>
+            <a href="service-code-needle.html">Иглоукалывание</a>
+            <a href="service-code-aquilong.html">Аквилонг</a>
+            <a href="service-code-vivitrol.html">Вивитрол</a>
+            <a href="service-code-naltrexone.html">Налтрексон</a>
+            <a href="service-code-disulfiram.html">Дисульфирам</a>
+            <a href="service-code-algominal.html">Алгоминал</a>
+            <a href="service-code-sit.html">SIT</a>
+            <a href="service-code-home.html">На дому</a>
+            <a href="service-decode.html">Раскодирование</a>
+          </div>
+        </div>
+        <div class="map-group">
+          <h3>Реабилитация и зависимости</h3>
+          <div class="map-links">
+            <a href="service-rehab.html">Реабилитация</a>
+            <a href="service-rehab-alcohol.html">Алкозависимость</a>
+            <a href="service-rehab-12.html">12 шагов</a>
+            <a href="service-rehab-daytop.html">Day Top</a>
+            <a href="service-family.html">Семейная программа</a>
+            <a href="service-gambling.html">Игровая зависимость</a>
+            <a href="service-betting.html">Ставки на спорт</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="map-block" id="map-psy" data-reveal>
+        <header class="map-block__head">
+          <span class="map-block__n">05</span>
+          <div>
+            <h2>Психиатрия и психология</h2>
+            <p>Специалисты и отдельные состояния — для взрослых, добровольно.</p>
+          </div>
+        </header>
+        <div class="map-links">
+          <a href="service-psychiatry.html">Психиатрия</a>
+          <a href="service-psy-home.html">Психиатр на дом</a>
+          <a href="service-psy-psychologist.html">Клинический психолог</a>
+          <a href="service-psy-therapist.html">Психотерапевт</a>
+          <a href="service-psy-neurologist.html">Невролог</a>
+          <a href="service-psy-depression.html">Депрессия</a>
+          <a href="service-psy-anxiety.html">Тревога</a>
+          <a href="service-psy-panic.html">Панические атаки</a>
+          <a href="service-psy-stress.html">Стресс</a>
+          <a href="service-psy-neurosis.html">Невроз</a>
+          <a href="service-psy-gad.html">ГТР</a>
+          <a href="service-psy-ocd.html">ОКР</a>
+          <a href="service-psy-ptsd.html">ПТСР</a>
+          <a href="service-psy-bipolar.html">Биполярное</a>
+          <a href="service-psy-schizophrenia.html">Шизофрения</a>
+          <a href="service-psy-psychosis.html">Психоз</a>
+          <a href="service-psy-delirium.html">Белая горячка</a>
+          <a href="service-psy-sleep.html">Нарушения сна</a>
+          <a href="service-psy-insomnia.html">Бессонница</a>
+          <a href="service-psy-meds.html">Подбор терапии</a>
+          <a href="service-psy-adhd.html">СДВГ</a>
+          <a href="service-psy-bpd.html">ПРЛ</a>
+          <a href="service-psy-anorexia.html">Анорексия</a>
+          <a href="service-psy-bulimia.html">Булимия</a>
+        </div>
+      </article>
+
+      <article class="map-block" id="map-articles" data-reveal>
+        <header class="map-block__head">
+          <span class="map-block__n">06</span>
+          <div>
+            <h2>Статьи</h2>
+            <p>Короткие материалы для семьи и пациента.</p>
+          </div>
+        </header>
+        <div class="map-links">
+          <a href="articles.html">Все статьи</a>
+          <a href="article-detox.html">Как проходит детокс</a>
+          <a href="article-family.html">Как говорить с близким</a>
+          <a href="article-anon.html">Что значит анонимность</a>
+        </div>
+      </article>
+
+      <article class="map-block" id="map-docs" data-reveal>
+        <header class="map-block__head">
+          <span class="map-block__n">07</span>
+          <div>
+            <h2>Документы</h2>
+            <p>Юридические страницы и реквизиты.</p>
+          </div>
+        </header>
+        <div class="map-links">
+          <a href="legal.html">Реквизиты</a>
+          <a href="privacy.html">Политика ПДн</a>
+          <a href="consent.html">Согласие на обработку ПДн</a>
+          <a href="terms.html">Условия использования</a>
+          <a href="licenses.html">Лицензии</a>
+          <a href="links.html">Полезные ссылки</a>
+        </div>
+      </article>
     </section>
-    <section class="svc wrap">
-      <div data-reveal>
-        <img class="article-cover" src="images/clinic-hall.jpg" alt="" loading="lazy">
-        <p>Сайт вырос. Карта нужна, чтобы не искать «ломку» через три клика наугад.</p>
-        <h2>Что входит</h2>
-        <ul><li>Программы</li><li>Направления</li><li>Документы</li></ul>
-        
-      </div>
-      <aside class="svc-side" data-reveal>
-        <span>Стоимость</span>
-        <b>—</b>
-        <em>после осмотра врача</em>
-        <a class="btn btn--dark" href="#" data-open-modal>Записаться <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
-        <a class="btn btn--line" href="tel:+78001001212" data-city-tel>Позвонить</a>
-        <p>18+. Добровольно. Имеются противопоказания.</p>
-      </aside>
-    </section>
-    
-    <section class="wrap"><div class="sitemap">
-    <div><h3>Клиника</h3>
-      <a href="index.html">Главная</a><a href="about.html">О нас</a><a href="gallery.html">Галерея</a>
-      <a href="licenses.html">Лицензии</a><a href="doctors.html">Врачи</a><a href="reviews.html">Отзывы</a>
-      <a href="methods.html">Методы</a><a href="articles.html">Статьи</a><a href="contacts.html">Контакты</a>
-      <a href="prices.html">Цены</a><a href="programs.html">Каталог</a><a href="links.html">Полезные ссылки</a>
-      <a href="doctor-morozov.html">Павел Морозов</a><a href="doctor-kuznetsova.html">Анна Кузнецова</a><a href="doctor-volkov.html">Андрей Волков</a><a href="doctor-safonova.html">Елена Сафонова</a><a href="doctor-orlova.html">Мария Орлова</a><a href="doctor-belova.html">Наталья Белова</a><a href="doctor-ermolaeva.html">Ольга Ермолаева</a><a href="doctor-lebedev.html">Игорь Лебедев</a><a href="doctor-sokolov.html">Дмитрий Соколов</a><a href="doctor-petrova.html">Ирина Петрова</a></div>
-    <div><h3>Помощь</h3>
-      <a href="service-alcohol.html">Алкоголизм</a><a href="service-drugs.html">Наркомания</a>
-      <a href="service-code.html">Кодирование</a><a href="service-help.html">Наркологическая помощь</a>
-      <a href="service-gambling.html">Игровая зависимость</a><a href="service-betting.html">Ставки</a>
-      <a href="service-psychiatry.html">Психиатрия</a><a href="service-rehab.html">Реабилитация</a>
-      <a href="service-zapoy.html">Запой</a><a href="service-detox.html">Детокс</a>
-      <a href="service-visit.html">Выезд</a><a href="service-withdrawal.html">Ломка</a>
-      <a href="service-ubod.html">УБОД</a><a href="service-ambulance.html">Скорая</a>
-      <a href="service-drugtest.html">Тест</a><a href="service-toxicologist.html">Токсиколог</a>
-    </div>
-    <div><h3>Документы</h3>
-      <a href="legal.html">Реквизиты</a><a href="privacy.html">Политика ПДн</a>
-      <a href="consent.html">Согласие</a><a href="terms.html">Условия</a>
-    </div>
-  </div></section>
-    <section class="steps wrap">
-      <h2 class="section-title" data-reveal>Как это проходит</h2>
-      <div class="steps__grid"><article class="step" data-reveal><div class="step__n">01</div><h3>Выбрать</h3><p>Направление.</p></article><article class="step" data-reveal><div class="step__n">02</div><h3>Прочитать</h3><p>Цену и противопоказания.</p></article><article class="step" data-reveal><div class="step__n">03</div><h3>Позвонить</h3><p>Если сомневаетесь.</p></article></div>
-    </section>
-    <section class="faq wrap">
-      <div data-reveal><h2 class="section-title">Вопросы<br>по программе</h2></div>
-      <div class="acc" data-acc data-reveal><article class="acc__item is-open"><button class="acc__btn" type="button">Нет страницы?<i>+</i></button><div class="acc__panel"><div><p>Напишите через контакты.</p></div></div></article></div>
-    </section>
-    <section class="wrap">
-      <h2 class="section-title" data-reveal>Рядом по маршруту</h2>
-      <div class="related"><a class="cat-card" href="programs.html" data-reveal><h3>Каталог</h3><p>Карточки</p><span class="more">Открыть</span></a><a class="cat-card" href="prices.html" data-reveal><h3>Цены</h3><p>Таблицы</p><span class="more">Открыть</span></a><a class="cat-card" href="contacts.html" data-reveal><h3>Контакты</h3><p>Разговор</p><span class="more">Открыть</span></a></div>
-    </section>
-    <section class="cta wrap">
-      <div class="cta__box" data-reveal="scale">
-        <div><h2>Подскажем, эта ли программа</h2><p>Дежурный врач на связи 24/7. Можно не называть имя.</p></div>
-        <a class="btn btn--light" href="#" data-open-modal>Записаться <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
-      </div>
+
+    <section class="map-note wrap" data-reveal>
+      <p>Не нашли нужную страницу — напишите через <a href="contacts.html">контакты</a> или позвоните <a href="tel:+78001001212" data-city-tel><span data-city-phone>8 800 100-12-12</span></a>. Помощь только для совершеннолетних и только добровольно.</p>
     </section>
   </main>
 

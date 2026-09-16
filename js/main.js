@@ -987,6 +987,7 @@
   const pageFunnels = () => {
     const file = ((location.pathname || "").split("/").pop() || "index.html").toLowerCase();
     if (!file || file === "index.html" || file === "/") return;
+    if (file === "sitemap.html" || file === "links.html") return;
     if (!doc.querySelector(".page-hero")) return;
     if (doc.querySelector("section.doctor, .doctor") || /^doctor-/i.test(file)) return;
 
