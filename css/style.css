@@ -603,6 +603,13 @@ ul {
   box-shadow: 0 12px 30px rgba(20, 40, 100, 0.16);
 }
 
+.hero__call-desktop,
+.hero__call-mobile,
+a.btn[href^="tel:"] {
+  padding-left: 22px;
+  padding-right: 22px;
+}
+
 .btn--ghost {
   background: transparent;
   color: var(--white);
@@ -1604,8 +1611,8 @@ ul {
 
 .people__viewport {
   overflow: hidden;
-  margin: 0 -4px;
-  padding: 4px;
+  margin: -10px -10px -32px;
+  padding: 10px 10px 32px;
 }
 
 .people__viewport.swiper {
@@ -5962,7 +5969,7 @@ a[data-city-max]:not(.icon-btn) {
 .page-intro__inner {
   max-width: 760px;
   padding: 8px 0 20px;
-  border-bottom: 1px solid var(--line);
+  /* border-bottom: 1px solid var(--line); */
 }
 
 .page-intro .crumb {
