@@ -723,11 +723,13 @@
           '<div class="nav__col"><b>Клиника</b>' +
           '<a href="service-detox.html">Детокс 24/7</a>' +
           '<a href="service-psychiatry.html">Психиатрия</a>' +
+          '<a href="service-psy-therapist.html">Психотерапия</a>' +
           '<a href="service-consult.html">Консультация</a>' +
           '<a href="service-check.html">Диагностика</a>' +
           '<a href="service-family.html">Семья</a></div>' +
           '<div class="nav__col"><b>Ещё</b>' +
           '<a href="service-help.html">Наркологическая помощь</a>' +
+          '<a href="service-rehab.html">Реабилитация</a>' +
           '<a href="methods.html">Методы</a>' +
           '<a href="prices.html">Цены</a>' +
           '<a href="programs.html" class="nav__catalog">Весь каталог</a></div>';
@@ -852,9 +854,14 @@
         "</ul></div>" +
         "<div><b>Психиатрия</b><ul>" +
         '<li><a href="service-psychiatry.html">Психиатрия</a></li>' +
+        '<li><a href="service-psy-first.html">Первичная консультация</a></li>' +
+        '<li><a href="service-psy-followup.html">Повторная консультация</a></li>' +
+        '<li><a href="service-psy-online.html">Онлайн-консультация</a></li>' +
         '<li><a href="service-psy-home.html">Психиатр на дом</a></li>' +
+        '<li><a href="service-psy-support.html">Сопровождение</a></li>' +
         '<li><a href="service-psy-psychologist.html">Клинический психолог</a></li>' +
         '<li><a href="service-psy-therapist.html">Психотерапевт</a></li>' +
+        '<li><a href="service-psy-counseling.html">Консультирование</a></li>' +
         '<li><a href="service-psy-neurologist.html">Невролог</a></li>' +
         '<li><a href="service-psy-depression.html">Депрессия</a></li>' +
         '<li><a href="service-psy-psychosis.html">Психоз</a></li>' +
@@ -868,6 +875,10 @@
         '<li><a href="service-psy-ptsd.html">ПТСР</a></li>' +
         '<li><a href="service-psy-bipolar.html">Биполярное</a></li>' +
         '<li><a href="service-psy-schizophrenia.html">Шизофрения</a></li>' +
+        '<li><a href="service-psy-elderly.html">Пожилой возраст</a></li>' +
+        '<li><a href="service-psy-postcovid.html">Постковид</a></li>' +
+        '<li><a href="service-psy-chronic.html">Хронические заболевания</a></li>' +
+        '<li><a href="service-psy-somatic.html">Соматические симптомы</a></li>' +
         '<li><a href="service-psy-adhd.html">СДВГ</a></li>' +
         '<li><a href="service-psy-bpd.html">ПРЛ</a></li>' +
         '<li><a href="service-psy-tad.html">Тревожно-депрессивное</a></li>' +
@@ -1288,6 +1299,11 @@
     if (!main) return;
 
     const uid = () => "lf-" + Math.random().toString(36).slice(2, 9);
+    const LEAD_SEL =
+      ".page-funnel, .hub-lead, .cta, .funnel, .svc-rich-lead, [data-page-funnel], [data-home-funnel], [data-page-funnel-top], [data-page-funnel-mid], [data-page-funnel-ask]";
+
+    const isLeadEl = (el) =>
+      !!(el && el.nodeType === 1 && el.matches && el.matches(LEAD_SEL) && !el.matches(".lead-bridge, .seo-funnel"));
 
     const makeCta = (opts) => {
       const section = doc.createElement("section");
@@ -1346,14 +1362,36 @@
     };
 
     const isService = /^service-/i.test(file);
-    const isDoctor = /^doctor-/i.test(file) || !!doc.querySelector("section.doctor, .doctor");
+    const isDoctorPage = /^doctor-/i.test(file);
+    const isDoctor = isDoctorPage || !!doc.querySelector("section.doctor, .doctor");
+    const isDoctorsHub = file === "doctors.html";
     const isArticle = /^article-/i.test(file);
+    const isAbout = file === "about.html" || !!doc.querySelector("section.about-pillars");
+    const isPrograms = file === "programs.html";
+    const isContacts = file === "contacts.html";
+    const isPrices = file === "prices.html";
     const hasHero = !!doc.querySelector(".page-hero, .page-intro, .doc-hero");
+    const hasHubLead = !!doc.querySelector(".hub-lead");
+    const hasRichLead = !!doc.querySelector(".svc-rich-lead");
+    const hasFinalCta = !!doc.querySelector("section.cta");
 
     if (!hasHero && !isDoctor) return;
 
-    // 1) Top form — right after hero/intro (skip if hub-lead already sits there)
-    if (!doc.querySelector("[data-page-funnel-top]") && !doc.querySelector(".hub-lead")) {
+    // Existing mid-page leads already cover the job — don't stack clones next to them
+    const hasFaq = !!doc.querySelector("section.faq");
+    const skipMid = hasRichLead || hasHubLead || isService || isDoctor || isDoctorsHub;
+    const skipAsk =
+      !hasFaq ||
+      hasHubLead ||
+      isService ||
+      isDoctor ||
+      isDoctorsHub ||
+      isPrices ||
+      isPrograms;
+    const skipEnd = hasFinalCta;
+
+    // 1) Top form — after hero/intro (skip if hub-lead already sits there)
+    if (!doc.querySelector("[data-page-funnel-top]") && !hasHubLead && !isService) {
       const top = makeForm({
         mark: "data-page-funnel-top",
         mod: "page-funnel--top",
@@ -1367,38 +1405,70 @@
           : "Дежурный врач подскажет формат: дом, стационар или консультация. Имя можно не называть.",
         cta: "Жду звонка"
       });
-      const hero = doc.querySelector("section.page-hero, section.page-intro, section.doc-hero, .page-hero, .page-intro");
-      if (!insertAfter(hero, top)) main.insertBefore(top, main.firstChild);
+      if (isAbout) {
+        const aboutBlock = doc.querySelector("section.about.wrap, section.about");
+        if (!insertAfter(aboutBlock, top)) {
+          const pillars = doc.querySelector("section.about-pillars");
+          if (!insertBefore(pillars, top)) main.appendChild(top);
+        }
+      } else if (isDoctor || isDoctorsHub) {
+        const core = doc.querySelector("section.doctor, .doctor, section.people, [data-doctors]");
+        if (!insertAfter(core, top)) {
+          const hero = doc.querySelector("section.page-hero, .page-hero");
+          if (!insertAfter(hero, top)) main.appendChild(top);
+        }
+      } else {
+        const hero = doc.querySelector("section.page-hero, section.page-intro, section.doc-hero, .page-hero, .page-intro");
+        if (!insertAfter(hero, top)) main.insertBefore(top, main.firstChild);
+      }
     }
 
-    // 2) Mid CTA after content core
-    if (!doc.querySelector("[data-page-funnel-mid]")) {
+    // 2) Mid CTA after content core (skip when page already has hub/rich lead)
+    if (!skipMid && !doc.querySelector("[data-page-funnel-mid]")) {
       const mid = makeCta({
         mark: "data-page-funnel-mid",
         mod: "page-funnel--mid",
-        title: isService
-          ? "Готовы обсудить этот формат?"
-          : isDoctor
-            ? "Нужна именно эта смена?"
-            : "Не уверены, куда обращаться?",
-        text: isService
-          ? "Врач уточнит показания и назовёт ориентир по стоимости."
-          : "Коротко опишите ситуацию — подскажем следующий шаг без давления.",
+        title: isDoctor
+          ? "Нужна именно эта смена?"
+          : "Не уверены, куда обращаться?",
+        text: "Коротко опишите ситуацию — подскажем следующий шаг без давления.",
         cta: "Оставить заявку"
       });
-      const after =
-        doc.querySelector("[data-svc-upgrade]") ||
-        doc.querySelector("section.svc, .svc") ||
-        doc.querySelector("section.doctor, .doctor") ||
-        doc.querySelector("section.article, .article-body, .essay") ||
-        doc.querySelector("section.people, [data-doctors]") ||
-        doc.querySelector("section.gallery, .gallery-grid, .licenses, .price-wrap") ||
-        doc.querySelector("[data-page-funnel-top]");
-      if (!insertAfter(after, mid)) main.appendChild(mid);
+      if (isAbout) {
+        const pillars = doc.querySelector("section.about-pillars.wrap, section.about-pillars");
+        if (!insertAfter(pillars, mid)) {
+          const steps = doc.querySelector("section.steps");
+          if (!insertBefore(steps, mid)) main.appendChild(mid);
+        }
+      } else {
+        const after =
+          doc.querySelector("[data-svc-upgrade]") ||
+          doc.querySelector("section.doctor, .doctor") ||
+          doc.querySelector("section.article, .article-body, .essay") ||
+          doc.querySelector("section.info-story, .info-story") ||
+          doc.querySelector("section.people, [data-doctors]") ||
+          (doc.querySelector(".gallery, .gallery-grid") &&
+            doc.querySelector(".gallery, .gallery-grid").closest("section")) ||
+          (doc.querySelector(".articles") && doc.querySelector(".articles").closest("section")) ||
+          (doc.querySelector(".review-list") && doc.querySelector(".review-list").closest("section")) ||
+          (doc.querySelector(".licenses, .license-grid") &&
+            doc.querySelector(".licenses, .license-grid").closest("section")) ||
+          doc.querySelector("section.contacts, .contacts") ||
+          (doc.querySelector(".price-wrap") && doc.querySelector(".price-wrap").closest("section")) ||
+          doc.querySelector("section.catalog, .catalog, .programs") ||
+          doc.querySelector("section.steps") ||
+          doc.querySelector("[data-page-funnel-top]");
+        const beforeFaq = doc.querySelector("section.faq, section.cta");
+        if (after) {
+          if (!insertAfter(after, mid) && !insertBefore(beforeFaq, mid)) main.appendChild(mid);
+        } else if (!insertBefore(beforeFaq, mid)) {
+          main.appendChild(mid);
+        }
+      }
     }
 
-    // 3) Form before FAQ / after steps
-    if (!doc.querySelector("[data-page-funnel-ask]")) {
+    // 3) Ask form before FAQ — skip when hub-lead already sits there
+    if (!skipAsk && !doc.querySelector("[data-page-funnel-ask]")) {
       const ask = makeForm({
         mark: "data-page-funnel-ask",
         mod: "page-funnel--ask",
@@ -1416,8 +1486,8 @@
       }
     }
 
-    // 4) End CTA before final CTA or at end of main
-    if (!doc.querySelector("[data-page-funnel]")) {
+    // 4) End CTA — skip when page already has final .cta
+    if (!skipEnd && !doc.querySelector("[data-page-funnel]:not([data-page-funnel-top]):not([data-page-funnel-mid]):not([data-page-funnel-ask])")) {
       const end = makeCta({
         mark: "data-page-funnel",
         title: "Нужна помощь сегодня?",
@@ -1427,6 +1497,138 @@
       const finalCta = doc.querySelector("section.cta");
       if (!insertBefore(finalCta, end)) main.appendChild(end);
     }
+
+    // 5) Break consecutive lead stacks with thematic content bridges
+    const bridgeVariants = (() => {
+      if (isDoctor || isDoctorsHub) {
+        return [
+          {
+            title: "Как проходит запись к врачу",
+            items: [
+              ["01", "Короткий звонок", "Уточняем состояние и свободные окна приёма."],
+              ["02", "Анонимно", "Можно не называть фамилию — достаточно телефона."],
+              ["03", "Без давления", "Решение о визите остаётся за вами."]
+            ]
+          },
+          {
+            title: "Что важно знать заранее",
+            items: [
+              ["18+", "Возраст", "Помогаем пациентам старше 18 лет, добровольно."],
+              ["24/7", "Связь", "Дежурный врач на линии круглосуточно."],
+              ["Ло", "Лицензия", "Работаем по медицинской лицензии."]
+            ]
+          }
+        ];
+      }
+      if (isService || isPrograms || isPrices) {
+        return [
+          {
+            title: "Перед консультацией полезно знать",
+            items: [
+              ["01", "Оценка состояния", "Врач уточнит симптомы и противопоказания."],
+              ["02", "Формат помощи", "Дом, амбулатория или стационар — по показаниям."],
+              ["03", "Ориентир по цене", "Назовём вилку стоимости до начала программы."]
+            ]
+          },
+          {
+            title: "Почему семьи выбирают «Альбу»",
+            items: [
+              ["24/7", "На связи", "Принимаем обращения ночью и в выходные."],
+              ["Ло", "Тайна", "Диагноз не уходит третьим лицам без согласия."],
+              ["План", "Маршрут", "Понятный путь: от стабилизации до поддержки."]
+            ]
+          }
+        ];
+      }
+      if (isContacts) {
+        return [
+          {
+            title: "Как быстрее получить ответ",
+            items: [
+              ["01", "Телефон", "Самый быстрый способ — звонок дежурному врачу."],
+              ["02", "Мессенджер", "Можно написать в Max или Telegram."],
+              ["03", "Адрес", "Приезжайте по записи — отдельный вход."]
+            ]
+          }
+        ];
+      }
+      if (isAbout) {
+        return [
+          {
+            title: "Коротко о правилах клиники",
+            items: [
+              ["18+", "Добровольно", "Лечение только с согласия пациента."],
+              ["Тайна", "Конфиденциально", "Соблюдаем врачебную тайну."],
+              ["24/7", "Круглосуточно", "Стационар и консультация без выходных."]
+            ]
+          }
+        ];
+      }
+      return [
+        {
+          title: "Полезно знать до обращения",
+          items: [
+            ["01", "Без осуждения", "Говорим спокойно о состоянии и вариантах помощи."],
+            ["02", "Анонимно", "Можно обратиться под псевдонимом."],
+            ["03", "18+", "Помогаем совершеннолетним пациентам."]
+          ]
+        },
+        {
+          title: "Что можно уточнить у врача",
+          items: [
+            ["?", "Формат", "Дом или стационар — что безопаснее сейчас."],
+            ["?", "Сроки", "Сколько длится стабилизация и наблюдение."],
+            ["?", "Стоимость", "От чего зависит цена в вашем случае."]
+          ]
+        }
+      ];
+    })();
+
+    const makeBridge = (variant) => {
+      const section = doc.createElement("section");
+      section.className = "lead-bridge wrap";
+      section.setAttribute("data-lead-bridge", "");
+      const cards = variant.items
+        .map(
+          (it) =>
+            '<article class="lead-bridge__card">' +
+              '<div class="lead-bridge__n">' + it[0] + "</div>" +
+              "<h3>" + it[1] + "</h3>" +
+              "<p>" + it[2] + "</p>" +
+            "</article>"
+        )
+        .join("");
+      section.innerHTML =
+        '<div class="lead-bridge__box">' +
+          '<h2 class="section-title">' + variant.title + "</h2>" +
+          '<div class="lead-bridge__grid">' + cards + "</div>" +
+        "</div>";
+      return section;
+    };
+
+    const breakLeadStacks = () => {
+      let guard = 0;
+      let bridgeIdx = 0;
+      while (guard++ < 12) {
+        const kids = Array.from(main.children).filter((el) => el.nodeType === 1);
+        let inserted = false;
+        for (let i = 0; i < kids.length - 1; i++) {
+          const a = kids[i];
+          const b = kids[i + 1];
+          if (!isLeadEl(a) || !isLeadEl(b)) continue;
+          // Don't separate sticky pairs that are the same logical block
+          if (a.hasAttribute("data-lead-bridge") || b.hasAttribute("data-lead-bridge")) continue;
+          const variant = bridgeVariants[bridgeIdx % bridgeVariants.length];
+          bridgeIdx += 1;
+          insertBefore(b, makeBridge(variant));
+          inserted = true;
+          break;
+        }
+        if (!inserted) break;
+      }
+    };
+
+    breakLeadStacks();
   };
 
   const homeFunnels = () => {
@@ -1468,9 +1670,12 @@
       else ref.parentNode.appendChild(node);
     };
 
+    // Place after guarantee so it doesn't sit next to the static .funnel
+    const afterGuarantee = doc.querySelector("section.guarantee");
     const afterPeople = doc.querySelector("section.people[data-doctors], section.people");
-    if (afterPeople && !doc.querySelector("[data-home-funnel-docs]")) {
-      insertAfter(afterPeople, strip({
+    const docsAnchor = afterGuarantee || afterPeople;
+    if (docsAnchor && !doc.querySelector("[data-home-funnel-docs]")) {
+      insertAfter(docsAnchor, strip({
         mark: "data-home-funnel-docs",
         mod: "page-funnel--top",
         title: "Выберите врача или просто оставьте номер",
