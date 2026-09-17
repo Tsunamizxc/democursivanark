@@ -893,16 +893,11 @@ a.btn[href^="tel:"] {
 }
 
 .hero__rating {
-  margin-top: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 16px;
-  padding: 14px 18px;
-  background: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  backdrop-filter: blur(18px);
-  border-radius: 22px;
-  width: fit-content;
+  display: none;
+}
+
+.hero__rating.is-in {
+  display: none;
 }
 
 .hero__score {
@@ -3603,11 +3598,7 @@ body:has(.mnav.is-open) .sticky-lead {
     grid-template-columns: 1fr;
   }
   .hero__rating {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 8px 12px;
-    width: 100%;
-    padding: 12px 14px;
+    display: none;
   }
   .hero__faces {
     grid-column: 1 / -1;
@@ -5232,6 +5223,12 @@ body:has(.mnav.is-open) .sticky-lead {
   align-self: start;
 }
 
+/* transform from data-reveal breaks position:sticky */
+.essay h2[data-reveal],
+.essay h2[data-reveal].is-in {
+  transform: none !important;
+}
+
 .essay-col h3 {
   font-size: 20px;
   font-weight: 800;
@@ -5660,6 +5657,11 @@ body:has(.mnav.is-open) .sticky-lead {
   gap: 10px;
 }
 
+.page-funnel__form:has(.page-funnel__fields--namephone) {
+  flex: 0 1 360px;
+  min-width: min(100%, 570px);
+}
+
 .page-funnel__fields {
   display: grid !important;
   grid-template-columns: 1fr auto;
@@ -5804,6 +5806,11 @@ body:has(.mnav.is-open) .sticky-lead {
   align-self: start;
   background: var(--bg);
   padding-bottom: 4px;
+}
+
+.calc__intro[data-reveal],
+.calc__intro[data-reveal].is-in {
+  transform: none !important;
 }
 
 .calc__intro .section-title {
@@ -6679,6 +6686,16 @@ a[data-city-max]:not(.icon-btn) {
   .station__aside,
   .review-list {
     grid-template-columns: 1fr;
+  }
+
+  .essay h2,
+  .essay h2.section-title,
+  .essay h2.section-title.is-in,
+  .calc__intro {
+    position: static;
+    top: auto;
+    z-index: auto;
+    margin-bottom: 20px;
   }
   .footer__services-grid {
     grid-template-columns: 1fr;
@@ -8820,7 +8837,7 @@ html, body {
           <a class="btn btn--blue" href="#" data-open-modal>Получить совет <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
         </div>
         <div class="svc-sticky__card svc-sticky__card--form form">
-          <h3>Перезвоним за 5 минут</h3>
+          <h3>Перезвоним за 2 минуты</h3>
           <form data-form>
             <div class="form__fields svc-sticky__fields">
               <label class="visually-hidden" for="srservicedrugsephedrinehtm-sp">Телефон</label>
