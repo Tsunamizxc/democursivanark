@@ -529,7 +529,7 @@ ul {
   align-items: center;
   gap: 10px;
   height: 48px;
-  padding: 0 8px 0 20px;
+  padding: 0 20px;
   border-radius: 99px;
   font-size: 15px;
   font-weight: 700;
@@ -537,6 +537,10 @@ ul {
   transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), background 0.35s, color 0.35s, border-color 0.35s, filter 0.35s;
   white-space: nowrap;
   animation: btn-breathe 3.6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.btn:has(.arr) {
+  padding: 0 8px 0 20px;
 }
 
 .btn .arr {
@@ -606,15 +610,15 @@ ul {
 .hero__call-desktop,
 .hero__call-mobile,
 a.btn[href^="tel:"] {
-  padding-left: 22px;
-  padding-right: 22px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .btn--ghost {
   background: transparent;
   color: var(--white);
   border: 1.5px solid rgba(255, 255, 255, 0.45);
-  padding: 0 22px;
+  padding: 0 20px;
   animation-name: btn-breathe-ghost;
 }
 
@@ -700,7 +704,7 @@ a.btn[href^="tel:"] {
   background: transparent;
   color: var(--ink);
   border: 1.5px solid var(--line);
-  padding: 0 8px 0 22px;
+  padding: 0 20px;
   animation-name: btn-breathe-line;
 }
 
@@ -841,8 +845,12 @@ a.btn[href^="tel:"] {
   width: 100%;
   justify-content: center;
   height: 46px;
-  padding: 0 12px;
+  padding: 0 20px;
   font-size: 13px;
+}
+
+.hero-lead-form__actions .btn:has(.arr) {
+  padding: 0 8px 0 20px;
 }
 
 .hero-lead-form .btn--ghost {
@@ -1747,7 +1755,7 @@ a.btn[href^="tel:"] {
 
 .person__book {
   height: 40px;
-  padding: 0 8px 0 16px;
+  padding: 0 8px 0 20px;
   font-size: 13.5px;
   flex-shrink: 0;
 }
@@ -2597,6 +2605,17 @@ a.btn[href^="tel:"] {
   justify-content: center;
   padding: 0 20px;
   height: 52px;
+}
+
+.form .btn:has(.arr) {
+  padding: 0 8px 0 20px;
+}
+
+.page-funnel__box--form .btn,
+.page-funnel__box--form .btn:has(.arr),
+.page-funnel__box--form.form .btn,
+.page-funnel__box--form.form .btn:has(.arr) {
+  padding: 0 8px;
 }
 
 .form__ok {
@@ -4094,8 +4113,12 @@ body:has(.mnav.is-open) .sticky-lead {
 .cookie .btn {
   height: 40px;
   width: auto;
-  padding: 0 18px;
+  padding: 0 20px;
   font-size: 14px;
+}
+
+.cookie .btn:has(.arr) {
+  padding: 0 8px 0 20px;
 }
 
 @media (min-width: 721px) {
