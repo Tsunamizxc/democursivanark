@@ -893,6 +893,10 @@ a.btn[href^="tel:"] {
   width: fit-content;
 }
 
+.hero__rating.is-in {
+  display: none;
+}
+
 .hero__score {
   font-size: 40px;
   font-weight: 800;
