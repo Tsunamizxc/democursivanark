@@ -1632,8 +1632,8 @@ a.btn[href^="tel:"] {
 
 .people__viewport {
   overflow: hidden;
-  margin: -10px -10px -32px;
-  padding: 10px 10px 32px;
+  margin: -18px -18px -44px;
+  padding: 18px 18px 44px;
 }
 
 .people__viewport.swiper {
@@ -1781,9 +1781,10 @@ a.btn[href^="tel:"] {
 .people__dots {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 8px;
   margin-top: 16px;
-  position: relative;
+  position: static;
 }
 
 .people__dots[hidden],
@@ -2628,7 +2629,7 @@ a.btn[href^="tel:"] {
 .page-funnel__box--form .btn:has(.arr),
 .page-funnel__box--form.form .btn,
 .page-funnel__box--form.form .btn:has(.arr) {
-  padding: 0 8px;
+  padding: 0 8px 0 20px;
 }
 
 .form__ok {
@@ -5089,12 +5090,23 @@ body:has(.mnav.is-open) .sticky-lead {
 }
 
 .rooms__dots,
-.people__dots {
+.people__dots,
+.rooms__dots.swiper-pagination,
+.people__dots.swiper-pagination {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 8px;
   margin-top: 16px;
-  position: relative;
+  position: static;
+  inset: auto;
+  bottom: auto !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  width: auto;
+  transform: none;
+  z-index: 2;
 }
 
 .rooms__dots .swiper-pagination-bullet,
@@ -5403,7 +5415,7 @@ body:has(.mnav.is-open) .sticky-lead {
 }
 
 .funnel__legal {
-  margin: 0;
+  margin-top: 1rem;
   font-size: 12px;
   color: var(--muted);
 }
@@ -5679,7 +5691,7 @@ body:has(.mnav.is-open) .sticky-lead {
 }
 
 .page-funnel__legal {
-  margin: 0;
+  margin-top: 1rem;
   font-size: 12px;
   color: var(--muted);
   line-height: 1.4;
