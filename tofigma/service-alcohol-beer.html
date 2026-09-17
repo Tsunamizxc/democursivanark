@@ -4235,10 +4235,12 @@ body:has(.mnav.is-open) .sticky-lead {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
+  overflow: visible;
 }
 
 .offer {
   position: relative;
+  z-index: 1;
   min-height: 280px;
   padding: 26px 22px 22px;
   border-radius: 28px;
@@ -4246,8 +4248,32 @@ body:has(.mnav.is-open) .sticky-lead {
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
   transition: 0.45s var(--ease);
+  color: inherit;
+  text-decoration: none;
+}
+
+.offer.is-dirs-open {
+  z-index: 8;
+}
+
+.offer__main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  color: inherit;
+  text-decoration: none;
+  min-width: 0;
+}
+
+.offer__main span {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 10px;
 }
 
 .offer:hover {
@@ -4266,7 +4292,8 @@ body:has(.mnav.is-open) .sticky-lead {
 }
 
 .offer:nth-child(4) p,
-.offer:nth-child(4) span {
+.offer:nth-child(4) .offer__main span,
+.offer:nth-child(4) > span {
   color: rgba(255, 255, 255, 0.78);
 }
 
@@ -4337,22 +4364,80 @@ body:has(.mnav.is-open) .sticky-lead {
   margin-top: auto;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 12px;
+  width: 100%;
+  min-width: 0;
+}
+
+.offer__foot > b {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  font-size: clamp(15px, 2.4vw, 18px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .offer b {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 800;
   letter-spacing: -0.03em;
+}
+
+.offer__actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+  width: 100%;
+  margin-left: 0;
+  min-width: 0;
+}
+
+.offer__dirs {
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(79, 132, 255, 0.22);
+  background: transparent;
+  color: var(--blue-deep);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: 0.3s var(--ease);
+  white-space: nowrap;
+}
+
+.offer__dirs:hover,
+.offer.is-dirs-open .offer__dirs {
+  background: var(--blue-pale);
+  border-color: var(--blue);
+}
+
+.offer:nth-child(4) .offer__dirs {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: var(--white);
+}
+
+.offer:nth-child(4) .offer__dirs:hover,
+.offer:nth-child(4).is-dirs-open .offer__dirs {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.55);
+  color: var(--white);
 }
 
 .offer__cta {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  height: 34px;
-  padding: 0 12px;
+  height: 36px;
+  padding: 0 10px;
   border-radius: 999px;
   background: var(--white);
   border: 1px solid rgba(79, 132, 255, 0.22);
@@ -4362,6 +4447,10 @@ body:has(.mnav.is-open) .sticky-lead {
   letter-spacing: 0.01em;
   transition: 0.3s var(--ease);
   box-shadow: 0 4px 12px rgba(55, 90, 180, 0.06);
+  text-decoration: none;
+  white-space: nowrap;
+  min-width: 0;
+  text-align: center;
 }
 
 .offer:hover .offer__cta {
@@ -4397,6 +4486,256 @@ body:has(.mnav.is-open) .sticky-lead {
   background: var(--white);
   border-color: var(--white);
   color: var(--blue-deep);
+}
+
+.offer-dirs {
+  position: fixed;
+  z-index: 120;
+  width: min(400px, calc(100vw - 24px));
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px) scale(0.97);
+  transition: opacity 0.28s var(--ease), transform 0.28s var(--ease), visibility 0.28s;
+}
+
+.offer-dirs.is-open,
+.offer.is-dirs-open .offer-dirs {
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.offer-dirs.is-above {
+  transform: translateY(-8px) scale(0.97);
+  transform-origin: bottom center;
+}
+
+.offer-dirs.is-above.is-open {
+  transform: none;
+}
+
+.offer-dirs.is-below {
+  transform-origin: top center;
+}
+
+.offer-dirs[hidden] {
+  display: block !important;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.offer-dirs.is-open[hidden],
+.offer.is-dirs-open .offer-dirs[hidden] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.offer-dirs__panel {
+  position: relative;
+  background:
+    linear-gradient(145deg, rgba(79, 132, 255, 0.12) 0%, rgba(255, 255, 255, 0) 38%),
+    linear-gradient(180deg, #fff 0%, #f7f9ff 100%);
+  color: var(--ink);
+  border-radius: 28px;
+  border: 1px solid rgba(79, 132, 255, 0.18);
+  box-shadow:
+    0 32px 72px rgba(22, 25, 36, 0.22),
+    0 12px 32px rgba(63, 112, 245, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  padding: 0;
+  overflow: hidden;
+}
+
+.offer-dirs__panel::before {
+  content: "";
+  position: absolute;
+  top: -48px;
+  right: -36px;
+  width: 168px;
+  height: 168px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(79, 132, 255, 0.28) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.offer-dirs__panel::after {
+  content: "";
+  position: absolute;
+  left: -20px;
+  bottom: -40px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(55, 90, 180, 0.1) 0%, transparent 72%);
+  pointer-events: none;
+}
+
+.offer-dirs__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 20px 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.offer-dirs__head strong {
+  display: block;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.offer-dirs__head strong small {
+  display: block;
+  margin-top: 5px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: -0.01em;
+}
+
+.offer-dirs__close {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(79, 132, 255, 0.1);
+  color: var(--blue-deep);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: 0.2s var(--ease);
+}
+
+.offer-dirs__close:hover {
+  background: var(--blue);
+  color: #fff;
+}
+
+.offer-dirs__list {
+  display: grid;
+  gap: 7px;
+  max-height: min(52vh, 400px);
+  overflow: auto;
+  padding: 0 14px 16px;
+  position: relative;
+  z-index: 1;
+  scrollbar-width: thin;
+}
+
+.offer-dirs__list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 15px;
+  border-radius: 18px;
+  text-decoration: none;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(79, 132, 255, 0.08);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: 0.22s var(--ease);
+}
+
+.offer-dirs__list a:hover {
+  background: var(--blue-pale);
+  border-color: rgba(79, 132, 255, 0.22);
+  transform: translateX(3px);
+  box-shadow: 0 8px 20px rgba(63, 112, 245, 0.1);
+}
+
+.offer-dirs__list span {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  text-transform: none;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.offer-dirs__list em {
+  font-style: normal;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--blue-deep);
+  white-space: nowrap;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(79, 132, 255, 0.12);
+}
+
+@media (max-width: 720px) {
+  .offer__actions {
+    grid-template-columns: 1fr;
+  }
+
+  .offer-dirs.is-open,
+  .offer.is-dirs-open .offer-dirs {
+    inset: 0;
+    width: auto !important;
+    height: 100% !important;
+    min-height: 100dvh !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 220 !important;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    background: rgba(22, 25, 36, 0.52);
+    backdrop-filter: blur(6px);
+    transform: none;
+  }
+
+  .offer-dirs.is-open .offer-dirs__panel,
+  .offer.is-dirs-open .offer-dirs__panel {
+    width: 100%;
+    height: 100%;
+    min-height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: 0;
+  }
+
+  .offer-dirs.is-open .offer-dirs__head,
+  .offer.is-dirs-open .offer-dirs__head {
+    flex: 0 0 auto;
+  }
+
+  .offer-dirs.is-open .offer-dirs__list,
+  .offer.is-dirs-open .offer-dirs__list {
+    flex: 1 1 auto;
+    max-height: none !important;
+    min-height: 0;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  }
+
+  body:has(.offer-dirs.is-open) .sticky-lead {
+    visibility: hidden;
+    pointer-events: none;
+  }
 }
 
 .offers__lead {
@@ -4873,7 +5212,13 @@ body:has(.mnav.is-open) .sticky-lead {
   gap: 40px;
 }
 
-.essay h2 { margin-bottom: 0; }
+.essay h2 {
+  margin-bottom: 0;
+  position: sticky;
+  top: calc(var(--header-h) + 16px);
+  z-index: 3;
+  align-self: start;
+}
 
 .essay-col h3 {
   font-size: 20px;
@@ -7518,6 +7863,445 @@ body.is-hidden-tab .marquee__track {
   }
 }
 
+/* —— Service rich content pack —— */
+.svc-rich {
+  padding: 8px 0 12px;
+}
+
+.svc-rich-lead {
+  padding-top: 28px;
+}
+
+.page-funnel__fields--namephone {
+  grid-template-columns: 1fr 1fr auto !important;
+}
+
+.page-funnel__fields--namephone input {
+  min-width: 0;
+}
+
+.svc-benefits-row {
+  padding: 8px 0 12px;
+}
+
+.svc-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.75fr);
+  gap: 28px 36px;
+  align-items: start;
+  padding: 20px 0 36px;
+}
+
+.svc-article {
+  background: var(--white);
+  border: 1px solid rgba(79, 132, 255, 0.1);
+  border-radius: 28px;
+  padding: 32px 34px 36px;
+  box-shadow: var(--shadow);
+}
+
+.svc-article > p:first-child {
+  font-size: 17px;
+  color: var(--ink-2);
+  line-height: 1.55;
+}
+
+.svc-article h2 {
+  margin: 28px 0 12px;
+  font-size: clamp(22px, 2.6vw, 28px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.svc-article h3 {
+  margin: 18px 0 8px;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--blue-deep);
+}
+
+.svc-article p,
+.svc-article li {
+  color: var(--ink-2);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.svc-article ul {
+  margin: 10px 0 18px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.svc-article li {
+  position: relative;
+  padding-left: 18px;
+}
+
+.svc-article li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+.svc-figure {
+  margin: 22px 0 8px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.svc-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.svc-figure figcaption {
+  padding: 12px 16px 14px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.svc-sticky {
+  position: sticky;
+  top: calc(var(--header-h) + 16px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  z-index: 2;
+}
+
+.svc-sticky__card {
+  background: var(--white);
+  border: 1px solid rgba(79, 132, 255, 0.12);
+  border-radius: 24px;
+  padding: 20px 18px;
+  box-shadow: var(--shadow);
+}
+
+.svc-sticky__card h3 {
+  margin: 0 0 8px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.svc-sticky__card > p {
+  margin: 0 0 14px;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.svc-sticky__card .btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.svc-sticky__fields {
+  display: grid !important;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin: 0 !important;
+}
+
+.svc-sticky__fields input {
+  margin: 0 !important;
+  height: 46px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  padding: 0 16px;
+  font: inherit;
+}
+
+.svc-sticky__fields input:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px rgba(79, 132, 255, 0.12);
+}
+
+.svc-related {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.svc-related__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--bg);
+  color: var(--ink);
+  text-decoration: none;
+  transition: 0.25s var(--ease);
+}
+
+.svc-related__item:hover {
+  background: var(--blue-pale);
+  color: var(--blue-deep);
+}
+
+.svc-related__item span {
+  font-size: 13.5px;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.svc-related__item b {
+  flex-shrink: 0;
+  font-size: 12.5px;
+  color: var(--blue-deep);
+  font-weight: 800;
+}
+
+.svc-tariffs {
+  padding: 12px 0 36px;
+}
+
+.svc-tariffs__lead {
+  margin: -8px 0 22px;
+  max-width: 52ch;
+  color: var(--muted);
+  font-size: 14.5px;
+}
+
+.svc-tariffs__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.svc-tariff {
+  background: var(--bg);
+  border: 1px solid rgba(79, 132, 255, 0.1);
+  border-radius: 26px;
+  padding: 26px 22px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.svc-tariff--feat {
+  background: linear-gradient(165deg, var(--blue-pale) 0%, #fff 48%);
+  border-color: rgba(79, 132, 255, 0.28);
+  box-shadow: var(--shadow);
+}
+
+.svc-tariff h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.svc-tariff__price {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--blue-deep);
+}
+
+.svc-tariff ul {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  flex: 1;
+}
+
+.svc-tariff li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+
+.svc-tariff li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+.svc-tariff .btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.svc-process {
+  padding-top: 24px;
+}
+
+.svc-process__grid {
+  grid-template-columns: repeat(3, 1fr) !important;
+}
+
+.svc-process__grid .step {
+  min-height: 200px;
+}
+
+.svc-article-band {
+  padding: 20px 0 36px;
+}
+
+.svc-article-band__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.svc-ab-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--white);
+  border: 1px solid rgba(79, 132, 255, 0.1);
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow);
+  transition: 0.35s var(--ease);
+}
+
+.svc-ab-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(79, 132, 255, 0.28);
+}
+
+.svc-ab-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+
+.svc-ab-card > div {
+  padding: 18px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.svc-ab-card h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.svc-ab-card p {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.45;
+  flex: 1;
+}
+
+.svc-ab-card .more {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blue-deep);
+}
+
+.svc-docs-row {
+  padding: 8px 0 28px;
+}
+
+.svc-docs-row__head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.svc-docs-row__head .section-title {
+  margin-bottom: 0;
+}
+
+.svc-docs-row__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.svc-docs-row .person {
+  height: auto;
+}
+
+.svc-docs-row .person__desc {
+  display: none;
+}
+
+@media (max-width: 980px) {
+  .svc-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .svc-sticky {
+    position: static;
+  }
+
+  .svc-tariffs__grid,
+  .svc-article-band__grid,
+  .svc-docs-row__grid,
+  .svc-process__grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .page-funnel__fields--namephone {
+    grid-template-columns: 1fr !important;
+  }
+
+  .page-funnel__fields--namephone .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .svc-article {
+    padding: 22px 18px 26px;
+    border-radius: 22px;
+  }
+
+  .svc-tariffs__grid,
+  .svc-article-band__grid,
+  .svc-docs-row__grid,
+  .svc-process__grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .svc-docs-row__head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
 
 /* === html-to-figma capture profile ===
    Plugin freezes live DOM via getBoundingClientRect (no Auto Layout).
@@ -7926,73 +8710,267 @@ html, body {
       </aside>
     </section>
 
-    <section class="svc-upgrade wrap is-in" data-svc-upgrade data-reveal>
+    <div class="svc-rich" data-svc-rich>
+    <section class="page-funnel page-funnel--form wrap svc-rich-lead is-in" data-reveal>
+      <div class="page-funnel__box page-funnel__box--form form">
+        <div class="page-funnel__copy">
+          <h2>Помощь при алкогольной зависимости</h2>
+          <p>Срыв, запой или план лечения — дежурный подскажет маршрут без стыда и ультиматумов.</p>
+          <ul class="page-funnel__chips"><li>24/7</li><li>Анонимно</li><li>18+</li></ul>
+        </div>
+        <form data-form class="page-funnel__form">
+          <div class="form__fields page-funnel__fields page-funnel__fields--namephone">
+            <label class="visually-hidden" for="srservicealcoholbeerhtml-n">Имя</label>
+            <input id="srservicealcoholbeerhtml-n" name="name" type="text" placeholder="Имя или псевдоним" autocomplete="name">
+            <label class="visually-hidden" for="srservicealcoholbeerhtml-p">Телефон</label>
+            <input id="srservicealcoholbeerhtml-p" name="phone" type="tel" placeholder="+7 (" required autocomplete="tel">
+            <button class="btn btn--blue" type="submit">Жду звонка <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+          </div>
+          <p class="page-funnel__legal">Нажимая кнопку, вы соглашаетесь с <a href="consent.html">обработкой ПДн</a>.</p>
+          <div class="form__ok"><strong>Заявка принята.</strong> Дежурный врач перезвонит с номера клиники.</div>
+        </form>
+      </div>
+    </section>
+
+    <section class="svc-benefits-row wrap is-in" data-reveal>
       <div class="svc-benefits">
         <article>
           <h3>Анонимно</h3>
-          <p>Обращение и лечение без уведомлений третьим лицам. Можно начать с псевдонима.</p>
+          <p>Обращение без уведомлений третьим лицам. Можно начать с псевдонима.</p>
         </article>
         <article>
           <h3>24/7</h3>
-          <p>Дежурный специалист на связи круглосуточно — дом или стационар по показаниям.</p>
+          <p>Дежурный специалист на связи — дом или стационар по показаниям.</p>
         </article>
         <article>
           <h3>Два формата</h3>
-          <p>Выезд на дом или палата. Формат выбираем после оценки состояния, не «с порога».</p>
+          <p>Выезд, приём или палата. Формат — после оценки состояния.</p>
         </article>
         <article>
           <h3>План для семьи</h3>
-          <p>Объясняем родственникам, что делать дальше — без давления и обещаний «навсегда».</p>
+          <p>Объясняем родственникам следующий шаг без давления.</p>
         </article>
       </div>
+    </section>
 
-      <div class="svc-when">
-        <h2>Когда стоит обратиться</h2>
-        <ul>
-          <li>Срыв или запой, который не удаётся остановить самостоятельно</li>
-          <li>Нужна стабилизация дома или решение о госпитализации</li>
-          <li>Семья не знает, с чего начать разговор о помощи</li>
-          <li>После детокса нужен понятный следующий шаг</li>
-          <li>Важны анонимность и добровольный формат (18+)</li>
-          <li>Нужен ориентир по стоимости до выезда врача</li>
-        </ul>
+    <section class="svc-layout wrap is-in" data-reveal>
+      <div class="svc-article">
+<p>Страница «Пивной алкоголизм не легче водочного» — часть маршрута Альбы: добровольно, 18+, без обещаний «навсегда». Ниже — как проходит лечение алкогольной зависимости, когда звонить, чем отличается амбулаторный маршрут vs стационар, какие есть ограничения и что делать после.</p><p>Мы говорим спокойно: сначала безопасность и согласие, затем метод и срок. Стоимость ориентировочная — точный объём врач называет после осмотра.</p>
+
+          <h2>Когда стоит обратиться</h2>
+          <p>Имеет смысл звонить, если срывы повторяются, запой не останавливается, семья не знает с чего начать. Страница «Пивной алкоголизм не легче водочного» — точка входа: можно начать с вопроса, не с «готовности лечиться навсегда».</p>
+          <ul>
+            <li>Нужен ориентир по формату и стоимости до визита</li>
+            <li>Важны анонимность и добровольный формат (18+)</li>
+            <li>Семья не знает, как говорить о помощи без давления</li>
+            <li>После острого этапа нужен понятный следующий шаг</li>
+          </ul>
+          <figure class="svc-figure">
+            <img src="../images/clinic-room.jpg" alt="" loading="eager" width="800" height="520">
+            <figcaption>Спокойная обстановка клиники — без суеты и лишних глаз.</figcaption>
+          </figure>
+
+          <h2>Как проходит программа</h2>
+          <h3>Оценка состояния</h3>
+          <p>Врач уточняет жалобы, срок проблемы, сопутствующие болезни и согласие. Для лечение алкогольной зависимости это основа: без осмотра не выбираем метод «из рекламы».</p>
+          <h3>Старт помощи</h3>
+          <p>Дальше — амбулаторный приём, выезд или палата. Объём зависит от безопасности, а не от желания «уложиться в час».</p>
+          <h3>План на потом</h3>
+          <p>Фиксируем, что делать при ухудшении, куда звонить и какие шаги разумны через несколько дней.</p>
+          <figure class="svc-figure">
+            <img src="../images/doctor-1.jpg" alt="" loading="eager" width="800" height="520">
+            <figcaption>Разговор с врачом — в центре маршрута, не формальность.</figcaption>
+          </figure>
+
+          <h2>Дом, приём или стационар</h2>
+          <p>Разница амбулаторный маршрут vs стационар решается по показаниям. Домашний и амбулаторный формат уместны при контакте и стабильности. Стационар — когда нужен пост, монитор или изоляция от триггеров.</p>
+          <ul>
+            <li>Амбулаторно — если состояние позволяет приехать на приём</li>
+            <li>Выезд — когда человек не может или не должен ехать сам</li>
+            <li>Палата — при риске осложнений и необходимости наблюдения</li>
+          </ul>
+          <figure class="svc-figure">
+            <img src="../images/room-double.jpg" alt="" loading="eager" width="800" height="520">
+            <figcaption>Формат подбираем после оценки, не «с порога».</figcaption>
+          </figure>
+
+          <h2>Противопоказания</h2>
+          <p>Имеются противопоказания. Часть процедур нельзя начинать при остром опьянении, отказе от осмотра, тяжёлой соматике или без согласия пациента. Точные ограничения врач называет на консультации.</p>
+
+          <h2>После этапа помощи</h2>
+          <p>Сохраняйте контакт дежурного. Если вернулись симптомы, тяга или конфликт дома — лучше позвонить рано. Следующим шагом могут быть детокс, кодирование, психотерапия или семейная встреча — по готовности человека.</p>
+
       </div>
-
-      <div class="svc-why">
-        <article>
-          <b>Только добровольно</b>
-          <p>Плановое лечение — с информированным согласием пациента.</p>
-        </article>
-        <article>
-          <b>Без «укола с порога»</b>
-          <p>Кодирование и жёсткие методы — только после осмотра и стабилизации.</p>
-        </article>
-        <article>
-          <b>Лицензия и протоколы</b>
-          <p>Медицинская организация с понятным маршрутом помощи.</p>
-        </article>
-        <article>
-          <b>Один контакт 24/7</b>
-          <p>Телефон, Max и Telegram — дежурный подскажет формат.</p>
-        </article>
-      </div>
-
-      <div class="svc-docs-teaser">
-        <div>
-          <h2>Врачи на маршруте помощи</h2>
-          <p>Наркологи, психиатры и психотерапевты — можно выбрать специалиста до визита.</p>
+      <aside class="svc-sticky">
+        <div class="svc-sticky__card">
+          <h3>Близкий отказывается от помощи?</h3>
+          <p>Не начинайте с ультиматумов. Дежурный подскажет, как говорить и какой формат возможен добровольно.</p>
+          <a class="btn btn--blue" href="#" data-open-modal>Получить совет <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
         </div>
-        <a class="btn btn--light" href="doctors.html">Смотреть команду</a>
+        <div class="svc-sticky__card svc-sticky__card--form form">
+          <h3>Перезвоним за 5 минут</h3>
+          <form data-form>
+            <div class="form__fields svc-sticky__fields">
+              <label class="visually-hidden" for="srservicealcoholbeerhtml-sp">Телефон</label>
+              <input id="srservicealcoholbeerhtml-sp" name="phone" type="tel" placeholder="+7 (" required autocomplete="tel">
+              <button class="btn btn--blue" type="submit">Перезвоните мне</button>
+            </div>
+            <div class="form__ok"><strong>Принято.</strong> Ждите звонка.</div>
+          </form>
+        </div>
+        <div class="svc-sticky__card">
+          <h3>Рядом по маршруту</h3>
+          <div class="svc-related">
+          <a class="svc-related__item" href="service-zapoy.html"><span>Запой и капельница</span><b>от 2 500 ₽</b></a>
+          <a class="svc-related__item" href="service-detox.html"><span>Детокс</span><b>от 6 000 ₽</b></a>
+          <a class="svc-related__item" href="service-code.html"><span>Кодирование</span><b>от 4 000 ₽</b></a>
+          <a class="svc-related__item" href="service-rehab-alcohol.html"><span>Реабилитация при алкоголизме</span><b>от 35 000 ₽</b></a>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="svc-tariffs wrap is-in" data-reveal>
+      <h2 class="section-title">Тарифы программы</h2>
+      <p class="svc-tariffs__lead">Ориентиры до осмотра. Точный объём и ограничения — после консультации врача. 18+, добровольно.</p>
+      <div class="svc-tariffs__grid">
+        <article class="svc-tariff">
+          <h3>Базовый</h3>
+          <b class="svc-tariff__price">от 5 600 ₽</b>
+          <ul>
+            <li>Первичный осмотр / консультация</li>
+            <li>Ориентир по маршруту помощи</li>
+            <li>Рекомендации для семьи</li>
+            <li>Связь с дежурным</li>
+          </ul>
+          <a class="btn btn--line" href="#" data-open-modal>Выбрать <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        </article>
+        <article class="svc-tariff svc-tariff--feat">
+          <h3>Стандарт</h3>
+          <b class="svc-tariff__price">от 8 960 ₽</b>
+          <ul>
+            <li>Расширенный объём программы</li>
+            <li>Наблюдение по показаниям</li>
+            <li>Коррекция плана после старта</li>
+            <li>Документы и анонимное оформление</li>
+          </ul>
+          <a class="btn btn--blue" href="#" data-open-modal>Выбрать <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        </article>
+        <article class="svc-tariff">
+          <h3>Интенсив</h3>
+          <b class="svc-tariff__price">от 13 440 ₽</b>
+          <ul>
+            <li>Максимальный контроль и поддержка</li>
+            <li>Готовность к смене формата</li>
+            <li>Сопровождение семьи</li>
+            <li>План на период после этапа</li>
+          </ul>
+          <a class="btn btn--line" href="#" data-open-modal>Выбрать <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        </article>
       </div>
     </section>
 
-    
-    
-    <section class="steps wrap">
-      <h2 class="section-title is-in" data-reveal>Как это проходит</h2>
-      <div class="steps__grid"><article class="step is-in" data-reveal><div class="step__n">01</div><h3>Осмотр</h3><p>Не начинаем с укола.</p></article><article class="step is-in" data-reveal><div class="step__n">02</div><h3>Стабилизация</h3><p>Сон и давление.</p></article><article class="step is-in" data-reveal><div class="step__n">03</div><h3>Решение</h3><p>Дом, палата или сопровождение.</p></article></div>
+    <section class="steps wrap svc-process is-in" data-reveal>
+      <h2 class="section-title">Как это проходит</h2>
+      <div class="steps__grid svc-process__grid">
+        <article class="step is-in" data-reveal><div class="step__n">01</div><h3>Звонок</h3><p>Дежурный уточняет состояние и срочность.</p></article>
+        <article class="step is-in" data-reveal><div class="step__n">02</div><h3>Маршрут</h3><p>Дом, приём или палата — по показаниям.</p></article>
+        <article class="step is-in" data-reveal><div class="step__n">03</div><h3>Осмотр</h3><p>Врач оценивает риски до процедур.</p></article>
+        <article class="step is-in" data-reveal><div class="step__n">04</div><h3>Помощь</h3><p>Начинаем согласованный объём программы.</p></article>
+        <article class="step is-in" data-reveal><div class="step__n">05</div><h3>Контроль</h3><p>Смотрим ответ на лечение и самочувствие.</p></article>
+        <article class="step is-in" data-reveal><div class="step__n">06</div><h3>План</h3><p>Рекомендации на ближайшие дни и связь 24/7.</p></article>
+      </div>
     </section>
-    <section class="faq wrap">
+
+    <section class="svc-article-band wrap is-in" data-reveal>
+      <h2 class="section-title">Полезно почитать</h2>
+      <div class="svc-article-band__grid">
+        <a class="svc-ab-card is-in" href="article-detox.html" data-reveal>
+          <img src="../images/clinic-room.jpg" alt="" loading="eager" width="640" height="400">
+          <div>
+            <h3>Когда капельницы недостаточно</h3>
+            <p>Признаки, что безопаснее стационар, а не разовая инфузия дома.</p>
+            <span class="more">Читать</span>
+          </div>
+        </a>
+        <a class="svc-ab-card is-in" href="article-family.html" data-reveal>
+          <img src="../images/room-single.jpg" alt="" loading="eager" width="640" height="400">
+          <div>
+            <h3>Как говорить с близким</h3>
+            <p>Спокойный разговор о помощи без ультиматумов и стыда.</p>
+            <span class="more">Читать</span>
+          </div>
+        </a>
+        <a class="svc-ab-card is-in" href="article-anon.html" data-reveal>
+          <img src="../images/clinic-hall.jpg" alt="" loading="eager" width="640" height="400">
+          <div>
+            <h3>Анонимность в клинике</h3>
+            <p>Как оформляем обращение без звонков на работу и соседям.</p>
+            <span class="more">Читать</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="svc-docs-row wrap is-in" data-reveal>
+      <div class="svc-docs-row__head">
+        <h2 class="section-title">Врачи на маршруте</h2>
+        <a class="btn btn--line" href="doctors.html">Вся команда</a>
+      </div>
+      <div class="svc-docs-row__grid">
+        <article class="person svc-doc is-in" data-reveal>
+          <div class="person__photo"><img src="../images/doctor-2.jpg" alt="Сафонова Елена Викторовна" loading="eager" decoding="sync"></div>
+          <div class="person__meta">
+            <h3>Сафонова Елена Викторовна</h3>
+            <p class="person__spec">Психиатр-нарколог, к.м.н.</p>
+            <p class="person__exp">Стаж 15 лет</p>
+            <div class="person__actions">
+              <a class="person__more" href="doctor-safonova.html">Подробнее</a>
+              <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+            </div>
+          </div>
+        </article>
+        <article class="person svc-doc is-in" data-reveal>
+          <div class="person__photo"><img src="../images/doctor-1.jpg" alt="Волков Андрей Сергеевич" loading="eager" decoding="sync"></div>
+          <div class="person__meta">
+            <h3>Волков Андрей Сергеевич</h3>
+            <p class="person__spec">Нарколог</p>
+            <p class="person__exp">Стаж 18 лет</p>
+            <div class="person__actions">
+              <a class="person__more" href="doctor-volkov.html">Подробнее</a>
+              <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+            </div>
+          </div>
+        </article>
+        <article class="person svc-doc is-in" data-reveal>
+          <div class="person__photo"><img src="../images/doctor-4.jpg" alt="Орлова Мария Дмитриевна" loading="eager" decoding="sync"></div>
+          <div class="person__meta">
+            <h3>Орлова Мария Дмитриевна</h3>
+            <p class="person__spec">Клинический психолог</p>
+            <p class="person__exp">Стаж 12 лет</p>
+            <div class="person__actions">
+              <a class="person__more" href="doctor-orlova.html">Подробнее</a>
+              <a class="btn btn--blue person__book" href="#" data-open-modal>Записаться</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="hub-lead wrap is-in" data-reveal>
+      <div class="hub-lead__box">
+        <div>
+          <h2>Готовы обсудить этот формат?</h2>
+          <p>Коротко опишите ситуацию — подскажем, подходит ли программа и что подготовить.</p>
+        </div>
+        <a class="btn btn--blue" href="#" data-open-modal>Оставить заявку <span class="arr"><svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+      </div>
+    </section>
+    </div>
+
+
+    
+<section class="faq wrap">
       <div data-reveal class="is-in"><h2 class="section-title">Вопросы<br>по программе</h2></div>
       <div class="acc is-in" data-acc data-reveal><article class="acc__item is-open"><button class="acc__btn" type="button">Это правда зависимость?<i>+</i></button><div class="acc__panel"><div><p>Если нет контроля и есть отмена — да. Название напитка не лечит.</p></div></div></article></div>
     </section>

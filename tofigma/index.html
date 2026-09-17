@@ -4236,10 +4236,12 @@ body:has(.mnav.is-open) .sticky-lead {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
+  overflow: visible;
 }
 
 .offer {
   position: relative;
+  z-index: 1;
   min-height: 280px;
   padding: 26px 22px 22px;
   border-radius: 28px;
@@ -4247,8 +4249,32 @@ body:has(.mnav.is-open) .sticky-lead {
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
   transition: 0.45s var(--ease);
+  color: inherit;
+  text-decoration: none;
+}
+
+.offer.is-dirs-open {
+  z-index: 8;
+}
+
+.offer__main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  color: inherit;
+  text-decoration: none;
+  min-width: 0;
+}
+
+.offer__main span {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 10px;
 }
 
 .offer:hover {
@@ -4267,7 +4293,8 @@ body:has(.mnav.is-open) .sticky-lead {
 }
 
 .offer:nth-child(4) p,
-.offer:nth-child(4) span {
+.offer:nth-child(4) .offer__main span,
+.offer:nth-child(4) > span {
   color: rgba(255, 255, 255, 0.78);
 }
 
@@ -4338,22 +4365,80 @@ body:has(.mnav.is-open) .sticky-lead {
   margin-top: auto;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 12px;
+  width: 100%;
+  min-width: 0;
+}
+
+.offer__foot > b {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  font-size: clamp(15px, 2.4vw, 18px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .offer b {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 800;
   letter-spacing: -0.03em;
+}
+
+.offer__actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+  width: 100%;
+  margin-left: 0;
+  min-width: 0;
+}
+
+.offer__dirs {
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(79, 132, 255, 0.22);
+  background: transparent;
+  color: var(--blue-deep);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: 0.3s var(--ease);
+  white-space: nowrap;
+}
+
+.offer__dirs:hover,
+.offer.is-dirs-open .offer__dirs {
+  background: var(--blue-pale);
+  border-color: var(--blue);
+}
+
+.offer:nth-child(4) .offer__dirs {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: var(--white);
+}
+
+.offer:nth-child(4) .offer__dirs:hover,
+.offer:nth-child(4).is-dirs-open .offer__dirs {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.55);
+  color: var(--white);
 }
 
 .offer__cta {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  height: 34px;
-  padding: 0 12px;
+  height: 36px;
+  padding: 0 10px;
   border-radius: 999px;
   background: var(--white);
   border: 1px solid rgba(79, 132, 255, 0.22);
@@ -4363,6 +4448,10 @@ body:has(.mnav.is-open) .sticky-lead {
   letter-spacing: 0.01em;
   transition: 0.3s var(--ease);
   box-shadow: 0 4px 12px rgba(55, 90, 180, 0.06);
+  text-decoration: none;
+  white-space: nowrap;
+  min-width: 0;
+  text-align: center;
 }
 
 .offer:hover .offer__cta {
@@ -4398,6 +4487,256 @@ body:has(.mnav.is-open) .sticky-lead {
   background: var(--white);
   border-color: var(--white);
   color: var(--blue-deep);
+}
+
+.offer-dirs {
+  position: fixed;
+  z-index: 120;
+  width: min(400px, calc(100vw - 24px));
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px) scale(0.97);
+  transition: opacity 0.28s var(--ease), transform 0.28s var(--ease), visibility 0.28s;
+}
+
+.offer-dirs.is-open,
+.offer.is-dirs-open .offer-dirs {
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.offer-dirs.is-above {
+  transform: translateY(-8px) scale(0.97);
+  transform-origin: bottom center;
+}
+
+.offer-dirs.is-above.is-open {
+  transform: none;
+}
+
+.offer-dirs.is-below {
+  transform-origin: top center;
+}
+
+.offer-dirs[hidden] {
+  display: block !important;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.offer-dirs.is-open[hidden],
+.offer.is-dirs-open .offer-dirs[hidden] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.offer-dirs__panel {
+  position: relative;
+  background:
+    linear-gradient(145deg, rgba(79, 132, 255, 0.12) 0%, rgba(255, 255, 255, 0) 38%),
+    linear-gradient(180deg, #fff 0%, #f7f9ff 100%);
+  color: var(--ink);
+  border-radius: 28px;
+  border: 1px solid rgba(79, 132, 255, 0.18);
+  box-shadow:
+    0 32px 72px rgba(22, 25, 36, 0.22),
+    0 12px 32px rgba(63, 112, 245, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  padding: 0;
+  overflow: hidden;
+}
+
+.offer-dirs__panel::before {
+  content: "";
+  position: absolute;
+  top: -48px;
+  right: -36px;
+  width: 168px;
+  height: 168px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(79, 132, 255, 0.28) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.offer-dirs__panel::after {
+  content: "";
+  position: absolute;
+  left: -20px;
+  bottom: -40px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(55, 90, 180, 0.1) 0%, transparent 72%);
+  pointer-events: none;
+}
+
+.offer-dirs__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 20px 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.offer-dirs__head strong {
+  display: block;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.offer-dirs__head strong small {
+  display: block;
+  margin-top: 5px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: -0.01em;
+}
+
+.offer-dirs__close {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(79, 132, 255, 0.1);
+  color: var(--blue-deep);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: 0.2s var(--ease);
+}
+
+.offer-dirs__close:hover {
+  background: var(--blue);
+  color: #fff;
+}
+
+.offer-dirs__list {
+  display: grid;
+  gap: 7px;
+  max-height: min(52vh, 400px);
+  overflow: auto;
+  padding: 0 14px 16px;
+  position: relative;
+  z-index: 1;
+  scrollbar-width: thin;
+}
+
+.offer-dirs__list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 15px;
+  border-radius: 18px;
+  text-decoration: none;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(79, 132, 255, 0.08);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: 0.22s var(--ease);
+}
+
+.offer-dirs__list a:hover {
+  background: var(--blue-pale);
+  border-color: rgba(79, 132, 255, 0.22);
+  transform: translateX(3px);
+  box-shadow: 0 8px 20px rgba(63, 112, 245, 0.1);
+}
+
+.offer-dirs__list span {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  text-transform: none;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.offer-dirs__list em {
+  font-style: normal;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--blue-deep);
+  white-space: nowrap;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(79, 132, 255, 0.12);
+}
+
+@media (max-width: 720px) {
+  .offer__actions {
+    grid-template-columns: 1fr;
+  }
+
+  .offer-dirs.is-open,
+  .offer.is-dirs-open .offer-dirs {
+    inset: 0;
+    width: auto !important;
+    height: 100% !important;
+    min-height: 100dvh !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 220 !important;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    background: rgba(22, 25, 36, 0.52);
+    backdrop-filter: blur(6px);
+    transform: none;
+  }
+
+  .offer-dirs.is-open .offer-dirs__panel,
+  .offer.is-dirs-open .offer-dirs__panel {
+    width: 100%;
+    height: 100%;
+    min-height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: 0;
+  }
+
+  .offer-dirs.is-open .offer-dirs__head,
+  .offer.is-dirs-open .offer-dirs__head {
+    flex: 0 0 auto;
+  }
+
+  .offer-dirs.is-open .offer-dirs__list,
+  .offer.is-dirs-open .offer-dirs__list {
+    flex: 1 1 auto;
+    max-height: none !important;
+    min-height: 0;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  }
+
+  body:has(.offer-dirs.is-open) .sticky-lead {
+    visibility: hidden;
+    pointer-events: none;
+  }
 }
 
 .offers__lead {
@@ -4874,7 +5213,13 @@ body:has(.mnav.is-open) .sticky-lead {
   gap: 40px;
 }
 
-.essay h2 { margin-bottom: 0; }
+.essay h2 {
+  margin-bottom: 0;
+  position: sticky;
+  top: calc(var(--header-h) + 16px);
+  z-index: 3;
+  align-self: start;
+}
 
 .essay-col h3 {
   font-size: 20px;
@@ -7519,6 +7864,445 @@ body.is-hidden-tab .marquee__track {
   }
 }
 
+/* —— Service rich content pack —— */
+.svc-rich {
+  padding: 8px 0 12px;
+}
+
+.svc-rich-lead {
+  padding-top: 28px;
+}
+
+.page-funnel__fields--namephone {
+  grid-template-columns: 1fr 1fr auto !important;
+}
+
+.page-funnel__fields--namephone input {
+  min-width: 0;
+}
+
+.svc-benefits-row {
+  padding: 8px 0 12px;
+}
+
+.svc-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.75fr);
+  gap: 28px 36px;
+  align-items: start;
+  padding: 20px 0 36px;
+}
+
+.svc-article {
+  background: var(--white);
+  border: 1px solid rgba(79, 132, 255, 0.1);
+  border-radius: 28px;
+  padding: 32px 34px 36px;
+  box-shadow: var(--shadow);
+}
+
+.svc-article > p:first-child {
+  font-size: 17px;
+  color: var(--ink-2);
+  line-height: 1.55;
+}
+
+.svc-article h2 {
+  margin: 28px 0 12px;
+  font-size: clamp(22px, 2.6vw, 28px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.svc-article h3 {
+  margin: 18px 0 8px;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--blue-deep);
+}
+
+.svc-article p,
+.svc-article li {
+  color: var(--ink-2);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.svc-article ul {
+  margin: 10px 0 18px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.svc-article li {
+  position: relative;
+  padding-left: 18px;
+}
+
+.svc-article li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+.svc-figure {
+  margin: 22px 0 8px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.svc-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.svc-figure figcaption {
+  padding: 12px 16px 14px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.svc-sticky {
+  position: sticky;
+  top: calc(var(--header-h) + 16px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  z-index: 2;
+}
+
+.svc-sticky__card {
+  background: var(--white);
+  border: 1px solid rgba(79, 132, 255, 0.12);
+  border-radius: 24px;
+  padding: 20px 18px;
+  box-shadow: var(--shadow);
+}
+
+.svc-sticky__card h3 {
+  margin: 0 0 8px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.svc-sticky__card > p {
+  margin: 0 0 14px;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.svc-sticky__card .btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.svc-sticky__fields {
+  display: grid !important;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin: 0 !important;
+}
+
+.svc-sticky__fields input {
+  margin: 0 !important;
+  height: 46px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  padding: 0 16px;
+  font: inherit;
+}
+
+.svc-sticky__fields input:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px rgba(79, 132, 255, 0.12);
+}
+
+.svc-related {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.svc-related__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--bg);
+  color: var(--ink);
+  text-decoration: none;
+  transition: 0.25s var(--ease);
+}
+
+.svc-related__item:hover {
+  background: var(--blue-pale);
+  color: var(--blue-deep);
+}
+
+.svc-related__item span {
+  font-size: 13.5px;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.svc-related__item b {
+  flex-shrink: 0;
+  font-size: 12.5px;
+  color: var(--blue-deep);
+  font-weight: 800;
+}
+
+.svc-tariffs {
+  padding: 12px 0 36px;
+}
+
+.svc-tariffs__lead {
+  margin: -8px 0 22px;
+  max-width: 52ch;
+  color: var(--muted);
+  font-size: 14.5px;
+}
+
+.svc-tariffs__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.svc-tariff {
+  background: var(--bg);
+  border: 1px solid rgba(79, 132, 255, 0.1);
+  border-radius: 26px;
+  padding: 26px 22px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.svc-tariff--feat {
+  background: linear-gradient(165deg, var(--blue-pale) 0%, #fff 48%);
+  border-color: rgba(79, 132, 255, 0.28);
+  box-shadow: var(--shadow);
+}
+
+.svc-tariff h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.svc-tariff__price {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--blue-deep);
+}
+
+.svc-tariff ul {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  flex: 1;
+}
+
+.svc-tariff li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+
+.svc-tariff li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+.svc-tariff .btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.svc-process {
+  padding-top: 24px;
+}
+
+.svc-process__grid {
+  grid-template-columns: repeat(3, 1fr) !important;
+}
+
+.svc-process__grid .step {
+  min-height: 200px;
+}
+
+.svc-article-band {
+  padding: 20px 0 36px;
+}
+
+.svc-article-band__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.svc-ab-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--white);
+  border: 1px solid rgba(79, 132, 255, 0.1);
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow);
+  transition: 0.35s var(--ease);
+}
+
+.svc-ab-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(79, 132, 255, 0.28);
+}
+
+.svc-ab-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+
+.svc-ab-card > div {
+  padding: 18px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.svc-ab-card h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.svc-ab-card p {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.45;
+  flex: 1;
+}
+
+.svc-ab-card .more {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blue-deep);
+}
+
+.svc-docs-row {
+  padding: 8px 0 28px;
+}
+
+.svc-docs-row__head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.svc-docs-row__head .section-title {
+  margin-bottom: 0;
+}
+
+.svc-docs-row__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.svc-docs-row .person {
+  height: auto;
+}
+
+.svc-docs-row .person__desc {
+  display: none;
+}
+
+@media (max-width: 980px) {
+  .svc-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .svc-sticky {
+    position: static;
+  }
+
+  .svc-tariffs__grid,
+  .svc-article-band__grid,
+  .svc-docs-row__grid,
+  .svc-process__grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .page-funnel__fields--namephone {
+    grid-template-columns: 1fr !important;
+  }
+
+  .page-funnel__fields--namephone .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .svc-article {
+    padding: 22px 18px 26px;
+    border-radius: 22px;
+  }
+
+  .svc-tariffs__grid,
+  .svc-article-band__grid,
+  .svc-docs-row__grid,
+  .svc-process__grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .svc-docs-row__head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
 
 /* === html-to-figma capture profile ===
    Plugin freezes live DOM via getBoundingClientRect (no Auto Layout).
@@ -8051,118 +8835,200 @@ html, body {
     <section class="offers wrap">
       <h2 class="section-title split is-in">Помощь, которую ищут<br>сейчас</h2>
       <div class="offer-grid">
-        <a class="offer is-in" href="service-zapoy.html" data-reveal data-tilt>
-          <span>Срочно · на дом</span>
-          <h3>Срочный вывод из запоя на дому</h3>
-          <p>Инфузия и стабилизация дома под контролем давления, сна и сердечного ритма.</p>
-          <ul class="offer__feats">
-            <li>Круглосуточный выезд</li>
-            <li>Контроль давления и ЭКГ-рисков</li>
-            <li>Сон и восстановление за сутки</li>
-          </ul>
+        
+        <article class="offer is-in" data-offer data-offer-group="zapoy" data-reveal data-tilt>
+          <a class="offer__main" href="service-zapoy.html">
+            <span>Срочно · на дом</span>
+            <h3>Срочный вывод из запоя на дому</h3>
+            <p>Инфузия и стабилизация дома под контролем давления, сна и сердечного ритма.</p>
+            <ul class="offer__feats"><li>Круглосуточный выезд</li><li>Контроль давления и ЭКГ-рисков</li><li>Сон и восстановление за сутки</li></ul>
+          </a>
           <div class="offer__foot">
             <b>от 1 450 ₽</b>
-            <span class="offer__cta">Вызвать врача</span>
+            <div class="offer__actions">
+              <button type="button" class="offer__dirs" data-offer-dirs aria-expanded="false">Направления</button>
+              <a class="offer__cta" href="service-zapoy.html">Вызвать врача</a>
+            </div>
           </div>
-        </a>
-        <a class="offer is-in" href="service-alcohol.html" data-reveal data-tilt data-delay="60">
-          <span>Алкоголь</span>
-          <h3>Лечение алкогольной зависимости</h3>
-          <p>Не «капельница и всё». Детокс, психиатр и план, который человек принимает осознанно.</p>
-          <ul class="offer__feats">
-            <li>Индивидуальный протокол</li>
-            <li>Стационар или дом</li>
-            <li>Сопровождение семьи</li>
-          </ul>
+          <div class="offer-dirs" data-offer-panel hidden>
+            <div class="offer-dirs__panel">
+              <div class="offer-dirs__head">
+                <strong>Направления</strong>
+                <button type="button" class="offer-dirs__close" data-offer-dirs-close aria-label="Закрыть">×</button>
+              </div>
+              <div class="offer-dirs__list"><a href="service-zapoy.html"><span>Вывод из запоя</span><em>от 2 500 ₽</em></a><a href="service-alcohol-hangover.html"><span>Капельница от похмелья</span><em>от 2 500 ₽</em></a><a href="service-alcohol-home.html"><span>Лечение на дому</span><em>от 5 600 ₽</em></a><a href="service-detox.html"><span>Детокс 24/7</span><em>от 8 900 ₽</em></a><a href="service-visit.html"><span>Выезд нарколога</span><em>от 15 000 ₽</em></a><a href="service-sober.html"><span>Частный вытрезвитель</span><em>от 6 900 ₽</em></a></div>
+            </div>
+          </div>
+        </article>
+        <article class="offer is-in" data-offer data-offer-group="alcohol" data-reveal data-tilt data-delay="60">
+          <a class="offer__main" href="service-alcohol.html">
+            <span>Алкоголь</span>
+            <h3>Лечение алкогольной зависимости</h3>
+            <p>Не «капельница и всё». Детокс, психиатр и план, который человек принимает осознанно.</p>
+            <ul class="offer__feats"><li>Индивидуальный протокол</li><li>Стационар или дом</li><li>Сопровождение семьи</li></ul>
+          </a>
           <div class="offer__foot">
             <b>от 1 380 ₽</b>
-            <span class="offer__cta">Узнать стоимость</span>
+            <div class="offer__actions">
+              <button type="button" class="offer__dirs" data-offer-dirs aria-expanded="false">Направления</button>
+              <a class="offer__cta" href="service-alcohol.html">Узнать стоимость</a>
+            </div>
           </div>
-        </a>
-        <a class="offer is-in" href="service-code.html" data-reveal data-tilt data-delay="80">
-          <span>После стабилизации</span>
-          <h3>Кодирование от алкоголя</h3>
-          <p>Методы называем вслух. Наблюдение 30 дней — без кодирования «с порога».</p>
-          <ul class="offer__feats">
-            <li>Подбор метода после осмотра</li>
-            <li>Письменный протокол</li>
-            <li>Контроль в течение месяца</li>
-          </ul>
+          <div class="offer-dirs" data-offer-panel hidden>
+            <div class="offer-dirs__panel">
+              <div class="offer-dirs__head">
+                <strong>Направления</strong>
+                <button type="button" class="offer-dirs__close" data-offer-dirs-close aria-label="Закрыть">×</button>
+              </div>
+              <div class="offer-dirs__list"><a href="service-alcohol.html"><span>Лечение алкоголизма</span><em>от 5 600 ₽</em></a><a href="service-alcohol-women.html"><span>Женский алкоголизм</span><em>от 5 600 ₽</em></a><a href="service-alcohol-men.html"><span>Мужской алкоголизм</span><em>от 5 600 ₽</em></a><a href="service-alcohol-beer.html"><span>Пивной алкоголизм</span><em>от 5 600 ₽</em></a><a href="service-alcohol-wine.html"><span>Винный алкоголизм</span><em>от 5 600 ₽</em></a><a href="service-alcohol-elderly.html"><span>Старческий алкоголизм</span><em>от 6 900 ₽</em></a><a href="service-code.html"><span>Кодирование</span><em>от 7 700 ₽</em></a></div>
+            </div>
+          </div>
+        </article>
+        <article class="offer is-in" data-offer data-offer-group="code" data-reveal data-tilt data-delay="80">
+          <a class="offer__main" href="service-code.html">
+            <span>После стабилизации</span>
+            <h3>Кодирование от алкоголя</h3>
+            <p>Методы называем вслух. Наблюдение 30 дней — без кодирования «с порога».</p>
+            <ul class="offer__feats"><li>Подбор метода после осмотра</li><li>Письменный протокол</li><li>Контроль в течение месяца</li></ul>
+          </a>
           <div class="offer__foot">
             <b>от 1 720 ₽</b>
-            <span class="offer__cta">Записаться</span>
+            <div class="offer__actions">
+              <button type="button" class="offer__dirs" data-offer-dirs aria-expanded="false">Направления</button>
+              <a class="offer__cta" href="service-code.html">Записаться</a>
+            </div>
           </div>
-        </a>
-        <a class="offer is-in" href="service-visit.html" data-reveal data-tilt data-delay="100">
-          <span>На дом</span>
-          <h3>Вызов нарколога</h3>
-          <p>Врач приезжает с набором для стабилизации. Решаем на месте: остаётесь дома или едете в палату.</p>
-          <ul class="offer__feats">
-            <li>Выезд от 40 минут</li>
-            <li>Анонимно, без уведомлений</li>
-            <li>Капельница и осмотр на месте</li>
-          </ul>
+          <div class="offer-dirs" data-offer-panel hidden>
+            <div class="offer-dirs__panel">
+              <div class="offer-dirs__head">
+                <strong>Направления</strong>
+                <button type="button" class="offer-dirs__close" data-offer-dirs-close aria-label="Закрыть">×</button>
+              </div>
+              <div class="offer-dirs__list"><a href="service-code.html"><span>Кодирование</span><em>от 7 700 ₽</em></a><a href="service-code-torpedo.html"><span>Торпедо</span><em>от 9 300 ₽</em></a><a href="service-code-esperal.html"><span>Эспераль</span><em>от 7 700 ₽</em></a><a href="service-code-double.html"><span>Двойной блок</span><em>от 8 700 ₽</em></a><a href="service-code-dovzhenko.html"><span>Метод Довженко</span><em>от 9 700 ₽</em></a><a href="service-code-vivitrol.html"><span>Вивитрол</span><em>от 28 000 ₽</em></a><a href="service-decode.html"><span>Раскодирование</span><em>от 5 600 ₽</em></a></div>
+            </div>
+          </div>
+        </article>
+        <article class="offer is-in" data-offer data-offer-group="visit" data-reveal data-tilt data-delay="100">
+          <a class="offer__main" href="service-visit.html">
+            <span>На дом</span>
+            <h3>Вызов нарколога</h3>
+            <p>Врач приезжает с набором для стабилизации. Решаем на месте: остаётесь дома или едете в палату.</p>
+            <ul class="offer__feats"><li>Выезд от 40 минут</li><li>Анонимно, без уведомлений</li><li>Капельница и осмотр на месте</li></ul>
+          </a>
           <div class="offer__foot">
             <b>от 15 000 ₽</b>
-            <span class="offer__cta">Оставить заявку</span>
+            <div class="offer__actions">
+              <button type="button" class="offer__dirs" data-offer-dirs aria-expanded="false">Направления</button>
+              <a class="offer__cta" href="service-visit.html">Оставить заявку</a>
+            </div>
           </div>
-        </a>
-        <a class="offer is-in" href="service-drugs.html" data-reveal data-tilt>
-          <span>Наркотики</span>
-          <h3>Помощь при зависимости</h3>
-          <p>Ломка, УБОД, вещества по отдельности — без общих палат и случайных соседей.</p>
-          <ul class="offer__feats">
-            <li>Отдельная палата</li>
-            <li>Купирование абстиненции</li>
-            <li>Психиатр в команде</li>
-          </ul>
+          <div class="offer-dirs" data-offer-panel hidden>
+            <div class="offer-dirs__panel">
+              <div class="offer-dirs__head">
+                <strong>Направления</strong>
+                <button type="button" class="offer-dirs__close" data-offer-dirs-close aria-label="Закрыть">×</button>
+              </div>
+              <div class="offer-dirs__list"><a href="service-visit.html"><span>Вызов нарколога</span><em>от 15 000 ₽</em></a><a href="service-zapoy.html"><span>Вывод из запоя</span><em>от 2 500 ₽</em></a><a href="service-ambulance.html"><span>Наркологическая скорая</span><em>от 12 000 ₽</em></a><a href="service-detox.html"><span>Детокс</span><em>от 8 900 ₽</em></a><a href="service-consult.html"><span>Консультация</span><em>0 ₽</em></a></div>
+            </div>
+          </div>
+        </article>
+        <article class="offer is-in" data-offer data-offer-group="drugs" data-reveal data-tilt>
+          <a class="offer__main" href="service-drugs.html">
+            <span>Наркотики</span>
+            <h3>Помощь при зависимости</h3>
+            <p>Ломка, УБОД, вещества по отдельности — без общих палат и случайных соседей.</p>
+            <ul class="offer__feats"><li>Отдельная палата</li><li>Купирование абстиненции</li><li>Психиатр в команде</li></ul>
+          </a>
           <div class="offer__foot">
             <b>от 18 900 ₽</b>
-            <span class="offer__cta">Оставить заявку</span>
+            <div class="offer__actions">
+              <button type="button" class="offer__dirs" data-offer-dirs aria-expanded="false">Направления</button>
+              <a class="offer__cta" href="service-drugs.html">Оставить заявку</a>
+            </div>
           </div>
-        </a>
-        <a class="offer is-in" href="service-gambling.html" data-reveal data-tilt data-delay="60">
-          <span>Поведение</span>
-          <h3>Игровая зависимость</h3>
-          <p>Ставки, казино, «ещё одна линия». Работаем с семьёй и триггерами, не с запретами.</p>
-          <ul class="offer__feats">
-            <li>Психотерапевт и психиатр</li>
-            <li>Семейные сессии</li>
-            <li>План контроля импульса</li>
-          </ul>
+          <div class="offer-dirs" data-offer-panel hidden>
+            <div class="offer-dirs__panel">
+              <div class="offer-dirs__head">
+                <strong>Направления</strong>
+                <button type="button" class="offer-dirs__close" data-offer-dirs-close aria-label="Закрыть">×</button>
+              </div>
+              <div class="offer-dirs__list"><a href="service-drugs.html"><span>Лечение наркомании</span><em>от 18 900 ₽</em></a><a href="service-withdrawal.html"><span>Снятие ломки</span><em>от 12 000 ₽</em></a><a href="service-ubod.html"><span>УБОД</span><em>от 45 000 ₽</em></a><a href="service-drugs-salts.html"><span>Соли</span><em>от 18 900 ₽</em></a><a href="service-drugs-spice.html"><span>Спайсы</span><em>от 18 900 ₽</em></a><a href="service-drugs-mephedrone.html"><span>Мефедрон</span><em>от 18 900 ₽</em></a><a href="service-drugs-heroin.html"><span>Героин</span><em>от 22 000 ₽</em></a></div>
+            </div>
+          </div>
+        </article>
+        <article class="offer is-in" data-offer data-offer-group="gambling" data-reveal data-tilt data-delay="60">
+          <a class="offer__main" href="service-gambling.html">
+            <span>Поведение</span>
+            <h3>Игровая зависимость</h3>
+            <p>Ставки, казино, «ещё одна линия». Работаем с семьёй и триггерами, не с запретами.</p>
+            <ul class="offer__feats"><li>Психотерапевт и психиатр</li><li>Семейные сессии</li><li>План контроля импульса</li></ul>
+          </a>
           <div class="offer__foot">
             <b>от 12 000 ₽</b>
-            <span class="offer__cta">Получить план</span>
+            <div class="offer__actions">
+              <button type="button" class="offer__dirs" data-offer-dirs aria-expanded="false">Направления</button>
+              <a class="offer__cta" href="service-gambling.html">Получить план</a>
+            </div>
           </div>
-        </a>
-        <a class="offer is-in" href="service-rehab.html" data-reveal data-tilt data-delay="80">
-          <span>21 день</span>
-          <h3>Реабилитация</h3>
-          <p>Алкоголь и наркотики. 12 шагов и Day Top — по показаниям, без давления «секты».</p>
-          <ul class="offer__feats">
-            <li>Жилой модуль 24/7</li>
-            <li>Индивидуальный куратор</li>
-            <li>Поддержка после выписки</li>
-          </ul>
+          <div class="offer-dirs" data-offer-panel hidden>
+            <div class="offer-dirs__panel">
+              <div class="offer-dirs__head">
+                <strong>Направления</strong>
+                <button type="button" class="offer-dirs__close" data-offer-dirs-close aria-label="Закрыть">×</button>
+              </div>
+              <div class="offer-dirs__list"><a href="service-gambling.html"><span>Игровая зависимость</span><em>от 12 000 ₽</em></a><a href="service-betting.html"><span>Ставки на спорт</span><em>от 12 000 ₽</em></a><a href="service-family.html"><span>Семейная программа</span><em>от 12 000 ₽</em></a><a href="service-psy-therapist.html"><span>Психотерапевт</span><em>от 4 500 ₽</em></a></div>
+            </div>
+          </div>
+        </article>
+        <article class="offer is-in" data-offer data-offer-group="rehab" data-reveal data-tilt data-delay="80">
+          <a class="offer__main" href="service-rehab.html">
+            <span>21 день</span>
+            <h3>Реабилитация</h3>
+            <p>Алкоголь и наркотики. 12 шагов и Day Top — по показаниям, без давления «секты».</p>
+            <ul class="offer__feats"><li>Жилой модуль 24/7</li><li>Индивидуальный куратор</li><li>Поддержка после выписки</li></ul>
+          </a>
           <div class="offer__foot">
             <b>от 210 000 ₽</b>
-            <span class="offer__cta">Забронировать</span>
+            <div class="offer__actions">
+              <button type="button" class="offer__dirs" data-offer-dirs aria-expanded="false">Направления</button>
+              <a class="offer__cta" href="service-rehab.html">Забронировать</a>
+            </div>
           </div>
-        </a>
-        <a class="offer is-in" href="service-help.html" data-reveal data-tilt data-delay="100">
-          <span>24/7</span>
-          <h3>Наркологическая помощь</h3>
-          <p>Скорая, тест, токсиколог, ломка. Один номер — отвечает врач, не колл-центр.</p>
-          <ul class="offer__feats">
-            <li>Ответ за минуты</li>
-            <li>Маршрутизация по состоянию</li>
-            <li>Анонимный приём</li>
-          </ul>
+          <div class="offer-dirs" data-offer-panel hidden>
+            <div class="offer-dirs__panel">
+              <div class="offer-dirs__head">
+                <strong>Направления</strong>
+                <button type="button" class="offer-dirs__close" data-offer-dirs-close aria-label="Закрыть">×</button>
+              </div>
+              <div class="offer-dirs__list"><a href="service-rehab.html"><span>Реабилитация</span><em>от 210 000 ₽</em></a><a href="service-rehab-12.html"><span>12 шагов</span><em>от 210 000 ₽</em></a><a href="service-rehab-daytop.html"><span>Day Top</span><em>от 210 000 ₽</em></a><a href="service-rehab-alcohol.html"><span>Реабилитация алкоголизм</span><em>от 210 000 ₽</em></a><a href="service-sober.html"><span>Поддержка трезвости</span><em>от 6 900 ₽</em></a></div>
+            </div>
+          </div>
+        </article>
+        <article class="offer is-in" data-offer data-offer-group="help" data-reveal data-tilt data-delay="100">
+          <a class="offer__main" href="service-help.html">
+            <span>24/7</span>
+            <h3>Наркологическая помощь</h3>
+            <p>Скорая, тест, токсиколог, ломка. Один номер — отвечает врач, не колл-центр.</p>
+            <ul class="offer__feats"><li>Круглосуточный пост</li><li>Экстренный выезд</li><li>Маршрут без очереди</li></ul>
+          </a>
           <div class="offer__foot">
-            <b>по состоянию</b>
-            <span class="offer__cta">Позвонить сейчас</span>
+            <b>от 2 500 ₽</b>
+            <div class="offer__actions">
+              <button type="button" class="offer__dirs" data-offer-dirs aria-expanded="false">Направления</button>
+              <a class="offer__cta" href="service-help.html">Позвонить сейчас</a>
+            </div>
           </div>
-        </a>
+          <div class="offer-dirs" data-offer-panel hidden>
+            <div class="offer-dirs__panel">
+              <div class="offer-dirs__head">
+                <strong>Направления</strong>
+                <button type="button" class="offer-dirs__close" data-offer-dirs-close aria-label="Закрыть">×</button>
+              </div>
+              <div class="offer-dirs__list"><a href="service-help.html"><span>Наркологическая помощь</span><em>от 2 500 ₽</em></a><a href="service-ambulance.html"><span>Скорая</span><em>от 12 000 ₽</em></a><a href="service-withdrawal.html"><span>Ломка</span><em>от 12 000 ₽</em></a><a href="service-drugtest.html"><span>Наркотест</span><em>от 3 500 ₽</em></a><a href="service-toxicologist.html"><span>Токсиколог</span><em>от 4 500 ₽</em></a><a href="service-psychiatry.html"><span>Психиатрия</span><em>от 4 500 ₽</em></a></div>
+            </div>
+          </div>
+        </article>
+      
       </div>
       <div class="offers__lead is-in" data-reveal>
         <p>Не уверены, какая программа нужна? Опишите ситуацию — дежурный нарколог подскажет за 5 минут, без обязательств.</p>

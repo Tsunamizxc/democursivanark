@@ -344,6 +344,207 @@
     });
   };
 
+  const offerDirs = () => {
+    const cards = [...doc.querySelectorAll("[data-offer]")];
+    if (!cards.length) return;
+    const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const mobile = window.matchMedia("(max-width: 720px)");
+    let openCard = null;
+    let scrollLocked = false;
+
+    const setMobileScrollLock = (on) => {
+      if (on) {
+        if (scrollLocked) return;
+        lockScroll();
+        scrollLocked = true;
+        return;
+      }
+      if (!scrollLocked) return;
+      unlockScroll();
+      scrollLocked = false;
+    };
+
+    const getPanel = (card) => {
+      const group = card.getAttribute("data-offer-group") || "";
+      return card.querySelector("[data-offer-panel]") ||
+        doc.querySelector('[data-offer-panel][data-owner="' + group + '"]');
+    };
+
+    const enhanceHead = (panel) => {
+      const strong = panel.querySelector(".offer-dirs__head strong");
+      if (!strong || strong.querySelector("small")) return;
+      const note = doc.createElement("small");
+      note.textContent = "Подберите точный маршрут помощи";
+      strong.appendChild(note);
+    };
+
+    const place = (card) => {
+      const btn = card.querySelector("[data-offer-dirs]");
+      const panel = getPanel(card);
+      const shell = panel && panel.querySelector(".offer-dirs__panel");
+      const list = panel && panel.querySelector(".offer-dirs__list");
+      if (!btn || !panel || !shell) return;
+
+      enhanceHead(panel);
+      if (panel.parentElement !== doc.body) doc.body.appendChild(panel);
+
+      panel.hidden = false;
+      panel.classList.add("is-open");
+      panel.classList.remove("is-below", "is-above");
+
+      if (mobile.matches) {
+        panel.style.cssText = "position:fixed;inset:0;width:auto;height:100%;min-height:100dvh;z-index:220;";
+        if (list) {
+          list.style.maxHeight = "none";
+          list.style.overflowY = "auto";
+          list.style.webkitOverflowScrolling = "touch";
+        }
+        setMobileScrollLock(true);
+        return;
+      }
+
+      setMobileScrollLock(false);
+
+      const gap = 12;
+      const pad = 12;
+      const br = btn.getBoundingClientRect();
+      const pw = Math.min(400, window.innerWidth - pad * 2);
+
+      panel.style.position = "fixed";
+      panel.style.zIndex = "120";
+      panel.style.width = pw + "px";
+      panel.style.height = "auto";
+      panel.style.minHeight = "";
+      panel.style.left = "0";
+      panel.style.top = "0";
+      panel.style.right = "auto";
+      panel.style.bottom = "auto";
+      panel.style.inset = "auto";
+      if (list) list.style.maxHeight = "min(52vh, 400px)";
+
+      const ph = shell.getBoundingClientRect().height || 300;
+      const spaceBelow = window.innerHeight - br.bottom - pad;
+      const spaceAbove = br.top - pad;
+      const need = Math.min(ph + gap, 420);
+      const preferBelow = spaceBelow >= need || spaceBelow >= spaceAbove;
+
+      let left = br.right - pw;
+      left = Math.min(Math.max(pad, left), window.innerWidth - pw - pad);
+
+      let top;
+      if (preferBelow) {
+        panel.classList.add("is-below");
+        top = br.bottom + gap;
+        const maxH = Math.max(180, window.innerHeight - top - pad);
+        if (list && ph > maxH) list.style.maxHeight = Math.max(120, maxH - 72) + "px";
+      } else {
+        panel.classList.add("is-above");
+        const maxH = Math.max(180, spaceAbove - gap);
+        if (list && ph > maxH) list.style.maxHeight = Math.max(120, maxH - 72) + "px";
+        const h2 = shell.getBoundingClientRect().height || Math.min(ph, maxH);
+        top = br.top - h2 - gap;
+      }
+
+      top = Math.max(pad, Math.min(top, window.innerHeight - 80));
+      panel.style.left = left + "px";
+      panel.style.top = top + "px";
+    };
+
+    const closeCard = (card) => {
+      card.classList.remove("is-dirs-open");
+      const btn = card.querySelector("[data-offer-dirs]");
+      if (btn) btn.setAttribute("aria-expanded", "false");
+      const panel = getPanel(card);
+      if (panel) {
+        panel.hidden = true;
+        panel.classList.remove("is-open", "is-below", "is-above");
+        panel.style.cssText = "";
+        const list = panel.querySelector(".offer-dirs__list");
+        if (list) {
+          list.style.maxHeight = "";
+          list.style.overflowY = "";
+          list.style.webkitOverflowScrolling = "";
+        }
+        if (panel.parentElement !== card) card.appendChild(panel);
+      }
+      if (openCard === card) openCard = null;
+      if (!openCard) setMobileScrollLock(false);
+    };
+
+    const closeAll = (except) => {
+      cards.forEach((card) => {
+        if (except && card === except) return;
+        closeCard(card);
+      });
+      if (!except) setMobileScrollLock(false);
+    };
+
+    const open = (card) => {
+      closeAll(card);
+      const panel = getPanel(card);
+      if (!panel) return;
+      panel.setAttribute("data-owner", card.getAttribute("data-offer-group") || "");
+      card.classList.add("is-dirs-open");
+      const btn = card.querySelector("[data-offer-dirs]");
+      if (btn) btn.setAttribute("aria-expanded", "true");
+      openCard = card;
+      place(card);
+    };
+
+    cards.forEach((card) => {
+      const btn = card.querySelector("[data-offer-dirs]");
+      const panel = card.querySelector("[data-offer-panel]");
+      if (!btn || !panel) return;
+      panel.setAttribute("data-owner", card.getAttribute("data-offer-group") || "");
+
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (card.classList.contains("is-dirs-open")) closeCard(card);
+        else open(card);
+      });
+
+      panel.querySelectorAll("[data-offer-dirs-close]").forEach((c) => {
+        c.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          closeCard(card);
+        });
+      });
+
+      panel.addEventListener("click", (e) => {
+        if (e.target === panel && mobile.matches) closeCard(card);
+      });
+
+      if (fine.matches) {
+        let leaveTimer = 0;
+        const cancelLeave = () => window.clearTimeout(leaveTimer);
+        const scheduleLeave = () => {
+          cancelLeave();
+          leaveTimer = window.setTimeout(() => closeCard(card), 200);
+        };
+        btn.addEventListener("mouseenter", () => { cancelLeave(); open(card); });
+        panel.addEventListener("mouseenter", cancelLeave);
+        panel.addEventListener("mouseleave", scheduleLeave);
+        card.addEventListener("mouseleave", (e) => {
+          const next = e.relatedTarget;
+          if (next && (btn.contains(next) || panel.contains(next))) return;
+          scheduleLeave();
+        });
+      }
+    });
+
+    doc.addEventListener("click", (e) => {
+      if (e.target.closest("[data-offer-dirs], [data-offer-panel]")) return;
+      closeAll();
+    });
+    doc.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeAll();
+    });
+    window.addEventListener("resize", () => { if (openCard) place(openCard); });
+    window.addEventListener("scroll", () => { if (openCard) place(openCard); }, { passive: true });
+  };
+
   const year = () => {
     doc.querySelectorAll("[data-year]").forEach((n) => {
       n.textContent = String(new Date().getFullYear());
@@ -1392,6 +1593,7 @@
   accordion();
   modal();
   forms();
+  offerDirs();
   year();
   cookies();
   marquee();
