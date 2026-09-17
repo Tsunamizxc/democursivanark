@@ -8329,6 +8329,15 @@ body.is-hidden-tab .marquee__track {
   padding: 12px 0 36px;
 }
 
+.home-formats {
+  padding: 28px 0 48px;
+}
+
+.home-formats__more {
+  margin: 22px 0 0;
+  text-align: center;
+}
+
 .svc-tariffs__lead {
   margin: -8px 0 22px;
   max-width: 52ch;
