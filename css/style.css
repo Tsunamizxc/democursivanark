@@ -5211,6 +5211,12 @@ body:has(.mnav.is-open) .sticky-lead {
   align-self: start;
 }
 
+/* transform from data-reveal breaks position:sticky */
+.essay h2[data-reveal],
+.essay h2[data-reveal].is-in {
+  transform: none !important;
+}
+
 .essay-col h3 {
   font-size: 20px;
   font-weight: 800;
@@ -5788,6 +5794,11 @@ body:has(.mnav.is-open) .sticky-lead {
   align-self: start;
   background: var(--bg);
   padding-bottom: 4px;
+}
+
+.calc__intro[data-reveal],
+.calc__intro[data-reveal].is-in {
+  transform: none !important;
 }
 
 .calc__intro .section-title {
@@ -6663,6 +6674,16 @@ a[data-city-max]:not(.icon-btn) {
   .station__aside,
   .review-list {
     grid-template-columns: 1fr;
+  }
+
+  .essay h2,
+  .essay h2.section-title,
+  .essay h2.section-title.is-in,
+  .calc__intro {
+    position: static;
+    top: auto;
+    z-index: auto;
+    margin-bottom: 20px;
   }
   .footer__services-grid {
     grid-template-columns: 1fr;
