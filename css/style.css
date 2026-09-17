@@ -881,16 +881,7 @@ a.btn[href^="tel:"] {
 }
 
 .hero__rating {
-  margin-top: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 16px;
-  padding: 14px 18px;
-  background: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  backdrop-filter: blur(18px);
-  border-radius: 22px;
-  width: fit-content;
+  display: none;
 }
 
 .hero__rating.is-in {
@@ -3595,11 +3586,7 @@ body:has(.mnav.is-open) .sticky-lead {
     grid-template-columns: 1fr;
   }
   .hero__rating {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 8px 12px;
-    width: 100%;
-    padding: 12px 14px;
+    display: none;
   }
   .hero__faces {
     grid-column: 1 / -1;
@@ -5650,6 +5637,11 @@ body:has(.mnav.is-open) .sticky-lead {
   flex-direction: column;
   justify-content: center;
   gap: 10px;
+}
+
+.page-funnel__form:has(.page-funnel__fields--namephone) {
+  flex: 0 1 360px;
+  min-width: min(100%, 570px);
 }
 
 .page-funnel__fields {
