@@ -344,6 +344,90 @@
     });
   };
 
+  const dirsNav = () => {
+    const root = doc.querySelector("[data-dirs]");
+    if (!root) return;
+    const drops = [...root.querySelectorAll("[data-dirs-drop]")];
+    if (!drops.length) return;
+    const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const mobile = window.matchMedia("(max-width: 720px)");
+
+    const pinBar = () => {
+      if (mobile.matches) {
+        root.classList.remove("is-stuck");
+        return;
+      }
+      const headerH = parseFloat(getComputedStyle(doc.documentElement).getPropertyValue("--header-h")) || 84;
+      const top = root.getBoundingClientRect().top;
+      root.classList.toggle("is-stuck", top <= headerH + 1);
+    };
+
+    pinBar();
+    window.addEventListener("scroll", pinBar, { passive: true });
+    window.addEventListener("resize", pinBar);
+
+    const closeAll = (except) => {
+      drops.forEach((drop) => {
+        if (except && drop === except) return;
+        drop.classList.remove("is-open");
+        const btn = drop.querySelector("[data-dirs-btn]");
+        const menu = drop.querySelector("[data-dirs-menu]");
+        if (btn) btn.setAttribute("aria-expanded", "false");
+        if (menu) menu.hidden = true;
+      });
+    };
+
+    const open = (drop) => {
+      closeAll(drop);
+      drop.classList.add("is-open");
+      const btn = drop.querySelector("[data-dirs-btn]");
+      const menu = drop.querySelector("[data-dirs-menu]");
+      if (btn) btn.setAttribute("aria-expanded", "true");
+      if (menu) menu.hidden = false;
+    };
+
+    const close = (drop) => {
+      drop.classList.remove("is-open");
+      const btn = drop.querySelector("[data-dirs-btn]");
+      const menu = drop.querySelector("[data-dirs-menu]");
+      if (btn) btn.setAttribute("aria-expanded", "false");
+      if (menu) menu.hidden = true;
+    };
+
+    drops.forEach((drop) => {
+      const btn = drop.querySelector("[data-dirs-btn]");
+      const menu = drop.querySelector("[data-dirs-menu]");
+      if (!btn || !menu) return;
+
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (drop.classList.contains("is-open")) close(drop);
+        else open(drop);
+      });
+
+      if (fine.matches) {
+        let leaveTimer = 0;
+        const cancelLeave = () => window.clearTimeout(leaveTimer);
+        const scheduleLeave = () => {
+          cancelLeave();
+          leaveTimer = window.setTimeout(() => close(drop), 160);
+        };
+        drop.addEventListener("mouseenter", () => { cancelLeave(); open(drop); });
+        drop.addEventListener("mouseleave", scheduleLeave);
+        menu.addEventListener("mouseenter", cancelLeave);
+      }
+    });
+
+    doc.addEventListener("click", (e) => {
+      if (e.target.closest("[data-dirs-drop]")) return;
+      closeAll();
+    });
+    doc.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeAll();
+    });
+  };
+
   const offerDirs = () => {
     const cards = [...doc.querySelectorAll("[data-offer]")];
     if (!cards.length) return;
@@ -374,7 +458,7 @@
       const strong = panel.querySelector(".offer-dirs__head strong");
       if (!strong || strong.querySelector("small")) return;
       const note = doc.createElement("small");
-      note.textContent = "Подберите точный маршрут помощи";
+      note.textContent = "Подберите подходящий формат помощи";
       strong.appendChild(note);
     };
 
@@ -1594,6 +1678,7 @@
   modal();
   forms();
   offerDirs();
+  dirsNav();
   year();
   cookies();
   marquee();
