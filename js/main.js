@@ -797,6 +797,12 @@
         "</ul></div>" +
         "<div><b>Алкоголизм</b><ul>" +
         '<li><a href="service-alcohol.html">Лечение алкоголизма</a></li>' +
+        '<li><a href="service-zapoy.html#alko-programs">Программы вывода из запоя</a></li>' +
+        '<li><a href="service-zapoy-1day.html">Вывод из запоя 1 день</a></li>' +
+        '<li><a href="service-zapoy-2days.html">Курс 2 дня</a></li>' +
+        '<li><a href="service-zapoy-3days.html">Курс 3 дня</a></li>' +
+        '<li><a href="service-zapoy-5days.html">Курс 5 дней</a></li>' +
+        '<li><a href="service-zapoy-7days.html">Курс 7 дней</a></li>' +
         '<li><a href="service-alcohol-women.html">Женский алкоголизм</a></li>' +
         '<li><a href="service-alcohol-men.html">Мужской алкоголизм</a></li>' +
         '<li><a href="service-alcohol-beer.html">Пивной</a></li>' +
@@ -829,17 +835,17 @@
         "<div><b>Наркомания</b><ul>" +
         '<li><a href="service-drugs.html">Лечение наркомании</a></li>' +
         '<li><a href="service-drugs-code.html">Кодировка от наркозависимости</a></li>' +
-        '<li><a href="service-drugs-heroin.html">Героин</a></li>' +
-        '<li><a href="service-drugs-methadone.html">Метадон</a></li>' +
-        '<li><a href="service-drugs-mephedrone.html">Мефедрон</a></li>' +
-        '<li><a href="service-drugs-salts.html">Соли</a></li>' +
-        '<li><a href="service-drugs-spice.html">Спайс</a></li>' +
-        '<li><a href="service-drugs-cocaine.html">Кокаин</a></li>' +
-        '<li><a href="service-drugs-amphetamine.html">Амфетамин</a></li>' +
-        '<li><a href="service-drugs-cannabis.html">Марихуана</a></li>' +
-        '<li><a href="service-drugs-toxico.html">Токсикомания</a></li>' +
-        '<li><a href="service-drugs-butyrate.html">Бутират</a></li>' +
-        '<li><a href="service-drugs-ephedrine.html">Эфедрин</a></li>' +
+        '<li><a href="service-drugs-heroin.html">Лечение от героина</a></li>' +
+        '<li><a href="service-drugs-methadone.html">Лечение от метадона</a></li>' +
+        '<li><a href="service-drugs-mephedrone.html">Лечение от мефедрона</a></li>' +
+        '<li><a href="service-drugs-salts.html">Лечение от солей</a></li>' +
+        '<li><a href="service-drugs-spice.html">Лечение от спайса</a></li>' +
+        '<li><a href="service-drugs-cocaine.html">Лечение от кокаина</a></li>' +
+        '<li><a href="service-drugs-amphetamine.html">Лечение от амфетамина</a></li>' +
+        '<li><a href="service-drugs-cannabis.html">Лечение от марихуаны</a></li>' +
+        '<li><a href="service-drugs-toxico.html">Лечение от токсикомании</a></li>' +
+        '<li><a href="service-drugs-butyrate.html">Лечение от бутирата</a></li>' +
+        '<li><a href="service-drugs-ephedrine.html">Лечение от эфедрина</a></li>' +
         "</ul></div>" +
         "<div><b>Реабилитация и семья</b><ul>" +
         '<li><a href="service-rehab.html">Реабилитация</a></li>' +
@@ -886,7 +892,9 @@
         '<li><a href="service-psy-stress.html">Стресс</a></li>' +
         '<li><a href="service-psy-neurosis.html">Неврозы</a></li>' +
         '<li><a href="service-psy-paranoia.html">Паранойя</a></li>' +
-        '<li><a href="service-psy-dementia.html">Деменция</a></li>' +
+        '<li><a href="service-dementia.html">Лечение деменции</a></li>' +
+        '<li><a href="service-alzheimer.html">Лечение альцгеймера</a></li>' +
+        '<li><a href="service-psy-dementia.html">Деменция и алкоголь</a></li>' +
         '<li><a href="service-psy-anorexia.html">Анорексия</a></li>' +
         '<li><a href="service-psy-bulimia.html">Булимия</a></li>' +
         '<li><a href="service-psy-dysmorpho.html">Дисморфофобия</a></li>' +

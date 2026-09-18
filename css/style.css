@@ -1784,7 +1784,7 @@ a.btn[href^="tel:"] {
 
 .person:hover {
   transform: translateY(-6px);
-  box-shadow: var(--shadow-h);
+  /* box-shadow: var(--shadow-h); */
 }
 
 .person__photo {
@@ -2097,6 +2097,7 @@ a.btn[href^="tel:"] {
   display: grid;
   grid-template-columns: 0.85fr 1.15fr;
   gap: 48px;
+  align-items: start;
 }
 
 .faq h2 {
@@ -2105,6 +2106,15 @@ a.btn[href^="tel:"] {
 
 .faq > div > p {
   color: var(--muted);
+}
+
+/* sticky title + lead after reveal (transform breaks sticky) */
+.faq > [data-reveal].is-in {
+  position: sticky;
+  top: calc(var(--header-h) + 16px);
+  align-self: start;
+  z-index: 2;
+  transform: none !important;
 }
 
 .acc {
@@ -2246,6 +2256,79 @@ a.btn[href^="tel:"] {
   position: relative;
   z-index: 1;
   flex-shrink: 0;
+}
+
+.cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.cta__actions .btn--ghost-light {
+  background: transparent;
+  color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+.cta__actions .btn--ghost-light:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+/* svc-help: doctor teaser above «Что входит» */
+.svc-help {
+  margin: 18px 0 20px;
+  padding: 16px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #ffffff 0%, var(--blue-pale) 100%);
+  border: 1px solid rgba(79, 132, 255, 0.12);
+}
+
+.svc-help__title {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  color: var(--ink);
+}
+
+.svc-help__card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.svc-help__photo {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--bg);
+}
+
+.svc-help__name {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 4px;
+  color: var(--ink);
+}
+
+.svc-help__role {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.svc-help .btn {
+  width: 100%;
+  justify-content: center;
 }
 
 /* Footer */
@@ -3634,6 +3717,9 @@ body:has(.mnav.is-open) .sticky-lead {
   .svc {
     grid-template-columns: 1fr;
   }
+  .faq > [data-reveal].is-in {
+    position: static;
+  }
   .svc > [data-reveal]:not(.svc-side) {
     display: contents;
   }
@@ -3648,7 +3734,7 @@ body:has(.mnav.is-open) .sticky-lead {
     order: 3;
   }
   .svc > [data-reveal]:not(.svc-side):not(.is-in) > * {
-    opacity: 0;
+    opacity: 1;
   }
   .svc > [data-reveal]:not(.svc-side).is-in > * {
     opacity: 1;
@@ -3818,6 +3904,8 @@ body:has(.mnav.is-open) .sticky-lead {
     border-radius: 22px;
   }
   .cta__box .btn { width: 100%; justify-content: center; }
+  .cta__actions { width: 100%; }
+  .cta__actions .btn { width: 100%; justify-content: center; }
   .page-hero { padding: 20px 0 8px; }
   .page-hero__box {
     flex-direction: column;
@@ -4041,6 +4129,42 @@ body:has(.mnav.is-open) .sticky-lead {
   font-weight: 800;
   letter-spacing: -0.03em;
   margin: 28px 0 14px;
+}
+
+.price-block__grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 0;
+}
+
+.price-block__grid > .price-card {
+  width: 48%;
+  flex: 0 0 48%;
+  margin-bottom: 10px;
+}
+
+.price-block__grid > .price-card:last-of-type {
+  width: 100%;
+  flex: 0 0 100%;
+}
+
+.price-block__grid > .price-note {
+  width: 100%;
+  flex: 0 0 100%;
+  margin: 4px 0 18px;
+}
+
+.price-block__grid .price-card h2 {
+  margin: 18px 0 12px;
+}
+
+@media (max-width: 720px) {
+  .price-block__grid > .price-card,
+  .price-block__grid > .price-card:last-of-type {
+    width: 100%;
+    flex: 0 0 100%;
+  }
 }
 
 .price-table {
@@ -5158,7 +5282,7 @@ body:has(.mnav.is-open) .sticky-lead {
 .rooms__slide {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-  min-height: 360px;
+  min-height: 400px;
   height: auto;
   box-sizing: border-box;
 }
@@ -5166,8 +5290,8 @@ body:has(.mnav.is-open) .sticky-lead {
 .rooms__slide img {
   width: 100%;
   height: 100%;
-  min-height: 360px;
-  max-height: 360px;
+  min-height: 400px;
+  max-height: 400px;
   object-fit: cover;
   object-position: center;
 }
@@ -5197,6 +5321,19 @@ body:has(.mnav.is-open) .sticky-lead {
   font-size: 18px;
   font-weight: 800;
   color: var(--blue-deep);
+}
+
+.rooms__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.rooms__actions .btn {
+  min-height: 42px;
+  padding: 0 16px;
+  font-size: 14px;
 }
 
 .rooms__dots,
@@ -5254,6 +5391,12 @@ body:has(.mnav.is-open) .sticky-lead {
     max-height: 220px;
   }
   .rooms__meta { padding: 22px 18px 26px; }
+  .rooms__actions { margin-top: 10px; }
+  .rooms__actions .btn {
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+  }
   .rooms__head { align-items: center; }
 }
 
@@ -5671,6 +5814,15 @@ body:has(.mnav.is-open) .sticky-lead {
   flex-shrink: 0;
 }
 
+.hub-lead__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
 /* Injected mid/end page funnels */
 .page-funnel {
   padding: 16px 0 28px;
@@ -5872,6 +6024,7 @@ body:has(.mnav.is-open) .sticky-lead {
   }
 
   .page-funnel__actions .btn,
+  .hub-lead__actions .btn,
   .hub-lead__box .btn {
     width: 100%;
     justify-content: center;
@@ -6363,36 +6516,43 @@ body:has(.mnav.is-open) .sticky-lead {
 }
 
 .home-price__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 18px 0;
 }
 
-.home-price__grid > .price-wrap:nth-child(5) {
-  grid-column: 1 / -1;
+.home-price__grid > .price-wrap {
+  width: 48%;
+  flex: 0 0 48%;
 }
 
-.home-price__grid > .price-wrap:nth-child(5) .price-table,
-.home-price__grid > .price-wrap:nth-child(5) .price-table thead,
-.home-price__grid > .price-wrap:nth-child(5) .price-table tbody,
-.home-price__grid > .price-wrap:nth-child(5) .price-table tr {
+.home-price__grid > .price-wrap:last-child {
+  width: 100%;
+  flex: 0 0 100%;
+}
+
+.home-price__grid > .price-wrap:last-child .price-table,
+.home-price__grid > .price-wrap:last-child .price-table thead,
+.home-price__grid > .price-wrap:last-child .price-table tbody,
+.home-price__grid > .price-wrap:last-child .price-table tr {
   display: block;
   width: 100%;
 }
 
-.home-price__grid > .price-wrap:nth-child(5) .price-table thead tr {
+.home-price__grid > .price-wrap:last-child .price-table thead tr {
   display: grid;
   grid-template-columns: 1fr auto;
   margin-bottom: 6px;
 }
 
-.home-price__grid > .price-wrap:nth-child(5) .price-table tbody {
+.home-price__grid > .price-wrap:last-child .price-table tbody {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0 32px;
 }
 
-.home-price__grid > .price-wrap:nth-child(5) .price-table tbody tr {
+.home-price__grid > .price-wrap:last-child .price-table tbody tr {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 16px;
@@ -6910,7 +7070,13 @@ a[data-city-max]:not(.icon-btn) {
     grid-template-columns: 1fr;
   }
 
-  .home-price__grid > .price-wrap:nth-child(5) .price-table tbody {
+  .home-price__grid > .price-wrap,
+  .home-price__grid > .price-wrap:last-child {
+    width: 100%;
+    flex: 0 0 100%;
+  }
+
+  .home-price__grid > .price-wrap:last-child .price-table tbody {
     grid-template-columns: 1fr;
   }
 
@@ -7957,18 +8123,119 @@ body.is-hidden-tab .marquee__track {
 }
 
 @media (max-width: 800px) {
+  .exit-modal {
+    padding: 12px;
+    align-items: end;
+  }
+
+  .exit-modal__body {
+    width: 100%;
+    max-height: min(94vh, 100%);
+    max-height: min(94dvh, 100%);
+    border-radius: 22px 22px 18px 18px;
+    padding: 16px 14px 18px;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
   .exit-modal__wrap {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
+
   .exit-modal__top {
     flex-direction: column;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
   }
+
   .exit-modal__top-right {
     width: 100%;
     justify-content: space-between;
+    align-items: center;
   }
+
+  .exit-modal__tags {
+    justify-content: flex-start;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .exit-modal__tags li {
+    height: 28px;
+    padding: 0 10px;
+    font-size: 11px;
+  }
+
+  .exit-modal__card {
+    border-radius: 18px;
+    padding: 16px;
+  }
+
   .exit-modal__title {
     font-size: 20px;
+  }
+
+  .exit-modal__subtitle {
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+
+  .exit-modal__btns {
+    flex-direction: column;
+  }
+
+  .exit-modal__btns .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .exit-modal__form-title {
+    font-size: 18px;
+  }
+
+  .exit-modal__networks-item {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 560px) {
+  .exit-modal {
+    padding: 0;
+    place-items: stretch end;
+  }
+
+  .exit-modal__body {
+    width: 100%;
+    max-height: 100vh;
+    max-height: 100dvh;
+    border-radius: 20px 20px 0 0;
+    padding: 14px 12px calc(14px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .exit-modal__tags li:first-child {
+    display: none;
+  }
+
+  .exit-modal__close {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+
+  .exit-modal__card {
+    padding: 14px;
+  }
+
+  .exit-modal__title {
+    font-size: 18px;
+  }
+
+  .exit-modal__form-input {
+    height: 46px;
+    font-size: 16px;
   }
 }
 
@@ -8413,6 +8680,285 @@ body.is-hidden-tab .marquee__track {
 .svc-tariff .btn {
   width: 100%;
   justify-content: center;
+}
+
+/* Alcohol help programs + day schedule + ward fund */
+.alko-progs {
+  padding: 28px 0 12px;
+}
+
+.alko-progs__head {
+  margin-bottom: 22px;
+  max-width: 720px;
+}
+
+.alko-progs__head p {
+  margin-top: 10px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.alko-progs__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.alko-prog {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px 20px;
+  border-radius: 24px;
+  background: var(--bg);
+  border: 1px solid rgba(79, 132, 255, 0.1);
+  text-decoration: none;
+  color: inherit;
+  min-height: 220px;
+  transition: 0.25s var(--ease);
+}
+
+.alko-prog:hover {
+  border-color: rgba(79, 132, 255, 0.28);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-s, 0 10px 30px rgba(16, 20, 32, 0.06));
+}
+
+.alko-prog--feat {
+  background: linear-gradient(180deg, #fff 0%, var(--blue-pale) 100%);
+  border-color: rgba(79, 132, 255, 0.18);
+}
+
+.alko-prog em {
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--blue-deep);
+}
+
+.alko-prog h3 {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.alko-prog p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.45;
+  flex: 1;
+}
+
+.alko-prog b {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.alko-prog .more {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blue-deep);
+}
+
+.prog-schedule {
+  padding: 18px 0 28px;
+}
+
+.prog-schedule__head {
+  max-width: 720px;
+  margin-bottom: 20px;
+}
+
+.prog-schedule__head p {
+  margin-top: 10px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.prog-schedule__list {
+  display: grid;
+  gap: 14px;
+}
+
+.prog-day {
+  background: var(--white);
+  border: 1px solid rgba(79, 132, 255, 0.1);
+  border-radius: 24px;
+  padding: 22px;
+}
+
+.prog-day h3 {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0 0 16px;
+}
+
+.prog-day__cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.prog-day h4 {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--blue-deep);
+  margin: 0 0 10px;
+}
+
+.prog-day ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.prog-day li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+.prog-day li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+.prog-schedule__note {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.ward-fund {
+  padding: 28px 0 36px;
+}
+
+.ward-fund__head {
+  max-width: 720px;
+  margin-bottom: 22px;
+}
+
+.ward-fund__head p {
+  margin-top: 10px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.ward-fund__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.ward-fund__grid article {
+  background: var(--bg);
+  border-radius: 22px;
+  padding: 20px 18px;
+  border: 1px solid rgba(79, 132, 255, 0.08);
+}
+
+.ward-fund__feat {
+  background: linear-gradient(180deg, #fff 0%, var(--blue-pale) 100%);
+  border-color: rgba(79, 132, 255, 0.16);
+}
+
+.ward-fund__badge {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 99px;
+  background: var(--blue-pale);
+  color: var(--blue-deep);
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.ward-fund__grid h3 {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 12px;
+}
+
+.ward-fund__grid ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.ward-fund__grid li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.ward-fund__grid li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+.ward-fund__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+@media (max-width: 1100px) {
+  .alko-progs__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ward-fund__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .prog-day__cols {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .alko-progs__grid,
+  .ward-fund__grid {
+    grid-template-columns: 1fr;
+  }
+  .ward-fund__cta .btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 .svc-process {
